@@ -1,11 +1,12 @@
 # homebrew-tap
 
-Homebrew formulae for my own tools.
+This tap is retired. The osm formula now lives in the project repository, so
+there is one source of truth and the release pipeline keeps its checksum
+current automatically.
 
 ```bash
-brew install gufranco/tap/osm
+brew tap gufranco/osm https://github.com/gufranco/osm
+brew install gufranco/osm/osm
 ```
 
-| Formula | What it is |
-|:--------|:-----------|
-| [`osm`](Formula/osm.rb) | Send encrypted messages through any chat, using published SSH keys. Source at [gufranco/osm](https://github.com/gufranco/osm) |
+Source and formula: [gufranco/osm](https://github.com/gufranco/osm).
