@@ -16,9 +16,9 @@ cask "lazpaint" do
 
   app "LazPaint.app"
 
+  zap trash: "~/Library/Preferences/com.bgrabitmap.lazpaint.plist"
+
   caveats do
     requires_rosetta
   end
-
-  zap trash: "~/Library/Preferences/com.bgrabitmap.lazpaint.plist"
 end
