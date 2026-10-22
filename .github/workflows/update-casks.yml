@@ -1,0 +1,45 @@
+name: update-casks
+
+on:
+  schedule:
+    - cron: "17 6 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: update-casks
+  cancel-in-progress: false
+
+jobs:
+  bump:
+    name: open PRs for outdated casks
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+
+      - uses: Homebrew/actions/setup-homebrew@0fdc2c96a16d9f945f7e1577784302fd27a549a9
+
+      - uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349
+        id: app-token
+        with:
+          app-id: ${{ secrets.TAP_APP_ID }}
+          private-key: ${{ secrets.TAP_APP_PRIVATE_KEY }}
+
+      - name: Bump each third-party cask when upstream is newer
+        env:
+          HOMEBREW_GITHUB_API_TOKEN: ${{ steps.app-token.outputs.token }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+          HOMEBREW_NO_AUTO_UPDATE: "1"
+        run: |
+          set -euo pipefail
+          brew tap gufranco/tap "${GITHUB_WORKSPACE}"
+          for cask in pixelorama pikopixel lazpaint; do
+            brew bump-cask-pr \
+              --tap="gufranco/tap" \
+              --no-browse \
+              --message="Opened by the daily update-casks workflow." \
+              "${cask}" || echo "no bump for ${cask}"
+          done

@@ -1,0 +1,41 @@
+#!/usr/bin/env bats
+
+setup() {
+  SCRIPT="${BATS_TEST_DIRNAME}/../scripts/update-formula.sh"
+}
+
+@test "fails when no formula name is given" {
+  # Arrange
+  local script="${SCRIPT}"
+
+  # Act
+  run bash "${script}"
+
+  # Assert
+  [ "${status}" -ne 0 ]
+  [[ "${output}" == *"formula name required"* ]]
+}
+
+@test "fails when no tag is given" {
+  # Arrange
+  local script="${SCRIPT}"
+
+  # Act
+  run bash "${script}" maeyomi
+
+  # Assert
+  [ "${status}" -ne 0 ]
+  [[ "${output}" == *"tag required"* ]]
+}
+
+@test "fails when the named formula does not exist" {
+  # Arrange
+  local script="${SCRIPT}"
+
+  # Act
+  run bash "${script}" nosuchformula v1.0.0
+
+  # Assert
+  [ "${status}" -ne 0 ]
+  [[ "${output}" == *"no formula at"* ]]
+}

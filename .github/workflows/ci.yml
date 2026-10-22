@@ -1,0 +1,25 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  tap-syntax:
+    name: style and audit
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+
+      - uses: Homebrew/actions/setup-homebrew@0fdc2c96a16d9f945f7e1577784302fd27a549a9
+
+      - name: Style and audit the tap
+        run: brew test-bot --only-tap-syntax --tap="gufranco/tap"

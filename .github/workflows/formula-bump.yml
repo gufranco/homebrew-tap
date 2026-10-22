@@ -1,0 +1,66 @@
+name: formula-bump
+
+on:
+  repository_dispatch:
+    types: [formula-bump]
+  workflow_dispatch:
+    inputs:
+      name:
+        description: The formula name to bump
+        required: true
+        type: string
+      tag:
+        description: The release tag to point it at
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: formula-bump-${{ github.event.client_payload.name || inputs.name }}
+  cancel-in-progress: false
+
+jobs:
+  bump:
+    name: open a PR pointing the formula at the new tag
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+
+      - uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349
+        id: app-token
+        with:
+          app-id: ${{ secrets.TAP_APP_ID }}
+          private-key: ${{ secrets.TAP_APP_PRIVATE_KEY }}
+
+      - name: Rewrite the formula for the new tag
+        id: rewrite
+        env:
+          NAME: ${{ github.event.client_payload.name || inputs.name }}
+          TAG: ${{ github.event.client_payload.tag || inputs.tag }}
+        run: |
+          set -euo pipefail
+          case "${NAME}" in
+            anypatch | fdstoolkit | maeyomi | osm) ;;
+            *) echo "unknown formula ${NAME}" >&2; exit 1 ;;
+          esac
+          bash scripts/update-formula.sh "${NAME}" "${TAG}"
+          {
+            echo "name=${NAME}"
+            echo "tag=${TAG}"
+          } >> "${GITHUB_OUTPUT}"
+
+      - uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+          branch: bump-${{ steps.rewrite.outputs.name }}-${{ steps.rewrite.outputs.tag }}
+          delete-branch: true
+          add-paths: Formula/${{ steps.rewrite.outputs.name }}.rb
+          commit-message: "chore(formula): point ${{ steps.rewrite.outputs.name }} at ${{ steps.rewrite.outputs.tag }}"
+          title: "chore(formula): point ${{ steps.rewrite.outputs.name }} at ${{ steps.rewrite.outputs.tag }}"
+          body: |
+            Automated bump of `${{ steps.rewrite.outputs.name }}` to `${{ steps.rewrite.outputs.tag }}`.
+
+            Opened by the project's release pipeline. The url and sha256 were
+            rewritten from the published release tarball.
