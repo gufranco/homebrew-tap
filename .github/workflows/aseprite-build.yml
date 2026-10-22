@@ -1,0 +1,33 @@
+name: aseprite-build
+
+on:
+  pull_request:
+    paths:
+      - Formula/aseprite.rb
+
+permissions:
+  contents: read
+
+concurrency:
+  group: aseprite-build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: compile aseprite from source
+    runs-on: macos-15
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+
+      - uses: Homebrew/actions/setup-homebrew@0fdc2c96a16d9f945f7e1577784302fd27a549a9
+
+      - name: Build aseprite from source to prove the Skia pin still matches
+        env:
+          HOMEBREW_NO_AUTO_UPDATE: "1"
+        run: |
+          set -euo pipefail
+          brew tap gufranco/tap "${GITHUB_WORKSPACE}"
+          brew install --build-from-source --formula gufranco/tap/aseprite
+          test -x "$(brew --prefix)/opt/aseprite/Aseprite.app/Contents/MacOS/aseprite"

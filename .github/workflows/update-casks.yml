@@ -42,6 +42,20 @@ jobs:
             brew bump-cask-pr \
               --tap="gufranco/tap" \
               --no-browse \
-              --message="Opened by the daily update-casks workflow." \
+              --message="Opened by the daily update workflow." \
               "${cask}" || echo "no bump for ${cask}"
           done
+
+      - name: Bump aseprite when a new release is out
+        env:
+          HOMEBREW_GITHUB_API_TOKEN: ${{ steps.app-token.outputs.token }}
+          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+          HOMEBREW_NO_AUTO_UPDATE: "1"
+        run: |
+          set -euo pipefail
+          brew bump-formula-pr \
+            --tap="gufranco/tap" \
+            --no-browse \
+            --no-audit \
+            --message="Opened by the daily update workflow. Only the aseprite source is bumped; the Skia resource is left pinned. The aseprite-build PR check compiles it, so a red build means the Skia resource needs a manual bump to match the new release." \
+            aseprite || echo "no bump for aseprite"
