@@ -36,7 +36,7 @@ jobs:
         run: |
           set -euo pipefail
           brew tap gufranco/tap "${GITHUB_WORKSPACE}"
-          for cask in pixelorama pikopixel lazpaint; do
+          for cask in pixelorama pikopixel lazpaint ldtk libresprite lmms sunvox; do
             brew bump-cask-pr \
               --tap="gufranco/tap" \
               --no-browse \

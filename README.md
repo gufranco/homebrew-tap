@@ -29,6 +29,10 @@ and respect Gatekeeper; an un-notarized app is opened at the user's discretion.
 brew install --cask gufranco/tap/pixelorama
 brew install --cask gufranco/tap/pikopixel
 brew install --cask gufranco/tap/lazpaint
+brew install --cask gufranco/tap/ldtk
+brew install --cask gufranco/tap/libresprite
+brew install --cask gufranco/tap/lmms
+brew install --cask gufranco/tap/sunvox
 ```
 
 If macOS blocks an app on first launch, either remove the quarantine flag
