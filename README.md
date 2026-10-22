@@ -39,6 +39,16 @@ If macOS blocks an app on first launch, either remove the quarantine flag
 (`xattr -dr com.apple.quarantine /Applications/<App>.app`) or install with
 `--no-quarantine`.
 
+### Built from source
+
+Aseprite has no free binary to download, so it is a formula that compiles from
+its own published source and the matching prebuilt Skia, which you are licensed
+to do for personal use. The build takes a while.
+
+```bash
+brew install gufranco/tap/aseprite
+```
+
 ## How it stays current
 
 - Each of my project repos opens a pull request here on every release, pointing
