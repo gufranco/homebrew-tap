@@ -5,6 +5,11 @@ class Aseprite < Formula
   sha256 "fa9dd07a0c2a5ec91a4166333296bbb9e5c237933b59875d0cfee849d2358306"
   license :cannot_represent
 
+  livecheck do
+    url "https://github.com/aseprite/aseprite"
+    strategy :github_latest
+  end
+
   depends_on "cmake" => :build
   depends_on "ninja" => :build
   depends_on :macos
