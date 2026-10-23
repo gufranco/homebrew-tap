@@ -37,7 +37,7 @@ jobs:
           HOMEBREW_NO_AUTO_UPDATE: "1"
         run: |
           set -euo pipefail
-          brew bump --cask --tap gufranco/tap --open-pr --no-fork --no-browse
+          brew bump --cask --tap gufranco/tap --open-pr --no-fork
 
       - name: Bump aseprite when a new release is out
         env:
@@ -46,4 +46,4 @@ jobs:
           HOMEBREW_NO_AUTO_UPDATE: "1"
         run: |
           set -euo pipefail
-          brew bump --formula --open-pr --no-fork --no-browse gufranco/tap/aseprite
+          brew bump --formula --open-pr --no-fork gufranco/tap/aseprite
