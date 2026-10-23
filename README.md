@@ -33,6 +33,7 @@ brew install --cask gufranco/tap/ldtk
 brew install --cask gufranco/tap/libresprite
 brew install --cask gufranco/tap/lmms
 brew install --cask gufranco/tap/sunvox
+brew install --cask gufranco/tap/furnace
 ```
 
 If macOS blocks an app on first launch, either remove the quarantine flag
