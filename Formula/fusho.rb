@@ -1,5 +1,5 @@
 class Fusho < Formula
-  desc "Send encrypted messages through any chat using published SSH keys"
+  desc "Send an encrypted message through any chat, using a GitHub username"
   homepage "https://github.com/gufranco/fusho"
   url "https://github.com/gufranco/fusho/archive/refs/tags/v2.0.0.tar.gz"
   sha256 "01b863b2f6d0a70424aeb141820e35e359821a7b043c6525997545775b5beca3"
