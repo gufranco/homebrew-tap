@@ -60,6 +60,10 @@ brew install gufranco/tap/aseprite
 
 Every update lands as a reviewable pull request; nothing is auto-merged.
 
+## Development
+
+[`scripts/update-formula.sh`](scripts/update-formula.sh) is tested with bats. `bundle install` once, then `bash scripts/coverage.sh` runs the tests under bashcov and fails below 100% line coverage.
+
 ## License
 
 MIT. See [LICENSE](LICENSE).

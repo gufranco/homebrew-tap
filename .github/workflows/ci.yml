@@ -25,3 +25,27 @@ jobs:
 
       - name: Style and audit the tap
         run: brew test-bot --only-tap-syntax --tap="gufranco/tap"
+
+  scripts:
+    name: script tests and coverage
+    runs-on: ubuntu-26.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          persist-credentials: false
+
+      - uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f  # v1.335.0
+        with:
+          bundler-cache: true
+
+      - name: Install bats and shellcheck
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq bats shellcheck
+
+      - name: ShellCheck
+        run: shellcheck scripts/*.sh test/*.bats
+
+      - name: Tests with a 100% line coverage gate
+        run: bash scripts/coverage.sh 100

@@ -4,9 +4,10 @@ set -euo pipefail
 name=${1:?formula name required}
 tag=${2:?tag required}
 root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
-formula="${root}/Formula/${name}.rb"
+formula="${TAP_FORMULA_DIR:-${root}/Formula}/${name}.rb"
 repo="gufranco/${name}"
-url="https://github.com/${repo}/archive/refs/tags/${tag}.tar.gz"
+archive_base=${TAP_ARCHIVE_BASE:-https://github.com}
+url="${archive_base}/${repo}/archive/refs/tags/${tag}.tar.gz"
 
 if [[ ! -f "${formula}" ]]
 then
