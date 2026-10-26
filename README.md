@@ -18,6 +18,7 @@ brew install gufranco/tap/fdstoolkit
 brew install gufranco/tap/maeyomi
 brew install gufranco/tap/fusho
 brew install gufranco/tap/kakikomi
+brew install gufranco/tap/kiyome
 ```
 
 ### Third-party apps

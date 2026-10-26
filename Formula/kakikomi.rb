@@ -12,11 +12,9 @@ class Kakikomi < Formula
   def install
     libexec.install "bin", "lib"
     bin.write_exec_script libexec/"bin/kakikomi"
-    bin.write_exec_script libexec/"bin/kiyome"
   end
 
   test do
     assert_match "kakikomi #{version}", shell_output("#{bin}/kakikomi --version")
-    assert_match "kiyome #{version}", shell_output("#{bin}/kiyome --version")
   end
 end
