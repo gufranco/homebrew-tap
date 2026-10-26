@@ -5,7 +5,7 @@ root=$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)
 minimum=${1:-100}
 bash_bin=$(command -v bash)
 ruby_bin=$(command -v ruby)
-bashcov_bin=$(cd "${root}" && bundle exec ruby -e 'print Gem.bin_path("bashcov", "bashcov")')
+bashcov_bin="${root}/scripts/bashcov-run.rb"
 
 rm -rf "${root}/coverage"
 mkdir -p "${root}/coverage"
@@ -23,7 +23,4 @@ chmod 0755 "${wrapper}"
 BUNDLE_GEMFILE="${root}/Gemfile" RUNNER="${wrapper}" bats "${root}/test"
 
 cd "${root}"
-COVERAGE_MINIMUM="${minimum}" bundle exec ruby -e '
-require "simplecov"
-SimpleCov.collate Dir["coverage/.resultset.json"]
-'
+bundle exec ruby scripts/coverage-gate.rb '/scripts/update-formula\.sh\z' "${minimum}" coverage/.resultset.json

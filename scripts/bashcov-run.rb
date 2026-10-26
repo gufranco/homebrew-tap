@@ -1,0 +1,19 @@
+require "bashcov"
+
+Bashcov.parse_options!(ARGV)
+
+require "bashcov/runner"
+
+runner = Bashcov::Runner.new(Bashcov.command)
+status = runner.run
+coverage = runner.result
+
+require "simplecov"
+
+SimpleCov.start
+SimpleCov.command_name(Bashcov.command_name)
+SimpleCov.root(Bashcov.root_directory)
+SimpleCov::ResultMerger.store_result(SimpleCov::Result.new(coverage))
+SimpleCov.at_exit {}
+
+exit(status.exitstatus)
