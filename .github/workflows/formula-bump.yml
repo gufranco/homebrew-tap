@@ -23,18 +23,18 @@ concurrency:
 
 jobs:
   bump:
-    name: open a PR pointing the formula at the new tag
+    name: point the formula at the new tag on main
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
-        with:
-          persist-credentials: false
-
       - uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349
         id: app-token
         with:
           app-id: ${{ secrets.TAP_APP_ID }}
           private-key: ${{ secrets.TAP_APP_PRIVATE_KEY }}
+
+      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+        with:
+          token: ${{ steps.app-token.outputs.token }}
 
       - name: Rewrite the formula for the new tag
         id: rewrite
@@ -44,7 +44,7 @@ jobs:
         run: |
           set -euo pipefail
           case "${NAME}" in
-            anypatch | fdstoolkit | maeyomi | fusho | kakikomi) ;;
+            anypatch | fdstoolkit | maeyomi | fusho | kakikomi | kiyome) ;;
             *) echo "unknown formula ${NAME}" >&2; exit 1 ;;
           esac
           bash scripts/update-formula.sh "${NAME}" "${TAG}"
@@ -53,16 +53,25 @@ jobs:
             echo "tag=${TAG}"
           } >> "${GITHUB_OUTPUT}"
 
-      - uses: peter-evans/create-pull-request@22a9089034f40e5a961c8808d113e2c98fb63676
-        with:
-          token: ${{ steps.app-token.outputs.token }}
-          branch: bump-${{ steps.rewrite.outputs.name }}-${{ steps.rewrite.outputs.tag }}
-          delete-branch: true
-          add-paths: Formula/${{ steps.rewrite.outputs.name }}.rb
-          commit-message: "chore(formula): point ${{ steps.rewrite.outputs.name }} at ${{ steps.rewrite.outputs.tag }}"
-          title: "chore(formula): point ${{ steps.rewrite.outputs.name }} at ${{ steps.rewrite.outputs.tag }}"
-          body: |
-            Automated bump of `${{ steps.rewrite.outputs.name }}` to `${{ steps.rewrite.outputs.tag }}`.
-
-            Opened by the project's release pipeline. The url and sha256 were
-            rewritten from the published release tarball.
+      - name: Commit the bump to main
+        env:
+          NAME: ${{ steps.rewrite.outputs.name }}
+          TAG: ${{ steps.rewrite.outputs.tag }}
+        run: |
+          set -euo pipefail
+          git config user.name "gufranco-tap-bot[bot]"
+          git config user.email "346559818+gufranco-tap-bot[bot]@users.noreply.github.com"
+          git add "Formula/${NAME}.rb"
+          if git diff --cached --quiet; then
+            echo "Formula/${NAME}.rb already points at ${TAG}"
+            exit 0
+          fi
+          git commit -m "chore(formula): point ${NAME} at ${TAG}"
+          for attempt in 1 2 3; do
+            if git push origin HEAD:main; then
+              exit 0
+            fi
+            echo "push attempt ${attempt} lost a race, rebasing"
+            git pull --rebase origin main
+          done
+          exit 1

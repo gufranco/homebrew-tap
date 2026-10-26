@@ -53,12 +53,11 @@ brew install gufranco/tap/aseprite
 
 ## How it stays current
 
-- Each of my project repos opens a pull request here on every release, pointing
-  its formula at the new tag with a fresh checksum.
+- Each of my project repos tells this tap about every release, and the tap
+  commits its formula straight to `main`, pointing at the new tag with a fresh
+  checksum. `brew upgrade` sees the new version within minutes.
 - A daily job checks the third-party casks for new upstream versions and opens a
   pull request when one appears.
-
-Every update lands as a reviewable pull request; nothing is auto-merged.
 
 ## Development
 
