@@ -21,6 +21,15 @@ jobs:
         with:
           persist-credentials: false
 
+      - name: Remove the runner's azure-cli formula before it moves to a cask
+        env:
+          HOMEBREW_NO_AUTO_UPDATE: "1"
+          HOMEBREW_NO_INSTALL_CLEANUP: "1"
+        run: |
+          if brew list --formula azure-cli >/dev/null 2>&1; then
+            brew uninstall --formula --ignore-dependencies azure-cli
+          fi
+
       - uses: Homebrew/actions/setup-homebrew@0fdc2c96a16d9f945f7e1577784302fd27a549a9
 
       - name: Style and audit the tap
