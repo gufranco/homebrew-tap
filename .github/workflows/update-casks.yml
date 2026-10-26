@@ -24,10 +24,10 @@ jobs:
 
       - uses: Homebrew/actions/setup-homebrew@0fdc2c96a16d9f945f7e1577784302fd27a549a9
 
-      - uses: actions/create-github-app-token@fee1f7d63c2ff003460e3d139729b119787bc349
+      - uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510
         id: app-token
         with:
-          app-id: ${{ secrets.TAP_APP_ID }}
+          client-id: ${{ secrets.TAP_APP_ID }}
           private-key: ${{ secrets.TAP_APP_PRIVATE_KEY }}
 
       - name: Bump each third-party cask when upstream is newer
