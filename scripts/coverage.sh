@@ -23,4 +23,4 @@ chmod 0755 "${wrapper}"
 BUNDLE_GEMFILE="${root}/Gemfile" RUNNER="${wrapper}" bats "${root}/test"
 
 cd "${root}"
-bundle exec ruby scripts/coverage-gate.rb '/scripts/update-formula\.sh\z' "${minimum}" coverage/.resultset.json
+python3 scripts/coverage-gate.py '/scripts/update-formula\.sh\Z' "${minimum}" coverage/.resultset.json
