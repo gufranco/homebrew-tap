@@ -15,9 +15,15 @@ class Yakitsuke < Formula
   def install
     libexec.install "bin", "lib", "share"
     bin.write_exec_script libexec/"bin/yakitsuke"
+    man1.install "man/yakitsuke.1"
+    bash_completion.install "completions/yakitsuke.bash" => "yakitsuke"
+    zsh_completion.install "completions/_yakitsuke"
+    fish_completion.install "completions/yakitsuke.fish"
   end
 
   test do
     assert_match "yakitsuke #{version}", shell_output("#{bin}/yakitsuke --version")
+    assert_match "yakitsuke doctor", shell_output("#{bin}/yakitsuke help")
+    system bin/"yakitsuke", "doctor"
   end
 end
