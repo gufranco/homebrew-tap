@@ -19,6 +19,7 @@ brew install gufranco/tap/maeyomi
 brew install gufranco/tap/fusho
 brew install gufranco/tap/kakikomi
 brew install gufranco/tap/kiyome
+brew install gufranco/tap/shiwake
 brew install gufranco/tap/yakitsuke
 ```
 
