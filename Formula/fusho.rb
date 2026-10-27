@@ -1,8 +1,8 @@
 class Fusho < Formula
   desc "Send an encrypted message through any chat, using a GitHub username"
   homepage "https://github.com/gufranco/fusho"
-  url "https://github.com/gufranco/fusho/archive/refs/tags/v2.2.0.tar.gz"
-  sha256 "88c1d80acd14b2d60450ec4c8ca7ef290cc810b687748a849e2dabb6bfcf2631"
+  url "https://github.com/gufranco/fusho/archive/refs/tags/v2.3.0.tar.gz"
+  sha256 "f25ba356e03fcf1c578a1626b9a93e882c54702613dc7b5d651a6e8ab59e776e"
   license "MIT"
   head "https://github.com/gufranco/fusho.git", branch: "main"
 
