@@ -12,9 +12,15 @@ class Kakikomi < Formula
   def install
     libexec.install "bin", "lib"
     bin.write_exec_script libexec/"bin/kakikomi"
+    man1.install "man/kakikomi.1"
+    bash_completion.install "completions/kakikomi.bash" => "kakikomi"
+    zsh_completion.install "completions/_kakikomi"
+    fish_completion.install "completions/kakikomi.fish"
   end
 
   test do
     assert_match "kakikomi #{version}", shell_output("#{bin}/kakikomi --version")
+    assert_match "kakikomi doctor", shell_output("#{bin}/kakikomi help")
+    system bin/"kakikomi", "doctor"
   end
 end
