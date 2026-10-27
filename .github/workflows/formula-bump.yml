@@ -44,7 +44,7 @@ jobs:
         run: |
           set -euo pipefail
           case "${NAME}" in
-            anypatch | fdstoolkit | maeyomi | fusho | kakikomi | kiyome) ;;
+            anypatch | fdstoolkit | maeyomi | fusho | kakikomi | kiyome | yakitsuke) ;;
             *) echo "unknown formula ${NAME}" >&2; exit 1 ;;
           esac
           bash scripts/update-formula.sh "${NAME}" "${TAG}"
