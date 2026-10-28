@@ -3,8 +3,8 @@
 class Shiwake < Formula
   desc "Sort the files of a folder into A to Z subfolders by their first letter"
   homepage "https://github.com/gufranco/shiwake"
-  url "https://github.com/gufranco/shiwake/archive/refs/tags/v1.1.0.tar.gz"
-  sha256 "355e028d29b1a2098a4a27e0d40360f1e13942f656faef21c60f5a4177d3627e"
+  url "https://github.com/gufranco/shiwake/archive/refs/tags/v1.1.1.tar.gz"
+  sha256 "1c62ae610c01013dbab309e97d1bc49db69338cae7139c11ab89ea206d673052"
   license "MIT"
   head "https://github.com/gufranco/shiwake.git", branch: "main"
 
