@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Maeyomi < Formula
   include Language::Python::Virtualenv
 

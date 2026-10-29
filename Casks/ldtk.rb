@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 cask "ldtk" do
   version "1.5.3"
   sha256 "d8f8ab8f7e2001a64d7db04eac8d68ec305fd21d3404a2d40d9e0377aa5dac62"

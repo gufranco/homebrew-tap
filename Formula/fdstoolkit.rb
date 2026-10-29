@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Fdstoolkit < Formula
   include Language::Python::Virtualenv
 

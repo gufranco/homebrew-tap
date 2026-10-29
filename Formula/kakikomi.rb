@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Kakikomi < Formula
   desc "Write disk images to removable media, verified chunk by chunk, never mounted"
   homepage "https://github.com/gufranco/kakikomi"

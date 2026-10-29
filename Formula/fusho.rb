@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Fusho < Formula
   desc "Send an encrypted message through any chat, using a GitHub username"
   homepage "https://github.com/gufranco/fusho"

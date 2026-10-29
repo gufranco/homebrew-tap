@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 cask "sunvox" do
   version "2.1.4d"
   sha256 "acd94ae4acd6ab60bee1f5ba117082cd2ea51f7e87871f1776d11cfd24a59880"

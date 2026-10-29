@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Aseprite < Formula
   desc "Animated sprite editor and pixel art tool"
   homepage "https://www.aseprite.org/"

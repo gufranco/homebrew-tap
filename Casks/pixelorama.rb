@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 cask "pixelorama" do
   version "1.2.3"
   sha256 "f007d9d84a8410d568f173493055782dfadfd00772e6ea08cc087e3ae08629c5"

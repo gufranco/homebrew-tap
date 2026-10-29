@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 cask "furnace" do
   arch arm: "arm64", intel: "Intel"
 

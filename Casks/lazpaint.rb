@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 cask "lazpaint" do
   version "7.3"
   sha256 "eaac2b5776ad229a0f4496c407d4cf648dcc36626f2574486f0528916aa7a61c"

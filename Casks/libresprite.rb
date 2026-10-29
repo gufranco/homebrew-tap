@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 cask "libresprite" do
   arch arm: "arm64", intel: "x86_64"
 
