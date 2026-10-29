@@ -4,6 +4,9 @@ A single Homebrew tap for the tools I maintain and a few third-party apps that
 Homebrew no longer ships. Tapping this is a small, fast clone: it holds only
 formulae and casks, never project source.
 
+[![ci](https://img.shields.io/github/actions/workflow/status/gufranco/homebrew-tap/ci.yml?branch=main&style=flat-square&label=ci)](https://github.com/gufranco/homebrew-tap/actions/workflows/ci.yml)
+[![license](https://img.shields.io/github/license/gufranco/homebrew-tap?style=flat-square&label=license)](LICENSE)
+
 ## Install
 
 ```bash
