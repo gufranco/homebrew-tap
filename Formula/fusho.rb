@@ -9,8 +9,13 @@ class Fusho < Formula
   depends_on "age"
 
   def install
-    system "bash", "build.sh"
-    bin.install "dist/fusho"
+    if File.exist?("build.sh")
+      system "bash", "build.sh"
+      bin.install "dist/fusho"
+    else
+      libexec.install "bin", "lib"
+      bin.write_exec_script libexec/"bin/fusho"
+    end
     man1.install "man/fusho.1"
     bash_completion.install "completions/fusho.bash" => "fusho"
     zsh_completion.install "completions/_fusho"
