@@ -6,13 +6,25 @@ setup() {
   FORMULAS="${WORK}/Formula"
   ARCHIVES="${WORK}/archives"
   mkdir -p "${FORMULAS}" "${ARCHIVES}"
-  cp "${BATS_TEST_DIRNAME}/../Formula/fusho.rb" "${FORMULAS}/sample.rb"
+  write_formula v1.0.0
   export TAP_ARCHIVE_BASE="file://${ARCHIVES}"
   export TAP_FORMULA_DIR="${FORMULAS}"
 }
 
 teardown() {
   rm -rf "${WORK}"
+}
+
+write_formula() {
+  local tag="$1"
+  printf '%s\n' \
+    'class Sample < Formula' \
+    '  desc "Sample formula the bump script rewrites"' \
+    '  homepage "https://github.com/gufranco/sample"' \
+    "  url \"https://github.com/gufranco/sample/archive/refs/tags/${tag}.tar.gz\"" \
+    '  sha256 "0000000000000000000000000000000000000000000000000000000000000000"' \
+    '  license "MIT"' \
+    'end' >"${FORMULAS}/sample.rb"
 }
 
 publish_release() {
@@ -37,7 +49,7 @@ path_without_sha256sum() {
   local bin="${WORK}/bin"
   local tool
   mkdir -p "${bin}"
-  for tool in bash curl mktemp dirname rm tar gzip find head sed awk python3 shasum cat; do
+  for tool in bash curl mktemp dirname rm tar gzip find head tail sort sed awk python3 shasum cat; do
     ln -s "$(command -v "${tool}")" "${bin}/${tool}"
   done
   printf '%s' "${bin}"
@@ -180,4 +192,31 @@ path_without_sha256sum() {
   # Assert
   [ "${status}" -eq 1 ]
   [[ "${output}" == *"tagged v2.1.0 but the code in it says 2.0.9"* ]]
+}
+
+@test "leaves the formula on a newer tag when asked for an older one" {
+  # Arrange
+  write_formula v2.1.0
+  publish_release v2.0.0 lib/core.sh 'SAMPLE_VERSION="2.0.0"'
+
+  # Act
+  run "${RUNNER:-bash}" "${SCRIPT}" sample v2.0.0
+
+  # Assert
+  [ "${status}" -eq 0 ]
+  [[ "${output}" == *"formula sample already points at v2.1.0, newer than v2.0.0"* ]]
+  grep -q 'refs/tags/v2.1.0.tar.gz' "${FORMULAS}/sample.rb"
+}
+
+@test "compares tags as versions rather than as text" {
+  # Arrange
+  write_formula v2.9.0
+  publish_release v2.10.0 lib/core.sh 'SAMPLE_VERSION="2.10.0"'
+
+  # Act
+  run "${RUNNER:-bash}" "${SCRIPT}" sample v2.10.0
+
+  # Assert
+  [ "${status}" -eq 0 ]
+  [[ "${output}" == *"formula sample now points at v2.10.0"* ]]
 }

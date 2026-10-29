@@ -62,7 +62,8 @@ brew install gufranco/tap/aseprite
 
 - Each of my project repos tells this tap about every release, and the tap
   commits its formula straight to `main`, pointing at the new tag with a fresh
-  checksum. `brew upgrade` sees the new version within minutes.
+  checksum. `brew upgrade` sees the new version within minutes. A bump that
+  arrives late for an older tag leaves the formula on the newer one.
 - A daily job checks the third-party casks for new upstream versions and opens a
   pull request when one appears.
 

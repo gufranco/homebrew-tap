@@ -15,6 +15,14 @@ then
   exit 1
 fi
 
+current_tag=$(sed -n 's|^ *url ".*/archive/refs/tags/\([^"/]*\)\.tar\.gz"$|\1|p' "${formula}" | head -1)
+newest=$(printf '%s\n%s\n' "${current_tag#v}" "${tag#v}" | sort -V | tail -1)
+if [[ "${current_tag}" != "${tag}" && "${newest}" == "${current_tag#v}" ]]
+then
+  printf 'formula %s already points at %s, newer than %s\n' "${name}" "${current_tag}" "${tag}"
+  exit 0
+fi
+
 work=$(mktemp -d "${TMPDIR:-/tmp}/tap-formula-XXXXXX")
 trap 'rm -rf "$work"' EXIT
 
