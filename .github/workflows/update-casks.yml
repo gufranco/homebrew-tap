@@ -18,13 +18,16 @@ jobs:
     name: open PRs for outdated casks
     runs-on: macos-15
     steps:
-      - uses: actions/checkout@fbc6f3992d24b796d5a048ff273f7fcc4a7b6c09
+      - uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43  # v2.22.3
+        with:
+          egress-policy: audit
+      - uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
 
       - uses: Homebrew/actions/setup-homebrew@0fdc2c96a16d9f945f7e1577784302fd27a549a9
 
-      - uses: actions/create-github-app-token@64ab729a6294000f5aa4a4bc0b73d1f32bc45510
+      - uses: actions/create-github-app-token@v3.3.0
         id: app-token
         with:
           client-id: ${{ secrets.TAP_APP_ID }}
