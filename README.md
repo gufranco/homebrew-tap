@@ -113,7 +113,7 @@ These casks were removed from homebrew-cask when the apps stopped passing notari
 | [ldtk](https://ldtk.io/) | 2D level editor |
 | [libresprite](https://libresprite.github.io/) | Free fork of the Aseprite sprite editor |
 | [lmms](https://lmms.io/) | Digital audio workstation; runs under Rosetta 2 |
-| [pikopixel](https://twilightedge.com/mac/pikopixel/) | Pixel-art editor for indexed-palette images |
+| [pikopixel](https://twilightedge.com/mac/pikopixel/) | Pixel-art editor for indexed-palette images; runs under Rosetta 2 |
 | [pixelorama](https://orama-interactive.itch.io/pixelorama) | Sprite editor and pixel art tool |
 | [sunvox](https://www.warmplace.ru/soft/sunvox/) | Modular synthesizer and tracker |
 

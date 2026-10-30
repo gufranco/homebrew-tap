@@ -113,7 +113,7 @@ kakikomi doctor
 | [ldtk](https://ldtk.io/) | 2D レベルエディタ |
 | [libresprite](https://libresprite.github.io/) | Aseprite スプライトエディタのフリーなフォーク |
 | [lmms](https://lmms.io/) | デジタル・オーディオ・ワークステーション。Rosetta 2 で動作します |
-| [pikopixel](https://twilightedge.com/mac/pikopixel/) | インデックスカラー画像用のドット絵エディタ |
+| [pikopixel](https://twilightedge.com/mac/pikopixel/) | インデックスカラー画像用のドット絵エディタ。Rosetta 2 で動作します |
 | [pixelorama](https://orama-interactive.itch.io/pixelorama) | スプライトエディタ兼ドット絵ツール |
 | [sunvox](https://www.warmplace.ru/soft/sunvox/) | モジュラー・シンセサイザー兼トラッカー |
 

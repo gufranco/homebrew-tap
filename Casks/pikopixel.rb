@@ -19,4 +19,8 @@ cask "pikopixel" do
   app "PikoPixel.app"
 
   zap trash: "~/Library/Preferences/com.twilightedge.PikoPixel.plist"
+
+  caveats do
+    requires_rosetta
+  end
 end

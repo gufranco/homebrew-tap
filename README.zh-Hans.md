@@ -113,7 +113,7 @@ kakikomi doctor
 | [ldtk](https://ldtk.io/) | 2D 关卡编辑器 |
 | [libresprite](https://libresprite.github.io/) | Aseprite 精灵编辑器的自由分支 |
 | [lmms](https://lmms.io/) | 数字音频工作站；通过 Rosetta 2 运行 |
-| [pikopixel](https://twilightedge.com/mac/pikopixel/) | 面向索引调色板图像的像素画编辑器 |
+| [pikopixel](https://twilightedge.com/mac/pikopixel/) | 面向索引调色板图像的像素画编辑器；通过 Rosetta 2 运行 |
 | [pixelorama](https://orama-interactive.itch.io/pixelorama) | 精灵编辑器和像素画工具 |
 | [sunvox](https://www.warmplace.ru/soft/sunvox/) | 模块化合成器和编曲器 |
 
