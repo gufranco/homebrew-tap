@@ -14,6 +14,6 @@ class AnypatchTest < Minitest::Test
 
     # Assert
     assert_equal [], mixins
-    assert_includes text, %Q(system "uv", "sync", "--frozen", "--no-dev", "--no-editable")
+    assert_includes text, 'system "uv", "sync", "--frozen", "--no-dev", "--no-editable"'
   end
 end
