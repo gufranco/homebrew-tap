@@ -65,4 +65,15 @@ class OpencorePatcherBetaTest < Minitest::Test
     assert_equal "opencore-patcher", conflict
     assert_includes text, 'pkgutil:   "com.dortania.opencore-legacy-patcher"'
   end
+
+  def test_a_plain_brew_upgrade_installs_each_new_release_candidate
+    # Arrange
+    text = File.read(CASK)
+
+    # Act
+    self_updating = text.match?(/^\s*auto_updates\b/)
+
+    # Assert
+    assert_equal false, self_updating
+  end
 end

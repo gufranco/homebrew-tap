@@ -21,7 +21,6 @@ cask "opencore-patcher@beta" do
     end
   end
 
-  auto_updates true
   conflicts_with cask: "opencore-patcher"
   depends_on :macos
 
