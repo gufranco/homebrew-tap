@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "json"
 require "yaml"
 require "test_helper"
 
@@ -36,7 +37,7 @@ class RepositoryTest < Minitest::Test
 
   def test_every_schedule_runs_three_times_a_day
     # Arrange
-    crons = scheduled_crons + dependabot_crons
+    crons = scheduled_crons + dependabot_crons + renovate["schedule"]
 
     # Act
     off_schedule = crons.reject { |cron| cron.split[1].split(",").size == RUNS_A_DAY }
@@ -44,6 +45,19 @@ class RepositoryTest < Minitest::Test
     # Assert
     refute_empty crons
     assert_equal [], off_schedule
+  end
+
+  def test_renovate_leaves_gems_actions_and_formulae_to_their_own_updaters
+    # Arrange
+    action_rule = { "matchManagers" => ["github-actions"], "matchDepTypes" => ["action"], "enabled" => false }
+
+    # Act
+    config = renovate
+
+    # Assert
+    assert_equal ["github-actions", "ruby-version"], config["enabledManagers"].sort
+    assert_includes config["packageRules"], action_rule
+    assert_equal false, config["dependencyDashboard"]
   end
 
   def test_every_job_has_a_timeout_and_hardens_the_runner_first
@@ -135,6 +149,10 @@ class RepositoryTest < Minitest::Test
   def dependabot_crons
     updates = YAML.load_file(File.join(ROOT, ".github", "dependabot.yml"))["updates"]
     updates.map { |update| update["schedule"]["cronjob"] }
+  end
+
+  def renovate
+    JSON.parse(File.read(File.join(ROOT, "renovate.json")))
   end
 
   def run_commands(file)

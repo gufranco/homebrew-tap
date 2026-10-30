@@ -50,7 +50,8 @@ The tap ships the kodougu tools but is not a member of that family: it also carr
 
 ### Workflows and schedules
 
-- Every scheduled job runs three times a day: the workflows and Dependabot alike *(tested)*.
+- Every scheduled job runs three times a day: the workflows, Dependabot and Renovate alike *(tested)*.
+- Dependabot updates the actions and the gems. [Renovate](renovate.json) updates only what Dependabot cannot see: runner labels, tool versions passed to actions and [`.ruby-version`](.ruby-version). It never touches a formula, whose updates belong to the release dispatch and the scheduled bump, and it opens no dashboard issue *(tested)*.
 - Every job has a `timeout-minutes` and starts with `step-security/harden-runner` *(tested)*. `actions/*` are pinned by version tag, every other action by full commit SHA with the version in a trailing comment.
 - Every workflow that runs on `pull_request` is listed in the `workflow_run` trigger of `bot-merge.yml` *(tested)*, so the merge reruns when the last check finishes.
 - A pull request that changes a formula builds it from source and runs its test block in [`formula-build.yml`](.github/workflows/formula-build.yml) before it can merge.
@@ -58,7 +59,7 @@ The tap ships the kodougu tools but is not a member of that family: it also carr
 
 ### Ruby and tooling
 
-- All code is Ruby. The only other languages in the repository are YAML for the workflows, Markdown for the documentation and JSON for Homebrew's audit allowlists; a workflow step calls a rake task or a single tool, never a script.
+- All code is Ruby. The only other languages in the repository are YAML for the workflows, Markdown for the documentation and JSON for Homebrew's audit allowlists and the Renovate config; a workflow step calls a rake task or a single tool, never a script.
 - Ruby in [`.ruby-version`](.ruby-version) is the latest stable release, which CI reads too. Gems are pinned to exact versions with [`Gemfile.lock`](Gemfile.lock) committed.
 - The committed [`.gitignore`](.gitignore) lists only what the project produces. AI tooling and workspace paths stay out of it, and the repository has no `specs/` directory.
 - `brew style` checks a path inside a tap with the tap rules, and any other path with the stricter rules for Homebrew's own code. A checkout outside `$(brew --repository)/Library/Taps` therefore goes through `rake style`, never a bare `brew style .`.

@@ -2,5 +2,24 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "config:recommended"
+  ],
+  "dependencyDashboard": false,
+  "enabledManagers": [
+    "github-actions",
+    "ruby-version"
+  ],
+  "packageRules": [
+    {
+      "matchManagers": [
+        "github-actions"
+      ],
+      "matchDepTypes": [
+        "action"
+      ],
+      "enabled": false
+    }
+  ],
+  "schedule": [
+    "* 5,13,21 * * *"
   ]
 }
