@@ -2,7 +2,7 @@
 
 <h1>homebrew-tap</h1>
 
-<strong>kodougu のコマンドラインツール、私が保守しているその他のツール、そして Homebrew が配布をやめたアプリをまとめた Homebrew の tap です。</strong>
+<strong>kodougu のコマンドラインツール、私が保守しているその他のツール、そして Homebrew が配布していないアプリをまとめた Homebrew の tap です。</strong>
 
 [English](README.md) | 日本語 | [简体中文](README.zh-Hans.md) | [繁體中文 (香港)](README.zh-HK.md)
 
@@ -18,7 +18,7 @@
 
 </div>
 
-12 個の formula、8 個の cask、そしてそれらを最新に保つ Ruby のコードです。tap は小さな clone で、formula と cask の定義だけを持ち、プロジェクトのソースは含みません。
+14 個の formula、13 個の cask、そしてそれらを最新に保つ Ruby のコードです。tap は小さな clone で、formula と cask の定義だけを持ち、プロジェクトのソースは含みません。
 
 ---
 
@@ -37,15 +37,21 @@ gufranco/tap/maxcso
 gufranco/tap/shiwake
 gufranco/tap/torrentzip
 gufranco/tap/yakitsuke
+gufranco/tap/zsnes
 
+gufranco/tap/azahar
 gufranco/tap/furnace
 gufranco/tap/lazpaint
 gufranco/tap/ldtk
 gufranco/tap/libresprite
 gufranco/tap/lmms
+gufranco/tap/mesen
 gufranco/tap/pikopixel
 gufranco/tap/pixelorama
+gufranco/tap/rpcs3
+gufranco/tap/shadps4
 gufranco/tap/sunvox
+gufranco/tap/vita3k
 ```
 
 <a id="quick-start"></a>
@@ -104,6 +110,7 @@ kakikomi doctor
 | [torrentzip](https://github.com/0-wiz-0/trrntzip) | アーカイブを正規化された再現可能な TorrentZip 形式に再圧縮します。コマンド名は `trrntzip` です |
 | [aseprite](https://www.aseprite.org/) | 公開されているソースと対応するビルド済み Skia から Aseprite スプライトエディタをビルドします。個人利用ではこのビルドが許諾されています。ビルドには時間がかかります |
 | [marsdev](https://github.com/andwn/marsdev) | メガドライブ向け自作ソフトのための Marsdev ツールチェーンとして、68000 向けの GCC と SGDK をビルドします。`source $(brew --prefix marsdev)/libexec/mars/mars.sh` で `MARSDEV` と `GDK` を設定します。ビルドには時間がかかります |
+| [zsnes](https://github.com/xyproto/zsnes) | x86 アセンブリを C に移植したフォークから、スーパーファミコン・エミュレータ ZSNES をビルドします |
 
 ### アプリ
 
@@ -120,6 +127,18 @@ kakikomi doctor
 | [pixelorama](https://orama-interactive.itch.io/pixelorama) | スプライトエディタ兼ドット絵ツール |
 | [sunvox](https://www.warmplace.ru/soft/sunvox/) | モジュラー・シンセサイザー兼トラッカー |
 
+### エミュレータ
+
+homebrew-cask は Gatekeeper を通るアプリしか受け付けず、これらのエミュレータの macOS 版は通りません。各 cask は上流のビルドをそのままインストールします。
+
+| Cask | エミュレートする機種 |
+|:-----|:-----|
+| [azahar](https://azahar-emu.org/) | ニンテンドー 3DS。Citra と Lime3DS の後継です |
+| [mesen](https://github.com/nesdev-org/MesenCE) | ファミコン、スーパーファミコン、ゲームボーイ、ゲームボーイアドバンス、PC エンジン、マスターシステム、ゲームギア、ワンダースワン。macOS 15 が必要で、SDL2 もインストールします |
+| [rpcs3](https://rpcs3.net/) | PlayStation 3。macOS 15 が必要です |
+| [shadps4](https://shadps4.net/) | PlayStation 4。コマンド名は `shadps4` で、macOS 26 が必要です。Rosetta 2 で動作します |
+| [vita3k](https://vita3k.org/) | PlayStation Vita。上流の継続ビルドを追うため、`brew upgrade --greedy` で更新します |
+
 初回起動時に macOS がアプリをブロックした場合は、`xattr -dr com.apple.quarantine /Applications/<App>.app` で隔離フラグを外すか、`--no-quarantine` を付けてインストールしてください。
 
 <a id="how-it-stays-current"></a>
@@ -127,7 +146,7 @@ kakikomi doctor
 ## 最新に保つ仕組み
 
 - **私のツールのリリース。** ツールのリポジトリが新しいタグを付けて `formula-bump` の dispatch を送ります。tap はそのタグのアーカイブをダウンロードし、中のバージョンがタグと一致することを確かめ、formula の `url` と `sha256` を書き換え、ソースからビルドしてテストを実行し、そのあとで初めて `main` にコミットします。現在のタグより古いタグの dispatch では何も変わりません。
-- **サードパーティのアプリ。** 1 日 3 回、各 cask、`aseprite`、`marsdev`、`maxcso`、`torrentzip` を上流と比較し、新しいバージョンがあればプルリクエストを開きます。formula を変更するプルリクエストでは、その formula をソースからビルドしてテストを実行します。プルリクエストのチェックがすべて通ると、自動でマージされます。
+- **サードパーティのアプリ。** 1 日 3 回、`vita3k` を除く各 cask と `aseprite`、`marsdev`、`maxcso`、`torrentzip`、`zsnes` を上流と比較し、新しいバージョンがあればプルリクエストを開きます。formula を変更するプルリクエストでは、その formula をソースからビルドしてテストを実行します。プルリクエストのチェックがすべて通ると、自動でマージされます。`vita3k` は常に上流の最新ビルドをダウンロードするため、比較するバージョンがありません。
 - **tap 自体。** CI はプッシュのたびに実行されます。Ubuntu と macOS でのテスト、ワークフローの lint、そして Homebrew の style チェックです。これとは別の upstream チェックが、1 日 3 回と formula や cask を変更するたびに、すべての formula と cask に対して Homebrew の厳格なオンライン監査を実行します。ダウンロードが消えたり変わったりしても数時間以内に専用のバッジに表示され、CI のバッジは赤くなりません。Dependabot は GitHub Actions と gem を 1 日 3 回確認し、そのプルリクエストも同じようにマージされます。
 
 <a id="development"></a>

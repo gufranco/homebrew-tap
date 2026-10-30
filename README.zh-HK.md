@@ -2,7 +2,7 @@
 
 <h1>homebrew-tap</h1>
 
-<strong>一個 Homebrew tap，收錄 kodougu 命令行工具、我維護的其他工具，以及 Homebrew 不再提供的應用程式。</strong>
+<strong>一個 Homebrew tap，收錄 kodougu 命令行工具、我維護的其他工具，以及 Homebrew 不提供的應用程式。</strong>
 
 [English](README.md) | [日本語](README.ja.md) | [简体中文](README.zh-Hans.md) | 繁體中文 (香港)
 
@@ -18,7 +18,7 @@
 
 </div>
 
-12 個 formula、8 個 cask，以及令它們保持最新的 Ruby 程式碼。tap 是一個很小的 clone：只包含 formula 和 cask 的定義，從不包含項目原始碼。
+14 個 formula、13 個 cask，以及令它們保持最新的 Ruby 程式碼。tap 是一個很小的 clone：只包含 formula 和 cask 的定義，從不包含項目原始碼。
 
 ---
 
@@ -37,15 +37,21 @@ gufranco/tap/maxcso
 gufranco/tap/shiwake
 gufranco/tap/torrentzip
 gufranco/tap/yakitsuke
+gufranco/tap/zsnes
 
+gufranco/tap/azahar
 gufranco/tap/furnace
 gufranco/tap/lazpaint
 gufranco/tap/ldtk
 gufranco/tap/libresprite
 gufranco/tap/lmms
+gufranco/tap/mesen
 gufranco/tap/pikopixel
 gufranco/tap/pixelorama
+gufranco/tap/rpcs3
+gufranco/tap/shadps4
 gufranco/tap/sunvox
+gufranco/tap/vita3k
 ```
 
 <a id="quick-start"></a>
@@ -104,6 +110,7 @@ kakikomi doctor
 | [torrentzip](https://github.com/0-wiz-0/trrntzip) | 把壓縮檔重新封裝為標準、可重現的 TorrentZip 格式；指令名稱是 `trrntzip` |
 | [aseprite](https://www.aseprite.org/) | 以官方公開的原始碼及對應的預先編譯 Skia 建置 Aseprite 精靈編輯器，個人使用獲准如此建置；建置需時 |
 | [marsdev](https://github.com/andwn/marsdev) | 建置用於 SEGA Mega Drive 自製軟件的 Marsdev 工具鏈，即針對 68000 的 GCC 及 SGDK；`source $(brew --prefix marsdev)/libexec/mars/mars.sh` 會設定 `MARSDEV` 及 `GDK`；建置需時 |
+| [zsnes](https://github.com/xyproto/zsnes) | 從把 x86 組合語言移植到 C 的分支建置超級任天堂模擬器 ZSNES |
 
 ### 應用程式
 
@@ -120,6 +127,18 @@ kakikomi doctor
 | [pixelorama](https://orama-interactive.itch.io/pixelorama) | 精靈編輯器及像素畫工具 |
 | [sunvox](https://www.warmplace.ru/soft/sunvox/) | 模組化合成器及編曲器 |
 
+### 模擬器
+
+homebrew-cask 只接受能通過 Gatekeeper 的應用程式，而這些模擬器的 macOS 版本無法通過。每個 cask 都原封不動安裝上游的建置。
+
+| Cask | 模擬的機種 |
+|:-----|:-----|
+| [azahar](https://azahar-emu.org/) | 任天堂 3DS；Citra 及 Lime3DS 的後繼 |
+| [mesen](https://github.com/nesdev-org/MesenCE) | FC、超級任天堂、Game Boy、Game Boy Advance、PC Engine、Master System、Game Gear 及 WonderSwan；需要 macOS 15，並會安裝 SDL2 |
+| [rpcs3](https://rpcs3.net/) | PlayStation 3；需要 macOS 15 |
+| [shadps4](https://shadps4.net/) | PlayStation 4；指令名稱是 `shadps4`，需要 macOS 26，經 Rosetta 2 執行 |
+| [vita3k](https://vita3k.org/) | PlayStation Vita；跟隨上游的滾動建置，用 `brew upgrade --greedy` 更新 |
+
 如果 macOS 在首次啟動時封鎖某個應用程式，可以用 `xattr -dr com.apple.quarantine /Applications/<App>.app` 移除隔離標記，或在安裝時加上 `--no-quarantine`。
 
 <a id="how-it-stays-current"></a>
@@ -127,7 +146,7 @@ kakikomi doctor
 ## 如何保持最新
 
 - **我的工具發佈新版本。** 工具的儲存庫附上新標籤傳送 `formula-bump` dispatch。tap 下載該標籤的壓縮檔，確認其中的版本與標籤一致，改寫 formula 的 `url` 和 `sha256`，從原始碼建置並執行測試，之後才提交到 `main`。比 formula 現有標籤更舊的 dispatch 不會改變任何內容。
-- **第三方應用程式。** 每日三次，工作會把每個 cask、`aseprite`、`marsdev`、`maxcso` 及 `torrentzip` 與上游比較，有新版本時開啟一個合併請求。修改 formula 的合併請求會從原始碼建置該 formula 並執行它的測試。合併請求的所有檢查都通過後，會自動合併。
+- **第三方應用程式。** 每日三次，工作會把 `vita3k` 以外的每個 cask，以及 `aseprite`、`marsdev`、`maxcso`、`torrentzip` 及 `zsnes` 與上游比較，有新版本時開啟一個合併請求。修改 formula 的合併請求會從原始碼建置該 formula 並執行它的測試。合併請求的所有檢查都通過後，會自動合併。`vita3k` 總是下載上游最新的建置，所以沒有可比較的版本。
 - **tap 本身。** CI 在每次推送時執行：在 Ubuntu 和 macOS 上執行測試、檢查工作流程，並執行 Homebrew 的 style 檢查。另一個 upstream 檢查每日三次、並在每次修改 formula 或 cask 時，對每個 formula 和 cask 執行 Homebrew 的嚴格線上審核，所以下載檔案消失或改變會在數小時內顯示在它自己的徽章上，而不會令 CI 徽章變紅。Dependabot 每日三次檢查 GitHub Actions 和 gem，它的合併請求亦會以同樣方式自動合併。
 
 <a id="development"></a>

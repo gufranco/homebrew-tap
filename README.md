@@ -2,7 +2,7 @@
 
 <h1>homebrew-tap</h1>
 
-<strong>One Homebrew tap for the kodougu command-line tools, the other tools I maintain, and the apps Homebrew stopped shipping.</strong>
+<strong>One Homebrew tap for the kodougu command-line tools, the other tools I maintain, and the apps Homebrew does not ship.</strong>
 
 English | [日本語](README.ja.md) | [简体中文](README.zh-Hans.md) | [繁體中文 (香港)](README.zh-HK.md)
 
@@ -18,7 +18,7 @@ English | [日本語](README.ja.md) | [简体中文](README.zh-Hans.md) | [繁�
 
 </div>
 
-12 formulae, 8 casks, and the Ruby code that keeps them current. Tapping it is a small clone: it holds formula and cask definitions, never project source.
+14 formulae, 13 casks, and the Ruby code that keeps them current. Tapping it is a small clone: it holds formula and cask definitions, never project source.
 
 ---
 
@@ -37,15 +37,21 @@ gufranco/tap/maxcso
 gufranco/tap/shiwake
 gufranco/tap/torrentzip
 gufranco/tap/yakitsuke
+gufranco/tap/zsnes
 
+gufranco/tap/azahar
 gufranco/tap/furnace
 gufranco/tap/lazpaint
 gufranco/tap/ldtk
 gufranco/tap/libresprite
 gufranco/tap/lmms
+gufranco/tap/mesen
 gufranco/tap/pikopixel
 gufranco/tap/pixelorama
+gufranco/tap/rpcs3
+gufranco/tap/shadps4
 gufranco/tap/sunvox
+gufranco/tap/vita3k
 ```
 
 <a id="quick-start"></a>
@@ -104,6 +110,7 @@ The command-line tools that share one interface, described in each tool's `FAMIL
 | [torrentzip](https://github.com/0-wiz-0/trrntzip) | Rezips archives into the canonical, reproducible TorrentZip form; the command is `trrntzip` |
 | [aseprite](https://www.aseprite.org/) | Builds the Aseprite sprite editor from its published source and the matching prebuilt Skia, which you are licensed to do for personal use; the build takes a while |
 | [marsdev](https://github.com/andwn/marsdev) | Builds the Marsdev toolchain for Sega Mega Drive homebrew, GCC for the 68000 with SGDK; `source $(brew --prefix marsdev)/libexec/mars/mars.sh` sets `MARSDEV` and `GDK`; the build takes a while |
+| [zsnes](https://github.com/xyproto/zsnes) | Builds ZSNES, the Super Nintendo emulator, from the fork that ported its x86 assembly to C |
 
 ### Apps
 
@@ -120,6 +127,18 @@ These casks were removed from homebrew-cask when the apps stopped passing notari
 | [pixelorama](https://orama-interactive.itch.io/pixelorama) | Sprite editor and pixel art tool |
 | [sunvox](https://www.warmplace.ru/soft/sunvox/) | Modular synthesizer and tracker |
 
+### Emulators
+
+homebrew-cask only accepts apps that pass Gatekeeper, and the macOS builds of these emulators do not. Each cask installs the upstream build unchanged.
+
+| Cask | What it emulates |
+|:-----|:-----------------|
+| [azahar](https://azahar-emu.org/) | Nintendo 3DS; the successor to Citra and Lime3DS |
+| [mesen](https://github.com/nesdev-org/MesenCE) | NES, SNES, Game Boy, Game Boy Advance, PC Engine, Master System, Game Gear and WonderSwan; needs macOS 15 and installs SDL2 |
+| [rpcs3](https://rpcs3.net/) | PlayStation 3; needs macOS 15 |
+| [shadps4](https://shadps4.net/) | PlayStation 4; the command is `shadps4`, needs macOS 26 and runs under Rosetta 2 |
+| [vita3k](https://vita3k.org/) | PlayStation Vita; follows the upstream rolling build, so `brew upgrade --greedy` updates it |
+
 If macOS blocks an app on first launch, remove the quarantine flag with `xattr -dr com.apple.quarantine /Applications/<App>.app`, or install it with `--no-quarantine`.
 
 <a id="how-it-stays-current"></a>
@@ -127,7 +146,7 @@ If macOS blocks an app on first launch, remove the quarantine flag with `xattr -
 ## How it stays current
 
 - **A release of one of my tools.** The tool's repository sends a `formula-bump` dispatch with the new tag. The tap downloads that tag's archive, checks that the version inside matches the tag, rewrites the formula's `url` and `sha256`, builds the formula from source, runs its test block, and only then commits to `main`. A dispatch for a tag older than the formula's current one changes nothing.
-- **Third-party apps.** Three times a day, a job compares each cask, `aseprite`, `marsdev`, `maxcso` and `torrentzip` with upstream and opens a pull request when a newer version is out. A pull request that changes a formula builds it from source and runs its test block. Once every check on the pull request passes, it merges itself.
+- **Third-party apps.** Three times a day, a job compares every cask but `vita3k`, plus `aseprite`, `marsdev`, `maxcso`, `torrentzip` and `zsnes`, with upstream and opens a pull request when a newer version is out. A pull request that changes a formula builds it from source and runs its test block. Once every check on the pull request passes, it merges itself. `vita3k` always downloads the newest upstream build, so it has no version to compare.
 - **The tap itself.** CI runs on every push: the tests on Ubuntu and macOS, the workflow lint, and Homebrew's style rules. A separate upstream check runs Homebrew's strict online audit of every formula and cask three times a day and on every change to them, so a download that disappears or changes shows up within hours on its own badge, without turning the CI badge red. Dependabot checks the GitHub Actions and the gems three times a day, and its pull requests merge the same way.
 
 <a id="development"></a>
