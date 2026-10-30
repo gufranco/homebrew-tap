@@ -6,14 +6,12 @@ cask "rpcs3" do
   on_arm do
     sha256 "2b5a615cfa32707bd8598f8fd635844f48ea1117dfb82e0715a70281b27f73a3"
 
-    url "https://github.com/RPCS3/rpcs3-binaries-mac-arm64/releases/download/build-#{version.csv.second}/rpcs3-v#{version.csv.first}-#{version.csv.second[0, 8]}_macos_aarch64.7z",
-        verified: "github.com/RPCS3/rpcs3-binaries-mac-arm64/"
+    url "https://github.com/RPCS3/rpcs3-binaries-mac-arm64/releases/download/build-#{version.csv.second}/rpcs3-v#{version.csv.first}-#{version.csv.second[0, 8]}_macos_aarch64.7z"
   end
   on_intel do
     sha256 "c7164256974048b032d4112f774afe39a16dfc2c55545d6c9374ba2238e0bee6"
 
-    url "https://github.com/RPCS3/rpcs3-binaries-mac/releases/download/build-#{version.csv.second}/rpcs3-v#{version.csv.first}-#{version.csv.second[0, 8]}_macos.7z",
-        verified: "github.com/RPCS3/rpcs3-binaries-mac/"
+    url "https://github.com/RPCS3/rpcs3-binaries-mac/releases/download/build-#{version.csv.second}/rpcs3-v#{version.csv.first}-#{version.csv.second[0, 8]}_macos.7z"
   end
 
   name "RPCS3"

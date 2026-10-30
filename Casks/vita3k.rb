@@ -6,8 +6,7 @@ cask "vita3k" do
   version :latest
   sha256 :no_check
 
-  url "https://github.com/Vita3K/Vita3K/releases/download/continuous/macos#{arch}-latest.dmg",
-      verified: "github.com/Vita3K/Vita3K/"
+  url "https://github.com/Vita3K/Vita3K/releases/download/continuous/macos#{arch}-latest.dmg"
   name "Vita3K"
   desc "PlayStation Vita emulator"
   homepage "https://vita3k.org/"
