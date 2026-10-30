@@ -34,7 +34,7 @@ class FormulaFileTest < Minitest::Test
     built = formula.built_from?("https://github.com/gufranco/#{@tap.name}")
 
     # Assert
-    assert built
+    assert_equal true, built
   end
 
   def test_knows_the_formula_is_not_built_from_another_homepage
@@ -46,7 +46,7 @@ class FormulaFileTest < Minitest::Test
     built = formula.built_from?("https://github.com/gufranco/#{@tap.name}")
 
     # Assert
-    refute built
+    assert_equal false, built
   end
 
   def test_reports_the_current_tag_when_it_is_newer_than_the_release

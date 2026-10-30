@@ -102,7 +102,7 @@ class RakeTasksTest < Minitest::Test
     hook = File.join(dir, ".git", "hooks", "pre-commit")
     assert_equal 0, status.exitstatus
     assert_equal "#!/bin/sh\nexec bundle exec rake lint test\n", File.read(hook)
-    assert File.executable?(hook)
+    assert_equal true, File.executable?(hook)
   ensure
     FileUtils.rm_rf(dir)
   end

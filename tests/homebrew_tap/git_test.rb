@@ -38,7 +38,7 @@ class GitTest < Minitest::Test
     assert_equal "git rev-parse --verify --quiet #{missing} failed: ", error.message
   end
 
-  def test_answers_whether_a_command_succeeded
+  def test_answers_false_when_a_command_fails
     # Arrange
     missing = Faker::Internet.slug(glue: "-")
 
@@ -46,8 +46,18 @@ class GitTest < Minitest::Test
     found = @git.ok?("rev-parse", "--verify", "--quiet", missing)
 
     # Assert
-    refute found
-    assert @git.ok?("status")
+    assert_equal false, found
+  end
+
+  def test_answers_true_when_a_command_succeeds
+    # Arrange
+    command = "status"
+
+    # Act
+    succeeded = @git.ok?(command)
+
+    # Assert
+    assert_equal true, succeeded
   end
 
   def test_runs_with_the_given_environment

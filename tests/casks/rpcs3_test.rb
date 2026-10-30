@@ -28,7 +28,7 @@ class Rpcs3Test < Minitest::Test
 
     # Assert
     assert_equal 2, urls.size
-    assert(urls.all? { |url| url.include?(BUILD_DOWNLOAD) })
+    assert_equal [], urls.reject { |url| url.include?(BUILD_DOWNLOAD) }
     assert_equal REPOSITORIES, repositories
   end
 
