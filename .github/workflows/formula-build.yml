@@ -42,6 +42,10 @@ jobs:
       - uses: Homebrew/actions/setup-homebrew@0fdc2c96a16d9f945f7e1577784302fd27a549a9
         with:
           token: ${{ github.token }}
+      - name: Unlink the runner's default openssl@3 so a dependency on openssl@4 links cleanly
+        env:
+          HOMEBREW_NO_AUTO_UPDATE: "1"
+        run: brew unlink openssl@3
       - name: Build every formula the pull request changes and run its test block
         if: github.event_name == 'pull_request'
         run: brew test-bot --only-formulae --tap=gufranco/tap

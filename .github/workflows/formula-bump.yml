@@ -42,6 +42,10 @@ jobs:
       - uses: Homebrew/actions/setup-homebrew@0fdc2c96a16d9f945f7e1577784302fd27a549a9
         with:
           token: ${{ steps.app-token.outputs.token }}
+      - name: Unlink the runner's default openssl@3 so a dependency on openssl@4 links cleanly
+        env:
+          HOMEBREW_NO_AUTO_UPDATE: "1"
+        run: brew unlink openssl@3
       - uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f  # v1.335.0
         with:
           bundler-cache: true
