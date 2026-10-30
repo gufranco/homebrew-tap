@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class Maeyomi < Formula
-  include Language::Python::Virtualenv
-
   desc "Print playable cards for Barcode Battler machines and barcode games"
   homepage "https://github.com/gufranco/maeyomi"
   url "https://github.com/gufranco/maeyomi/archive/refs/tags/v1.24.1.tar.gz"

@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 class Anypatch < Formula
-  include Language::Python::Virtualenv
-
   desc "Read, write, merge and convert binary patches in every documented format"
   homepage "https://github.com/gufranco/anypatch"
   url "https://github.com/gufranco/anypatch/archive/refs/tags/v0.7.0.tar.gz"
