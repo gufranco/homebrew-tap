@@ -6,7 +6,7 @@ require "test_helper"
 class OpencorePatcherBetaTest < Minitest::Test
   CASK = File.expand_path("../../Casks/opencore-patcher@beta.rb", __dir__).freeze
 
-  def test_pins_a_release_candidate_of_the_patcher
+  def test_pins_a_release_candidate_or_the_final_release_it_moves_to
     # Arrange
     text = File.read(CASK)
 
@@ -14,7 +14,7 @@ class OpencorePatcherBetaTest < Minitest::Test
     version = text[Regexp.new('^  version "([^"]+)"$'), 1]
 
     # Assert
-    assert_match(/\A\d+\.\d+\.\d+-rc\.\d+\z/, version)
+    assert_match(/\A\d+\.\d+\.\d+(?:-rc\.\d+)?\z/, version)
   end
 
   def test_installs_the_gui_package_of_the_tagged_release
