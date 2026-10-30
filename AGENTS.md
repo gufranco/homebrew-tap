@@ -10,6 +10,7 @@ The tap ships the kodougu tools but is not a member of that family: it also carr
 |:-----|:------|
 | [`Formula/`](Formula) | One formula per tool, each starting with `# frozen_string_literal: true` |
 | [`Casks/`](Casks) | The third-party apps homebrew-cask dropped or does not accept, and release-candidate `@beta` casks of apps it ships only as stable releases |
+| [`audit_exceptions/`](audit_exceptions) | Homebrew's per-tap audit allowlists, one JSON file per list; an `@beta` cask is listed as `"any"` in `github_prerelease_allowlist.json` so the audit accepts both a release candidate and the final release |
 | [`lib/homebrew_tap/`](lib/homebrew_tap) | The Ruby code behind the automation: one class per file, under the `HomebrewTap` module |
 | [`tests/`](tests) | The Minitest suite: one `*_test.rb` per class, `repository_test.rb` for the rules below, the fixtures in [`tests/support/`](tests/support), and in [`tests/formula/`](tests/formula) the pins a formula must keep in step with the project it packages |
 | [`Rakefile`](Rakefile) | Every command a person or CI runs |
@@ -57,7 +58,7 @@ The tap ships the kodougu tools but is not a member of that family: it also carr
 
 ### Ruby and tooling
 
-- All code is Ruby. The only other languages in the repository are YAML for the workflows and Markdown for the documentation; a workflow step calls a rake task or a single tool, never a script.
+- All code is Ruby. The only other languages in the repository are YAML for the workflows, Markdown for the documentation and JSON for Homebrew's audit allowlists; a workflow step calls a rake task or a single tool, never a script.
 - Ruby in [`.ruby-version`](.ruby-version) is the latest stable release, which CI reads too. Gems are pinned to exact versions with [`Gemfile.lock`](Gemfile.lock) committed.
 - The committed [`.gitignore`](.gitignore) lists only what the project produces. AI tooling and workspace paths stay out of it, and the repository has no `specs/` directory.
 - `brew style` checks a path inside a tap with the tap rules, and any other path with the stricter rules for Homebrew's own code. A checkout outside `$(brew --repository)/Library/Taps` therefore goes through `rake style`, never a bare `brew style .`.

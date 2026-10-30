@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require "json"
 require "test_helper"
 
 class OpencorePatcherBetaTest < Minitest::Test
@@ -40,6 +41,17 @@ class OpencorePatcherBetaTest < Minitest::Test
     assert_includes livecheck, "strategy :github_releases do |json, regex|"
     assert_includes livecheck, 'next if release["draft"]'
     refute_includes livecheck, "prerelease"
+  end
+
+  def test_the_audit_accepts_a_release_candidate_and_the_final_release
+    # Arrange
+    path = File.expand_path("../../audit_exceptions/github_prerelease_allowlist.json", __dir__)
+
+    # Act
+    allowlist = JSON.parse(File.read(path))
+
+    # Assert
+    assert_equal "any", allowlist["opencore-patcher@beta"]
   end
 
   def test_replaces_the_stable_cask_instead_of_installing_beside_it
