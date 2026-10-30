@@ -19,7 +19,6 @@ cask "mesen" do
 
   depends_on formula: "sdl2-compat"
   depends_on macos: :sequoia
-  container nested: "Mesen.app.zip"
 
   app "Mesen.app"
 end

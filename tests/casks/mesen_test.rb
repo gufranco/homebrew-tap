@@ -18,7 +18,7 @@ class MesenTest < Minitest::Test
     refute_includes text, "SourMesen"
   end
 
-  def test_unpacks_the_nested_app_archive_and_brings_the_sdl2_it_loads
+  def test_leaves_the_inner_app_archive_to_homebrew_and_brings_the_sdl2_it_loads
     # Arrange
     text = File.read(CASK)
 
@@ -27,6 +27,7 @@ class MesenTest < Minitest::Test
 
     # Assert
     assert_equal "sdl2-compat", dependency
-    assert_includes text, %Q(  container nested: "Mesen.app.zip"\n)
+    assert_includes text, %Q(  app "Mesen.app"\n)
+    refute_includes text, "container"
   end
 end
