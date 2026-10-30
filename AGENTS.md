@@ -9,7 +9,7 @@ The tap ships the kodougu tools but is not a member of that family: it also carr
 | Path | Holds |
 |:-----|:------|
 | [`Formula/`](Formula) | One formula per tool, each starting with `# frozen_string_literal: true` |
-| [`Casks/`](Casks) | The third-party apps homebrew-cask dropped or does not accept |
+| [`Casks/`](Casks) | The third-party apps homebrew-cask dropped or does not accept, and release-candidate `@beta` casks of apps it ships only as stable releases |
 | [`lib/homebrew_tap/`](lib/homebrew_tap) | The Ruby code behind the automation: one class per file, under the `HomebrewTap` module |
 | [`tests/`](tests) | The Minitest suite: one `*_test.rb` per class, `repository_test.rb` for the rules below, the fixtures in [`tests/support/`](tests/support), and in [`tests/formula/`](tests/formula) the pins a formula must keep in step with the project it packages |
 | [`Rakefile`](Rakefile) | Every command a person or CI runs |

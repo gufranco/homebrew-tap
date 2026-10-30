@@ -18,7 +18,7 @@
 
 </div>
 
-14 個の formula、13 個の cask、そしてそれらを最新に保つ Ruby のコードです。tap は小さな clone で、formula と cask の定義だけを持ち、プロジェクトのソースは含みません。
+14 個の formula、14 個の cask、そしてそれらを最新に保つ Ruby のコードです。tap は小さな clone で、formula と cask の定義だけを持ち、プロジェクトのソースは含みません。
 
 ---
 
@@ -46,6 +46,7 @@ gufranco/tap/ldtk
 gufranco/tap/libresprite
 gufranco/tap/lmms
 gufranco/tap/mesen
+gufranco/tap/opencore-patcher@beta
 gufranco/tap/pikopixel
 gufranco/tap/pixelorama
 gufranco/tap/rpcs3
@@ -140,6 +141,14 @@ homebrew-cask は Gatekeeper を通るアプリしか受け付けず、これら
 | [vita3k](https://vita3k.org/) | PlayStation Vita |
 
 初回起動時に macOS がアプリをブロックした場合は、`xattr -dr com.apple.quarantine /Applications/<App>.app` で隔離フラグを外すか、`--no-quarantine` を付けてインストールしてください。
+
+### リリース候補
+
+homebrew-cask はこれらのアプリを安定版でしか提供していません。各 cask は上流の最新リリースを、リリース候補でも正式版でもインストールします。同じアプリの Homebrew の安定版 cask とは共存できないため、先にそちらをアンインストールしてください。
+
+| Cask | 内容 |
+|:-----|:-----|
+| [opencore-patcher@beta](https://dortania.github.io/OpenCore-Legacy-Patcher/) | 非対応の Mac で新しい macOS を動かす OpenCore Legacy Patcher。リリース候補はシステムのクラッシュやデータ消失を起こしうると上流が警告しています |
 
 <a id="how-it-stays-current"></a>
 

@@ -18,7 +18,7 @@ English | [日本語](README.ja.md) | [简体中文](README.zh-Hans.md) | [繁�
 
 </div>
 
-14 formulae, 13 casks, and the Ruby code that keeps them current. Tapping it is a small clone: it holds formula and cask definitions, never project source.
+14 formulae, 14 casks, and the Ruby code that keeps them current. Tapping it is a small clone: it holds formula and cask definitions, never project source.
 
 ---
 
@@ -46,6 +46,7 @@ gufranco/tap/ldtk
 gufranco/tap/libresprite
 gufranco/tap/lmms
 gufranco/tap/mesen
+gufranco/tap/opencore-patcher@beta
 gufranco/tap/pikopixel
 gufranco/tap/pixelorama
 gufranco/tap/rpcs3
@@ -140,6 +141,14 @@ homebrew-cask only accepts apps that pass Gatekeeper, and the macOS builds of th
 | [vita3k](https://vita3k.org/) | PlayStation Vita |
 
 If macOS blocks an app on first launch, remove the quarantine flag with `xattr -dr com.apple.quarantine /Applications/<App>.app`, or install it with `--no-quarantine`.
+
+### Release candidates
+
+homebrew-cask ships these apps only as stable releases. Each cask installs the newest upstream release, release candidate or final. It conflicts with Homebrew's stable cask of the same app, so uninstall that one first.
+
+| Cask | What it is |
+|:-----|:-----------|
+| [opencore-patcher@beta](https://dortania.github.io/OpenCore-Legacy-Patcher/) | OpenCore Legacy Patcher, which runs newer macOS on unsupported Macs; upstream warns that its release candidates can crash the system and lose data |
 
 <a id="how-it-stays-current"></a>
 

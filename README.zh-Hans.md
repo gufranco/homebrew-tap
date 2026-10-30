@@ -18,7 +18,7 @@
 
 </div>
 
-14 个 formula、13 个 cask，以及让它们保持最新的 Ruby 代码。tap 是一个很小的 clone：只包含 formula 和 cask 的定义，从不包含项目源代码。
+14 个 formula、14 个 cask，以及让它们保持最新的 Ruby 代码。tap 是一个很小的 clone：只包含 formula 和 cask 的定义，从不包含项目源代码。
 
 ---
 
@@ -46,6 +46,7 @@ gufranco/tap/ldtk
 gufranco/tap/libresprite
 gufranco/tap/lmms
 gufranco/tap/mesen
+gufranco/tap/opencore-patcher@beta
 gufranco/tap/pikopixel
 gufranco/tap/pixelorama
 gufranco/tap/rpcs3
@@ -140,6 +141,14 @@ homebrew-cask 只接受能通过 Gatekeeper 的应用，而这些模拟器的 ma
 | [vita3k](https://vita3k.org/) | PlayStation Vita |
 
 如果 macOS 在首次启动时阻止某个应用，可以用 `xattr -dr com.apple.quarantine /Applications/<App>.app` 移除隔离标记，或在安装时加上 `--no-quarantine`。
+
+### 候选版本
+
+homebrew-cask 只提供这些应用的稳定版。每个 cask 安装上游最新的发布，无论是候选版还是正式版。它与 Homebrew 中同一应用的稳定版 cask 冲突，请先卸载后者。
+
+| Cask | 简介 |
+|:-----|:-----|
+| [opencore-patcher@beta](https://dortania.github.io/OpenCore-Legacy-Patcher/) | OpenCore Legacy Patcher，让不受支持的 Mac 运行较新的 macOS；上游警告其候选版可能导致系统崩溃和数据丢失 |
 
 <a id="how-it-stays-current"></a>
 
