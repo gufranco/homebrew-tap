@@ -68,6 +68,18 @@ class RepositoryTest < Minitest::Test
     assert_equal [], unwatched
   end
 
+  def test_no_cask_declares_a_nested_container_or_a_verified_url
+    # Arrange
+    files = Dir[File.join(ROOT, "Casks", "*.rb")]
+
+    # Act
+    offending = files.select { |file| File.read(file).match?(/^\s*(?:container nested|verified):/) }
+
+    # Assert
+    refute_empty files
+    assert_equal [], offending.map { |file| File.basename(file) }
+  end
+
   def test_every_formula_and_cask_starts_with_frozen_string_literal
     # Arrange
     files = Dir[File.join(ROOT, "{Formula,Casks}", "*.rb")]
