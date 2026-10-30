@@ -125,8 +125,8 @@ kakikomi doctor
 ## 最新に保つ仕組み
 
 - **私のツールのリリース。** ツールのリポジトリが新しいタグを付けて `formula-bump` の dispatch を送ります。tap はそのタグのアーカイブをダウンロードし、中のバージョンがタグと一致することを確かめ、formula の `url` と `sha256` を書き換え、ソースからビルドしてテストを実行し、そのあとで初めて `main` にコミットします。現在のタグより古いタグの dispatch では何も変わりません。
-- **サードパーティのアプリ。** 1 日 3 回、各 cask、`aseprite`、`maxcso`、`torrentzip` を上流と比較し、新しいバージョンがあればプルリクエストを開きます。`aseprite` の formula を変更するプルリクエストでは、ソースからビルドし直します。
-- **tap 自体。** CI はプッシュのたびに実行されます。Ubuntu と macOS でのテスト、ワークフローの lint、そして Homebrew の style チェックです。これとは別の upstream チェックが、1 日 3 回と formula や cask を変更するたびに、すべての formula と cask に対して Homebrew の厳格なオンライン監査を実行します。ダウンロードが消えたり変わったりしても数時間以内に専用のバッジに表示され、CI のバッジは赤くなりません。Dependabot は GitHub Actions と gem を 1 日 3 回確認し、CI が通ると自分の更新をマージします。
+- **サードパーティのアプリ。** 1 日 3 回、各 cask、`aseprite`、`maxcso`、`torrentzip` を上流と比較し、新しいバージョンがあればプルリクエストを開きます。formula を変更するプルリクエストでは、その formula をソースからビルドしてテストを実行します。プルリクエストのチェックがすべて通ると、自動でマージされます。
+- **tap 自体。** CI はプッシュのたびに実行されます。Ubuntu と macOS でのテスト、ワークフローの lint、そして Homebrew の style チェックです。これとは別の upstream チェックが、1 日 3 回と formula や cask を変更するたびに、すべての formula と cask に対して Homebrew の厳格なオンライン監査を実行します。ダウンロードが消えたり変わったりしても数時間以内に専用のバッジに表示され、CI のバッジは赤くなりません。Dependabot は GitHub Actions と gem を 1 日 3 回確認し、そのプルリクエストも同じようにマージされます。
 
 <a id="development"></a>
 

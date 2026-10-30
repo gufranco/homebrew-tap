@@ -1,0 +1,56 @@
+---
+name: formula-build
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - Formula/**
+  workflow_dispatch:
+    inputs:
+      name:
+        description: The formula to build from source and test
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+concurrency:
+  group: formula-build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: build changed formulae from source and run their tests
+    runs-on: macos-26
+    timeout-minutes: 120
+    permissions:
+      actions: read
+      checks: read
+      contents: read
+      pull-requests: read
+    steps:
+      - uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43  # v2.22.3
+        with:
+          egress-policy: audit
+      - name: Remove the runner's azure-cli formula before it moves to a cask
+        env:
+          HOMEBREW_NO_AUTO_UPDATE: "1"
+          HOMEBREW_NO_INSTALL_CLEANUP: "1"
+        run: brew uninstall --formula --ignore-dependencies --force azure-cli
+      - uses: Homebrew/actions/setup-homebrew@0fdc2c96a16d9f945f7e1577784302fd27a549a9
+        with:
+          token: ${{ github.token }}
+      - name: Build every formula the pull request changes and run its test block
+        if: github.event_name == 'pull_request'
+        run: brew test-bot --only-formulae --tap=gufranco/tap
+      - uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f  # v1.335.0
+        if: github.event_name == 'workflow_dispatch'
+        with:
+          bundler-cache: true
+      - name: Build the named formula from source and run its test block
+        if: github.event_name == 'workflow_dispatch'
+        env:
+          NAME: ${{ inputs.name }}
+        run: bundle exec rake formula:verify

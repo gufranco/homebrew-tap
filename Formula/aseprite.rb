@@ -59,5 +59,6 @@ class Aseprite < Formula
 
   test do
     assert_match version.to_s, (prefix/"Aseprite.app/Contents/Info.plist").read
+    assert_predicate prefix/"Aseprite.app/Contents/MacOS/aseprite", :executable?
   end
 end

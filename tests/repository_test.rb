@@ -56,6 +56,18 @@ class RepositoryTest < Minitest::Test
     assert_equal [], unbounded.map(&:first)
   end
 
+  def test_the_bot_merge_waits_for_every_pull_request_workflow
+    # Arrange
+    watched = workflow("bot-merge.yml")[WORKFLOW_TRIGGERS]["workflow_run"]["workflows"]
+
+    # Act
+    unwatched = pull_request_workflows - watched
+
+    # Assert
+    refute_empty watched
+    assert_equal [], unwatched
+  end
+
   def test_every_formula_and_cask_starts_with_frozen_string_literal
     # Arrange
     files = Dir[File.join(ROOT, "{Formula,Casks}", "*.rb")]
@@ -95,6 +107,12 @@ class RepositoryTest < Minitest::Test
 
   def scheduled_crons
     workflow_files.flat_map { |file| schedule_of(workflow(file)[WORKFLOW_TRIGGERS]) }.map { |entry| entry["cron"] }
+  end
+
+  def pull_request_workflows
+    workflow_files.map { |file| workflow(file) }
+                  .select { |spec| spec[WORKFLOW_TRIGGERS].key?("pull_request") }
+                  .map { |spec| spec["name"] }
   end
 
   def schedule_of(triggers)

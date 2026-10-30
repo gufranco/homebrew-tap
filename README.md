@@ -125,8 +125,8 @@ If macOS blocks an app on first launch, remove the quarantine flag with `xattr -
 ## How it stays current
 
 - **A release of one of my tools.** The tool's repository sends a `formula-bump` dispatch with the new tag. The tap downloads that tag's archive, checks that the version inside matches the tag, rewrites the formula's `url` and `sha256`, builds the formula from source, runs its test block, and only then commits to `main`. A dispatch for a tag older than the formula's current one changes nothing.
-- **Third-party apps.** Three times a day, a job compares each cask, `aseprite`, `maxcso` and `torrentzip` with upstream and opens a pull request when a newer version is out. A pull request that changes the `aseprite` formula rebuilds it from source.
-- **The tap itself.** CI runs on every push: the tests on Ubuntu and macOS, the workflow lint, and Homebrew's style rules. A separate upstream check runs Homebrew's strict online audit of every formula and cask three times a day and on every change to them, so a download that disappears or changes shows up within hours on its own badge, without turning the CI badge red. Dependabot checks the GitHub Actions and the gems three times a day and merges its own update once CI passes.
+- **Third-party apps.** Three times a day, a job compares each cask, `aseprite`, `maxcso` and `torrentzip` with upstream and opens a pull request when a newer version is out. A pull request that changes a formula builds it from source and runs its test block. Once every check on the pull request passes, it merges itself.
+- **The tap itself.** CI runs on every push: the tests on Ubuntu and macOS, the workflow lint, and Homebrew's style rules. A separate upstream check runs Homebrew's strict online audit of every formula and cask three times a day and on every change to them, so a download that disappears or changes shows up within hours on its own badge, without turning the CI badge red. Dependabot checks the GitHub Actions and the gems three times a day, and its pull requests merge the same way.
 
 <a id="development"></a>
 

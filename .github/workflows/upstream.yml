@@ -36,10 +36,7 @@ jobs:
         env:
           HOMEBREW_NO_AUTO_UPDATE: "1"
           HOMEBREW_NO_INSTALL_CLEANUP: "1"
-        run: |
-          if brew list --formula azure-cli >/dev/null 2>&1; then
-            brew uninstall --formula --ignore-dependencies azure-cli
-          fi
+        run: brew uninstall --formula --ignore-dependencies --force azure-cli
       - uses: Homebrew/actions/setup-homebrew@0fdc2c96a16d9f945f7e1577784302fd27a549a9
       - uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f  # v1.335.0
         with:

@@ -3,6 +3,8 @@
 require "open3"
 require_relative "lib/homebrew_tap/formula_bump"
 require_relative "lib/homebrew_tap/formula_publisher"
+require_relative "lib/homebrew_tap/github_cli"
+require_relative "lib/homebrew_tap/pull_request_merge"
 require_relative "lib/homebrew_tap/release"
 require_relative "lib/homebrew_tap/tap_checkout"
 
@@ -85,6 +87,17 @@ namespace :formula do
   task :publish do
     reporting_errors do
       HomebrewTap::FormulaPublisher.new(repo_dir: Dir.pwd, branch: "main", out: $stdout).publish(release_from_env)
+    end
+  end
+end
+
+namespace :pr do
+  desc "Squash-merge the bot pull request on BRANCH once every check on HEAD_SHA passed"
+  task :merge do
+    reporting_errors do
+      github = HomebrewTap::GitHubCli.new
+      merge = HomebrewTap::PullRequestMerge.new(repo: ENV.fetch("REPO", ""), github:, out: $stdout)
+      merge.merge(branch: ENV.fetch("BRANCH", ""), head_sha: ENV.fetch("HEAD_SHA", ""))
     end
   end
 end

@@ -125,8 +125,8 @@ kakikomi doctor
 ## 如何保持最新
 
 - **我的工具发布新版本。** 工具的仓库带着新标签发送 `formula-bump` dispatch。tap 下载该标签的压缩包，确认其中的版本与标签一致，改写 formula 的 `url` 和 `sha256`，从源代码构建并运行测试，之后才提交到 `main`。比 formula 当前标签更旧的 dispatch 不会改变任何东西。
-- **第三方应用。** 每天三次，任务会把每个 cask、`aseprite`、`maxcso` 和 `torrentzip` 与上游对比，有新版本时开一个拉取请求。修改 `aseprite` formula 的拉取请求会从源代码重新构建它。
-- **tap 本身。** CI 在每次推送时运行：在 Ubuntu 和 macOS 上运行测试、检查工作流，并运行 Homebrew 的 style 检查。另一个 upstream 检查每天三次、并在每次修改 formula 或 cask 时，对每个 formula 和 cask 运行 Homebrew 的严格在线审计，因此下载文件消失或变化会在几小时内显示在它自己的徽章上，而不会让 CI 徽章变红。Dependabot 每天三次检查 GitHub Actions 和 gem，CI 通过后自动合并自己的更新。
+- **第三方应用。** 每天三次，任务会把每个 cask、`aseprite`、`maxcso` 和 `torrentzip` 与上游对比，有新版本时开一个拉取请求。修改 formula 的拉取请求会从源代码构建该 formula 并运行它的测试。拉取请求的所有检查都通过后，它会自动合并。
+- **tap 本身。** CI 在每次推送时运行：在 Ubuntu 和 macOS 上运行测试、检查工作流，并运行 Homebrew 的 style 检查。另一个 upstream 检查每天三次、并在每次修改 formula 或 cask 时，对每个 formula 和 cask 运行 Homebrew 的严格在线审计，因此下载文件消失或变化会在几小时内显示在它自己的徽章上，而不会让 CI 徽章变红。Dependabot 每天三次检查 GitHub Actions 和 gem，它的拉取请求也以同样方式自动合并。
 
 <a id="development"></a>
 

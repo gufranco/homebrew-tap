@@ -13,7 +13,7 @@ The tap ships the kodougu tools but is not a member of that family: it also carr
 | [`lib/homebrew_tap/`](lib/homebrew_tap) | The Ruby code behind the automation: one class per file, under the `HomebrewTap` module |
 | [`tests/`](tests) | The Minitest suite: one `*_test.rb` per class, `repository_test.rb` for the rules below, and the fixtures in [`tests/support/`](tests/support) |
 | [`Rakefile`](Rakefile) | Every command a person or CI runs |
-| [`.github/workflows/`](.github/workflows) | CI, the scheduled upstream audit, the formula bump, the cask checks, the aseprite build and the Dependabot merge |
+| [`.github/workflows/`](.github/workflows) | CI, the scheduled upstream audit, the formula bump, the cask checks, the formula build and the bot merge |
 
 ## Commands
 
@@ -27,6 +27,7 @@ The tap ships the kodougu tools but is not a member of that family: it also carr
 | `bundle exec rake check` | lint, test and style |
 | `bundle exec rake hooks` | Installs a pre-commit hook running lint and test |
 | `bundle exec rake formula:bump`, `formula:verify`, `formula:publish` | The three steps of the bump workflow, read from `NAME` and `TAG` |
+| `bundle exec rake pr:merge` | Squash-merges the Dependabot or `gufranco-tap-bot` pull request on `BRANCH` in `REPO` once every check on `HEAD_SHA` passed |
 
 ## Hard rules
 
@@ -37,7 +38,7 @@ The tap ships the kodougu tools but is not a member of that family: it also carr
 - Before every push: `rake check` passes locally, then `git fetch`, because the bump bot pushes to `main` at any time. Push once per task and follow CI until it is green with zero warnings.
 - When a formula or cask changes, also run `rake audit`. The `upstream` workflow's audit is the authority: a local Homebrew or Xcode toolchain can disagree with the runner. On a Mac whose `lipo` exits 1 on a PowerPC slice, PikoPixel's ppc, i386 and x86_64 binary reads as needing no Rosetta, while the runner rightly requires the caveat. Confirm such a finding with `file` and `lipo -archs` before changing anything.
 - A push to `main` is safe at any moment. Never hold a push for a running workflow; when a push would be unsafe, fix the pipeline.
-- Conventional commits, pushed straight to `main`. Pull requests come only from the cask checks, Dependabot and Renovate; a Dependabot one merges itself once CI passes.
+- Conventional commits, pushed straight to `main`. Pull requests come only from the cask checks, Dependabot and Renovate. A pull request from Dependabot or `gufranco-tap-bot` merges itself through [`bot-merge.yml`](.github/workflows/bot-merge.yml) once every check on its head commit passed; a person's or Renovate's never does.
 
 ### Adding or changing a formula or cask
 
@@ -49,6 +50,8 @@ The tap ships the kodougu tools but is not a member of that family: it also carr
 
 - Every scheduled job runs three times a day: the workflows and Dependabot alike *(tested)*.
 - Every job has a `timeout-minutes` and starts with `step-security/harden-runner` *(tested)*. `actions/*` are pinned by version tag, every other action by full commit SHA with the version in a trailing comment.
+- Every workflow that runs on `pull_request` is listed in the `workflow_run` trigger of `bot-merge.yml` *(tested)*, so the merge reruns when the last check finishes.
+- A pull request that changes a formula builds it from source and runs its test block in [`formula-build.yml`](.github/workflows/formula-build.yml) before it can merge.
 - `ci.yml` checks only what a commit can break, so its badge reflects the code. The strict online audit, which fails when an upstream download or homepage changes, lives in `upstream.yml` with its own badge.
 
 ### Ruby and tooling
