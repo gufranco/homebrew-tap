@@ -32,6 +32,7 @@ gufranco/tap/jimaku
 gufranco/tap/kakikomi
 gufranco/tap/kiyome
 gufranco/tap/maeyomi
+gufranco/tap/marsdev
 gufranco/tap/maxcso
 gufranco/tap/shiwake
 gufranco/tap/torrentzip
@@ -102,6 +103,7 @@ The command-line tools that share one interface, described in each tool's `FAMIL
 | [maxcso](https://github.com/unknownbrackets/maxcso) | Compresses PSP and PS2 disc images to CSO, ZSO or DAX, multithreaded |
 | [torrentzip](https://github.com/0-wiz-0/trrntzip) | Rezips archives into the canonical, reproducible TorrentZip form; the command is `trrntzip` |
 | [aseprite](https://www.aseprite.org/) | Builds the Aseprite sprite editor from its published source and the matching prebuilt Skia, which you are licensed to do for personal use; the build takes a while |
+| [marsdev](https://github.com/andwn/marsdev) | Builds the Marsdev toolchain for Sega Mega Drive homebrew, GCC for the 68000 with SGDK; `source $(brew --prefix marsdev)/libexec/mars/mars.sh` sets `MARSDEV` and `GDK`; the build takes a while |
 
 ### Apps
 
@@ -125,7 +127,7 @@ If macOS blocks an app on first launch, remove the quarantine flag with `xattr -
 ## How it stays current
 
 - **A release of one of my tools.** The tool's repository sends a `formula-bump` dispatch with the new tag. The tap downloads that tag's archive, checks that the version inside matches the tag, rewrites the formula's `url` and `sha256`, builds the formula from source, runs its test block, and only then commits to `main`. A dispatch for a tag older than the formula's current one changes nothing.
-- **Third-party apps.** Three times a day, a job compares each cask, `aseprite`, `maxcso` and `torrentzip` with upstream and opens a pull request when a newer version is out. A pull request that changes a formula builds it from source and runs its test block. Once every check on the pull request passes, it merges itself.
+- **Third-party apps.** Three times a day, a job compares each cask, `aseprite`, `marsdev`, `maxcso` and `torrentzip` with upstream and opens a pull request when a newer version is out. A pull request that changes a formula builds it from source and runs its test block. Once every check on the pull request passes, it merges itself.
 - **The tap itself.** CI runs on every push: the tests on Ubuntu and macOS, the workflow lint, and Homebrew's style rules. A separate upstream check runs Homebrew's strict online audit of every formula and cask three times a day and on every change to them, so a download that disappears or changes shows up within hours on its own badge, without turning the CI badge red. Dependabot checks the GitHub Actions and the gems three times a day, and its pull requests merge the same way.
 
 <a id="development"></a>

@@ -32,6 +32,7 @@ gufranco/tap/jimaku
 gufranco/tap/kakikomi
 gufranco/tap/kiyome
 gufranco/tap/maeyomi
+gufranco/tap/marsdev
 gufranco/tap/maxcso
 gufranco/tap/shiwake
 gufranco/tap/torrentzip
@@ -102,6 +103,7 @@ kakikomi doctor
 | [maxcso](https://github.com/unknownbrackets/maxcso) | 以多线程将 PSP 和 PS2 光盘镜像压缩为 CSO、ZSO 或 DAX |
 | [torrentzip](https://github.com/0-wiz-0/trrntzip) | 将压缩包重新打包为规范、可复现的 TorrentZip 格式；命令名为 `trrntzip` |
 | [aseprite](https://www.aseprite.org/) | 用官方公开的源代码和对应的预编译 Skia 构建 Aseprite 精灵编辑器，个人使用获准这样构建；构建需要一段时间 |
+| [marsdev](https://github.com/andwn/marsdev) | 构建用于世嘉 Mega Drive 自制软件的 Marsdev 工具链，即面向 68000 的 GCC 和 SGDK；`source $(brew --prefix marsdev)/libexec/mars/mars.sh` 会设置 `MARSDEV` 和 `GDK`；构建需要一段时间 |
 
 ### 应用
 
@@ -125,7 +127,7 @@ kakikomi doctor
 ## 如何保持最新
 
 - **我的工具发布新版本。** 工具的仓库带着新标签发送 `formula-bump` dispatch。tap 下载该标签的压缩包，确认其中的版本与标签一致，改写 formula 的 `url` 和 `sha256`，从源代码构建并运行测试，之后才提交到 `main`。比 formula 当前标签更旧的 dispatch 不会改变任何东西。
-- **第三方应用。** 每天三次，任务会把每个 cask、`aseprite`、`maxcso` 和 `torrentzip` 与上游对比，有新版本时开一个拉取请求。修改 formula 的拉取请求会从源代码构建该 formula 并运行它的测试。拉取请求的所有检查都通过后，它会自动合并。
+- **第三方应用。** 每天三次，任务会把每个 cask、`aseprite`、`marsdev`、`maxcso` 和 `torrentzip` 与上游对比，有新版本时开一个拉取请求。修改 formula 的拉取请求会从源代码构建该 formula 并运行它的测试。拉取请求的所有检查都通过后，它会自动合并。
 - **tap 本身。** CI 在每次推送时运行：在 Ubuntu 和 macOS 上运行测试、检查工作流，并运行 Homebrew 的 style 检查。另一个 upstream 检查每天三次、并在每次修改 formula 或 cask 时，对每个 formula 和 cask 运行 Homebrew 的严格在线审计，因此下载文件消失或变化会在几小时内显示在它自己的徽章上，而不会让 CI 徽章变红。Dependabot 每天三次检查 GitHub Actions 和 gem，它的拉取请求也以同样方式自动合并。
 
 <a id="development"></a>

@@ -11,7 +11,7 @@ The tap ships the kodougu tools but is not a member of that family: it also carr
 | [`Formula/`](Formula) | One formula per tool, each starting with `# frozen_string_literal: true` |
 | [`Casks/`](Casks) | The third-party apps homebrew-cask dropped |
 | [`lib/homebrew_tap/`](lib/homebrew_tap) | The Ruby code behind the automation: one class per file, under the `HomebrewTap` module |
-| [`tests/`](tests) | The Minitest suite: one `*_test.rb` per class, `repository_test.rb` for the rules below, and the fixtures in [`tests/support/`](tests/support) |
+| [`tests/`](tests) | The Minitest suite: one `*_test.rb` per class, `repository_test.rb` for the rules below, the fixtures in [`tests/support/`](tests/support), and in [`tests/formula/`](tests/formula) the pins a formula must keep in step with the project it packages |
 | [`Rakefile`](Rakefile) | Every command a person or CI runs |
 | [`.github/workflows/`](.github/workflows) | CI, the scheduled upstream audit, the formula bump, the cask checks, the formula build and the bot merge |
 
@@ -43,7 +43,7 @@ The tap ships the kodougu tools but is not a member of that family: it also carr
 ### Adding or changing a formula or cask
 
 - It appears in the table of all four READMEs *(tested)*, and the file starts with `# frozen_string_literal: true` *(tested)*.
-- It has an automatic update path *(tested)*. A formula whose `homepage` is `https://github.com/gufranco/<name>` is bumped by that tool's release dispatch. Any other formula is named in the bump step of [`update-casks.yml`](.github/workflows/update-casks.yml). Every cask is covered by `brew bump --cask --tap`.
+- It has an automatic update path *(tested)*. A formula whose `homepage` is `https://github.com/gufranco/<name>` is bumped by that tool's release dispatch. Any other formula is named in a bump step of [`update-casks.yml`](.github/workflows/update-casks.yml); marsdev has a step of its own because its download is a pinned commit: a new release tag fails that step, which is the signal to move its URL and resources by hand. Every cask is covered by `brew bump --cask --tap`.
 - A cask or formula whose binary is Intel only declares `requires_rosetta` in its `caveats`, and the README row says it runs under Rosetta 2. Check every binary with `lipo -archs`: a local brew older than CI's may pass an audit that CI fails.
 
 ### Workflows and schedules
