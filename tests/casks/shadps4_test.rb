@@ -22,10 +22,10 @@ class Shadps4Test < Minitest::Test
     text = File.read(CASK)
 
     # Act
-    requirement = text[Regexp.new('depends_on macos: "([^"]+)"'), 1]
+    requirement = text[/depends_on macos: :(\w+)/, 1]
 
     # Assert
-    assert_equal ">= :tahoe", requirement
+    assert_equal "tahoe", requirement
     assert_includes text, "    requires_rosetta\n"
     assert_includes text, %Q(  binary "shadps4"\n)
   end

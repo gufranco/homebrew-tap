@@ -12,7 +12,7 @@ cask "vita3k" do
   desc "PlayStation Vita emulator"
   homepage "https://vita3k.org/"
 
-  depends_on macos: ">= :ventura"
+  depends_on macos: :ventura
 
   app "Vita3K.app"
 end

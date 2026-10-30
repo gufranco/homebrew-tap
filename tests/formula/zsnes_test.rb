@@ -25,8 +25,8 @@ class ZsnesTest < Minitest::Test
     test_block = text[/^  test do\n(.*?)^  end\n/m, 1]
 
     # Assert
-    assert_includes test_block, %Q(ENV["ZSNES_SELFTEST"] = "1")
-    assert_includes test_block, %Q(ENV["SDL_VIDEODRIVER"] = "dummy")
+    assert_includes test_block, 'ENV["ZSNES_SELFTEST"] = "1"'
+    assert_includes test_block, 'ENV["SDL_VIDEODRIVER"] = "dummy"'
     assert_includes test_block, "SELFTEST: PASS"
   end
 end

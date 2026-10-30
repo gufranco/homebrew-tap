@@ -9,7 +9,7 @@ cask "mesen" do
 
   url "https://github.com/nesdev-org/MesenCE/releases/download/#{version}/Mesen_#{version}_macOS_#{arch}.zip"
   name "Mesen"
-  desc "Multi-system emulator for NES, SNES, Game Boy, GBA, PC Engine, SMS and WonderSwan"
+  desc "Emulator for NES, SNES, Game Boy, GBA, PC Engine, SMS and WonderSwan"
   homepage "https://github.com/nesdev-org/MesenCE"
 
   livecheck do
@@ -17,10 +17,9 @@ cask "mesen" do
     strategy :github_latest
   end
 
-  container nested: "Mesen.app.zip"
-
   depends_on formula: "sdl2-compat"
-  depends_on macos: ">= :sequoia"
+  depends_on macos: :sequoia
+  container nested: "Mesen.app.zip"
 
   app "Mesen.app"
 end

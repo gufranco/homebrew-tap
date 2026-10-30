@@ -24,7 +24,7 @@ class Rpcs3Test < Minitest::Test
     urls = File.read(CASK).scan(Regexp.new('^    url "([^"]+/releases/download/[^"]+)"')).flatten
 
     # Act
-    repositories = REPOSITORIES.select { |repository| urls.any? { |url| url.include?(repository + "releases") } }
+    repositories = REPOSITORIES.select { |repository| urls.any? { |url| url.include?("#{repository}releases") } }
 
     # Assert
     assert_equal 2, urls.size
@@ -37,9 +37,9 @@ class Rpcs3Test < Minitest::Test
     text = File.read(CASK)
 
     # Act
-    requirement = text[Regexp.new('depends_on macos: "([^"]+)"'), 1]
+    requirement = text[/depends_on macos: :(\w+)/, 1]
 
     # Assert
-    assert_equal ">= :sequoia", requirement
+    assert_equal "sequoia", requirement
   end
 end
