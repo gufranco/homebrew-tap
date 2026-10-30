@@ -1,5 +1,14 @@
 # frozen_string_literal: true
 
 SimpleCov.configure do
-  merge_timeout 3600
+  cover "lib/**/*.rb"
+  merging false
+  coverage(:line) do
+    minimum 100
+    minimum 100, per: :file
+  end
+  coverage(:branch) do
+    minimum 100
+    minimum 100, per: :file
+  end
 end

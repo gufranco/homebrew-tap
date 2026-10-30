@@ -1,21 +1,27 @@
+---
 name: ci
 
 on:
   push:
     branches: [main]
   pull_request:
+    branches: [main]
+  schedule:
+    - cron: "23 5,13,21 * * *"
+  workflow_dispatch:
 
 permissions:
   contents: read
 
 concurrency:
-  group: ci-${{ github.ref }}
+  group: ci-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  tap-syntax:
-    name: style and audit
-    runs-on: macos-15
+  lint:
+    name: lint workflows and YAML
+    runs-on: ubuntu-26.04
+    timeout-minutes: 10
     steps:
       - uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43  # v2.22.3
         with:
@@ -23,7 +29,52 @@ jobs:
       - uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
+      - uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f  # v1.335.0
+        with:
+          bundler-cache: true
+      - name: Install actionlint
+        run: |
+          set -euo pipefail
+          curl -fsSL -o actionlint.tar.gz \
+            https://github.com/rhysd/actionlint/releases/download/v1.7.12/actionlint_1.7.12_linux_amd64.tar.gz
+          echo "8aca8db96f1b94770f1b0d72b6dddcb1ebb8123cb3712530b08cc387b349a3d8  actionlint.tar.gz" | sha256sum -c -
+          tar -xzf actionlint.tar.gz actionlint
+          sudo install -m 755 actionlint /usr/local/bin/actionlint
+          rm -f actionlint actionlint.tar.gz
+      - name: Install yamllint
+        run: pipx install yamllint==1.38.0
+      - name: actionlint and yamllint at zero findings
+        run: bundle exec rake lint
 
+  test:
+    name: test (${{ matrix.runner }})
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        runner: [ubuntu-26.04, macos-26]
+    steps:
+      - uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43  # v2.22.3
+        with:
+          egress-policy: audit
+      - uses: actions/checkout@v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f  # v1.335.0
+        with:
+          bundler-cache: true
+      - name: Minitest with a 100% line and branch coverage gate
+        run: bundle exec rake test
+
+  tap:
+    name: style and audit the tap
+    runs-on: macos-26
+    timeout-minutes: 30
+    steps:
+      - uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43  # v2.22.3
+        with:
+          egress-policy: audit
       - name: Remove the runner's azure-cli formula before it moves to a cask
         env:
           HOMEBREW_NO_AUTO_UPDATE: "1"
@@ -32,35 +83,11 @@ jobs:
           if brew list --formula azure-cli >/dev/null 2>&1; then
             brew uninstall --formula --ignore-dependencies azure-cli
           fi
-
       - uses: Homebrew/actions/setup-homebrew@0fdc2c96a16d9f945f7e1577784302fd27a549a9
-
-      - name: Style and audit the tap
-        run: brew test-bot --only-tap-syntax --tap="gufranco/tap"
-
-  scripts:
-    name: script tests and coverage
-    runs-on: ubuntu-26.04
-    timeout-minutes: 15
-    steps:
-      - uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43  # v2.22.3
-        with:
-          egress-policy: audit
-      - uses: actions/checkout@v7.0.1
-        with:
-          persist-credentials: false
-
+      - name: Homebrew's own tap checks
+        run: brew test-bot --only-tap-syntax --tap=gufranco/tap
       - uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f  # v1.335.0
         with:
           bundler-cache: true
-
-      - name: Install bats and shellcheck
-        run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq bats shellcheck
-
-      - name: ShellCheck
-        run: shellcheck scripts/*.sh test/*.bats
-
-      - name: Tests with a 100% line coverage gate
-        run: bash scripts/coverage.sh 100
+      - name: Style, then audit every formula and cask online with the strict rules
+        run: bundle exec rake style audit

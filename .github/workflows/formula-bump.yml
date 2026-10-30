@@ -1,3 +1,4 @@
+---
 name: formula-bump
 
 on:
@@ -23,8 +24,12 @@ concurrency:
 
 jobs:
   bump:
-    name: point the formula at the new tag on main
-    runs-on: ubuntu-26.04
+    name: build, test and publish the formula on main
+    runs-on: macos-26
+    timeout-minutes: 45
+    env:
+      NAME: ${{ github.event.client_payload.name || inputs.name }}
+      TAG: ${{ github.event.client_payload.tag || inputs.tag }}
     steps:
       - uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43  # v2.22.3
         with:
@@ -34,47 +39,15 @@ jobs:
         with:
           client-id: ${{ secrets.TAP_APP_ID }}
           private-key: ${{ secrets.TAP_APP_PRIVATE_KEY }}
-
-      - uses: actions/checkout@v7.0.1
+      - uses: Homebrew/actions/setup-homebrew@0fdc2c96a16d9f945f7e1577784302fd27a549a9
         with:
           token: ${{ steps.app-token.outputs.token }}
-
-      - name: Rewrite the formula for the new tag
-        id: rewrite
-        env:
-          NAME: ${{ github.event.client_payload.name || inputs.name }}
-          TAG: ${{ github.event.client_payload.tag || inputs.tag }}
-        run: |
-          set -euo pipefail
-          case "${NAME}" in
-            anypatch | fdstoolkit | maeyomi | fusho | jimaku | kakikomi | kiyome | shiwake | yakitsuke) ;;
-            *) echo "unknown formula ${NAME}" >&2; exit 1 ;;
-          esac
-          bash scripts/update-formula.sh "${NAME}" "${TAG}"
-          {
-            echo "name=${NAME}"
-            echo "tag=${TAG}"
-          } >> "${GITHUB_OUTPUT}"
-
-      - name: Commit the bump to main
-        env:
-          NAME: ${{ steps.rewrite.outputs.name }}
-          TAG: ${{ steps.rewrite.outputs.tag }}
-        run: |
-          set -euo pipefail
-          git config user.name "gufranco-tap-bot[bot]"
-          git config user.email "346559818+gufranco-tap-bot[bot]@users.noreply.github.com"
-          git add "Formula/${NAME}.rb"
-          if git diff --cached --quiet; then
-            echo "Formula/${NAME}.rb already points at ${TAG}"
-            exit 0
-          fi
-          git commit -m "chore(formula): point ${NAME} at ${TAG}"
-          for attempt in 1 2 3; do
-            if git push origin HEAD:main; then
-              exit 0
-            fi
-            echo "push attempt ${attempt} lost a race, rebasing"
-            git pull --rebase origin main
-          done
-          exit 1
+      - uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f  # v1.335.0
+        with:
+          bundler-cache: true
+      - name: Point the formula at the new tag
+        run: bundle exec rake formula:bump
+      - name: Build it from source and run its test block
+        run: bundle exec rake formula:verify
+      - name: Commit and push it to main
+        run: bundle exec rake formula:publish

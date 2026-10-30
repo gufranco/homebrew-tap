@@ -1,9 +1,11 @@
+---
 name: aseprite-build
 
 on:
   pull_request:
     paths:
       - Formula/aseprite.rb
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -15,22 +17,19 @@ concurrency:
 jobs:
   build:
     name: compile aseprite from source
-    runs-on: macos-15
+    runs-on: macos-26
+    timeout-minutes: 90
+    env:
+      NAME: aseprite
     steps:
       - uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43  # v2.22.3
         with:
           egress-policy: audit
-      - uses: actions/checkout@v7.0.1
-        with:
-          persist-credentials: false
-
       - uses: Homebrew/actions/setup-homebrew@0fdc2c96a16d9f945f7e1577784302fd27a549a9
-
+      - uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f  # v1.335.0
+        with:
+          bundler-cache: true
       - name: Build aseprite from source to prove the Skia pin still matches
-        env:
-          HOMEBREW_NO_AUTO_UPDATE: "1"
-        run: |
-          set -euo pipefail
-          brew tap gufranco/tap "${GITHUB_WORKSPACE}"
-          brew install --build-from-source --formula gufranco/tap/aseprite
-          test -x "$(brew --prefix)/opt/aseprite/Aseprite.app/Contents/MacOS/aseprite"
+        run: bundle exec rake formula:verify
+      - name: Check the app bundle holds the editor binary
+        run: test -x "$(brew --prefix)/opt/aseprite/Aseprite.app/Contents/MacOS/aseprite"
