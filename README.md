@@ -137,7 +137,7 @@ homebrew-cask only accepts apps that pass Gatekeeper, and the macOS builds of th
 | [mesen](https://github.com/nesdev-org/MesenCE) | NES, SNES, Game Boy, Game Boy Advance, PC Engine, Master System, Game Gear and WonderSwan; needs macOS 15 and installs SDL2 |
 | [rpcs3](https://rpcs3.net/) | PlayStation 3; needs macOS 15 |
 | [shadps4](https://shadps4.net/) | PlayStation 4; the command is `shadps4`, needs macOS 26 and runs under Rosetta 2 |
-| [vita3k](https://vita3k.org/) | PlayStation Vita; follows the upstream rolling build, so `brew upgrade --greedy` updates it |
+| [vita3k](https://vita3k.org/) | PlayStation Vita |
 
 If macOS blocks an app on first launch, remove the quarantine flag with `xattr -dr com.apple.quarantine /Applications/<App>.app`, or install it with `--no-quarantine`.
 
@@ -146,7 +146,7 @@ If macOS blocks an app on first launch, remove the quarantine flag with `xattr -
 ## How it stays current
 
 - **A release of one of my tools.** The tool's repository sends a `formula-bump` dispatch with the new tag. The tap downloads that tag's archive, checks that the version inside matches the tag, rewrites the formula's `url` and `sha256`, builds the formula from source, runs its test block, and only then commits to `main`. A dispatch for a tag older than the formula's current one changes nothing.
-- **Third-party apps.** Three times a day, a job compares every cask but `vita3k`, plus `aseprite`, `marsdev`, `maxcso`, `torrentzip` and `zsnes`, with upstream and opens a pull request when a newer version is out. A pull request that changes a formula builds it from source and runs its test block. Once every check on the pull request passes, it merges itself. `vita3k` always downloads the newest upstream build, so it has no version to compare.
+- **Third-party apps.** Three times a day, a job compares each cask, `aseprite`, `marsdev`, `maxcso`, `torrentzip` and `zsnes` with upstream and opens a pull request when a newer version is out. A pull request that changes a formula builds it from source and runs its test block. Once every check on the pull request passes, it merges itself.
 - **The tap itself.** CI runs on every push: the tests on Ubuntu and macOS, the workflow lint, and Homebrew's style rules. A separate upstream check runs Homebrew's strict online audit of every formula and cask three times a day and on every change to them, so a download that disappears or changes shows up within hours on its own badge, without turning the CI badge red. Dependabot checks the GitHub Actions and the gems three times a day, and its pull requests merge the same way.
 
 <a id="development"></a>

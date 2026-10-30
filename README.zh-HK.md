@@ -137,7 +137,7 @@ homebrew-cask 只接受能通過 Gatekeeper 的應用程式，而這些模擬器
 | [mesen](https://github.com/nesdev-org/MesenCE) | FC、超級任天堂、Game Boy、Game Boy Advance、PC Engine、Master System、Game Gear 及 WonderSwan；需要 macOS 15，並會安裝 SDL2 |
 | [rpcs3](https://rpcs3.net/) | PlayStation 3；需要 macOS 15 |
 | [shadps4](https://shadps4.net/) | PlayStation 4；指令名稱是 `shadps4`，需要 macOS 26，經 Rosetta 2 執行 |
-| [vita3k](https://vita3k.org/) | PlayStation Vita；跟隨上游的滾動建置，用 `brew upgrade --greedy` 更新 |
+| [vita3k](https://vita3k.org/) | PlayStation Vita |
 
 如果 macOS 在首次啟動時封鎖某個應用程式，可以用 `xattr -dr com.apple.quarantine /Applications/<App>.app` 移除隔離標記，或在安裝時加上 `--no-quarantine`。
 
@@ -146,7 +146,7 @@ homebrew-cask 只接受能通過 Gatekeeper 的應用程式，而這些模擬器
 ## 如何保持最新
 
 - **我的工具發佈新版本。** 工具的儲存庫附上新標籤傳送 `formula-bump` dispatch。tap 下載該標籤的壓縮檔，確認其中的版本與標籤一致，改寫 formula 的 `url` 和 `sha256`，從原始碼建置並執行測試，之後才提交到 `main`。比 formula 現有標籤更舊的 dispatch 不會改變任何內容。
-- **第三方應用程式。** 每日三次，工作會把 `vita3k` 以外的每個 cask，以及 `aseprite`、`marsdev`、`maxcso`、`torrentzip` 及 `zsnes` 與上游比較，有新版本時開啟一個合併請求。修改 formula 的合併請求會從原始碼建置該 formula 並執行它的測試。合併請求的所有檢查都通過後，會自動合併。`vita3k` 總是下載上游最新的建置，所以沒有可比較的版本。
+- **第三方應用程式。** 每日三次，工作會把每個 cask、`aseprite`、`marsdev`、`maxcso`、`torrentzip` 及 `zsnes` 與上游比較，有新版本時開啟一個合併請求。修改 formula 的合併請求會從原始碼建置該 formula 並執行它的測試。合併請求的所有檢查都通過後，會自動合併。
 - **tap 本身。** CI 在每次推送時執行：在 Ubuntu 和 macOS 上執行測試、檢查工作流程，並執行 Homebrew 的 style 檢查。另一個 upstream 檢查每日三次、並在每次修改 formula 或 cask 時，對每個 formula 和 cask 執行 Homebrew 的嚴格線上審核，所以下載檔案消失或改變會在數小時內顯示在它自己的徽章上，而不會令 CI 徽章變紅。Dependabot 每日三次檢查 GitHub Actions 和 gem，它的合併請求亦會以同樣方式自動合併。
 
 <a id="development"></a>

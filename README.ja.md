@@ -137,7 +137,7 @@ homebrew-cask は Gatekeeper を通るアプリしか受け付けず、これら
 | [mesen](https://github.com/nesdev-org/MesenCE) | ファミコン、スーパーファミコン、ゲームボーイ、ゲームボーイアドバンス、PC エンジン、マスターシステム、ゲームギア、ワンダースワン。macOS 15 が必要で、SDL2 もインストールします |
 | [rpcs3](https://rpcs3.net/) | PlayStation 3。macOS 15 が必要です |
 | [shadps4](https://shadps4.net/) | PlayStation 4。コマンド名は `shadps4` で、macOS 26 が必要です。Rosetta 2 で動作します |
-| [vita3k](https://vita3k.org/) | PlayStation Vita。上流の継続ビルドを追うため、`brew upgrade --greedy` で更新します |
+| [vita3k](https://vita3k.org/) | PlayStation Vita |
 
 初回起動時に macOS がアプリをブロックした場合は、`xattr -dr com.apple.quarantine /Applications/<App>.app` で隔離フラグを外すか、`--no-quarantine` を付けてインストールしてください。
 
@@ -146,7 +146,7 @@ homebrew-cask は Gatekeeper を通るアプリしか受け付けず、これら
 ## 最新に保つ仕組み
 
 - **私のツールのリリース。** ツールのリポジトリが新しいタグを付けて `formula-bump` の dispatch を送ります。tap はそのタグのアーカイブをダウンロードし、中のバージョンがタグと一致することを確かめ、formula の `url` と `sha256` を書き換え、ソースからビルドしてテストを実行し、そのあとで初めて `main` にコミットします。現在のタグより古いタグの dispatch では何も変わりません。
-- **サードパーティのアプリ。** 1 日 3 回、`vita3k` を除く各 cask と `aseprite`、`marsdev`、`maxcso`、`torrentzip`、`zsnes` を上流と比較し、新しいバージョンがあればプルリクエストを開きます。formula を変更するプルリクエストでは、その formula をソースからビルドしてテストを実行します。プルリクエストのチェックがすべて通ると、自動でマージされます。`vita3k` は常に上流の最新ビルドをダウンロードするため、比較するバージョンがありません。
+- **サードパーティのアプリ。** 1 日 3 回、各 cask、`aseprite`、`marsdev`、`maxcso`、`torrentzip`、`zsnes` を上流と比較し、新しいバージョンがあればプルリクエストを開きます。formula を変更するプルリクエストでは、その formula をソースからビルドしてテストを実行します。プルリクエストのチェックがすべて通ると、自動でマージされます。
 - **tap 自体。** CI はプッシュのたびに実行されます。Ubuntu と macOS でのテスト、ワークフローの lint、そして Homebrew の style チェックです。これとは別の upstream チェックが、1 日 3 回と formula や cask を変更するたびに、すべての formula と cask に対して Homebrew の厳格なオンライン監査を実行します。ダウンロードが消えたり変わったりしても数時間以内に専用のバッジに表示され、CI のバッジは赤くなりません。Dependabot は GitHub Actions と gem を 1 日 3 回確認し、そのプルリクエストも同じようにマージされます。
 
 <a id="development"></a>

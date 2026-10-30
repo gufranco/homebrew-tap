@@ -42,9 +42,9 @@ The tap ships the kodougu tools but is not a member of that family: it also carr
 
 ### Adding or changing a formula or cask
 
-- A cask declares no `container nested:` and no `url ... verified:` *(tested)*. Homebrew unwraps an archive whose only member is another archive by itself, and the online audit crashes on the inner path; `verified:` is deprecated.
+- A cask declares no `container nested:`, no `url ... verified:`, no `version :latest` and no `sha256 :no_check` *(tested)*. Homebrew unwraps an archive whose only member is another archive by itself, and the online audit crashes on the inner path; `verified:` is deprecated.
 - It appears in the table of all four READMEs *(tested)*, and the file starts with `# frozen_string_literal: true` *(tested)*.
-- It has an automatic update path *(tested)*. A formula whose `homepage` is `https://github.com/gufranco/<name>` is bumped by that tool's release dispatch. Any other formula is named in a bump step of [`update-casks.yml`](.github/workflows/update-casks.yml); marsdev has a step of its own because its download is a pinned commit: a new release tag fails that step, which is the signal to move its URL and resources by hand. Every cask is covered by `brew bump --cask --tap`, except one whose upstream publishes only a rolling build, such as vita3k: it declares `version :latest` and `sha256 :no_check`, and `brew upgrade --greedy` updates it.
+- It has an automatic update path *(tested)*. A formula whose `homepage` is `https://github.com/gufranco/<name>` is bumped by that tool's release dispatch. Any other formula is named in a bump step of [`update-casks.yml`](.github/workflows/update-casks.yml); marsdev has a step of its own because its download is a pinned commit: a new release tag fails that step, which is the signal to move its URL and resources by hand. Every cask is covered by `brew bump --cask --tap`, so it pins a version and a `sha256`: when the upstream project publishes only a rolling download, find the numbered builds behind it, as vita3k does with Vita3K-builds.
 - A cask or formula whose binary is Intel only declares `requires_rosetta` in its `caveats`, and the README row says it runs under Rosetta 2. Check every binary with `lipo -archs`: a local brew older than CI's may pass an audit that CI fails.
 
 ### Workflows and schedules

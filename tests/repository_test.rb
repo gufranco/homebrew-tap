@@ -10,6 +10,7 @@ class RepositoryTest < Minitest::Test
   HARDEN_RUNNER = "step-security/harden-runner@"
   FROZEN = "# frozen_string_literal: true\n"
   WORKFLOW_TRIGGERS = true
+  FORBIDDEN_CASK_STANZA = /^\s*(?:container nested:|verified:|version :latest|sha256 :no_check)/
 
   def test_every_formula_and_cask_is_listed_in_every_readme
     # Arrange
@@ -68,12 +69,12 @@ class RepositoryTest < Minitest::Test
     assert_equal [], unwatched
   end
 
-  def test_no_cask_declares_a_nested_container_or_a_verified_url
+  def test_no_cask_declares_a_nested_container_a_verified_url_or_an_unpinned_download
     # Arrange
     files = Dir[File.join(ROOT, "Casks", "*.rb")]
 
     # Act
-    offending = files.select { |file| File.read(file).match?(/^\s*(?:container nested|verified):/) }
+    offending = files.select { |file| File.read(file).match?(FORBIDDEN_CASK_STANZA) }
 
     # Assert
     refute_empty files
