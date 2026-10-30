@@ -38,7 +38,7 @@ class OpencorePatcherBetaTest < Minitest::Test
 
     # Assert
     assert_includes livecheck, "strategy :github_releases do |json, regex|"
-    assert_includes livecheck, %Q(next if release["draft"])
+    assert_includes livecheck, 'next if release["draft"]'
     refute_includes livecheck, "prerelease"
   end
 
@@ -51,6 +51,6 @@ class OpencorePatcherBetaTest < Minitest::Test
 
     # Assert
     assert_equal "opencore-patcher", conflict
-    assert_includes text, %Q(pkgutil:   "com.dortania.opencore-legacy-patcher")
+    assert_includes text, 'pkgutil:   "com.dortania.opencore-legacy-patcher"'
   end
 end

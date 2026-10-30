@@ -23,6 +23,7 @@ cask "opencore-patcher@beta" do
 
   auto_updates true
   conflicts_with cask: "opencore-patcher"
+  depends_on :macos
 
   pkg "OpenCore-Patcher.pkg"
 
