@@ -1,0 +1,48 @@
+---
+name: upstream
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - Formula/**
+      - Casks/**
+  pull_request:
+    branches: [main]
+    paths:
+      - Formula/**
+      - Casks/**
+  schedule:
+    - cron: "23 5,13,21 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: upstream-${{ github.event_name }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  audit:
+    name: audit every formula and cask online
+    runs-on: macos-26
+    timeout-minutes: 30
+    steps:
+      - uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43  # v2.22.3
+        with:
+          egress-policy: audit
+      - name: Remove the runner's azure-cli formula before it moves to a cask
+        env:
+          HOMEBREW_NO_AUTO_UPDATE: "1"
+          HOMEBREW_NO_INSTALL_CLEANUP: "1"
+        run: |
+          if brew list --formula azure-cli >/dev/null 2>&1; then
+            brew uninstall --formula --ignore-dependencies azure-cli
+          fi
+      - uses: Homebrew/actions/setup-homebrew@0fdc2c96a16d9f945f7e1577784302fd27a549a9
+      - uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f  # v1.335.0
+        with:
+          bundler-cache: true
+      - name: Strict online audit of every download, checksum and homepage
+        run: bundle exec rake audit

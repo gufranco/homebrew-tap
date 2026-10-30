@@ -13,7 +13,7 @@ The tap ships the kodougu tools but is not a member of that family: it also carr
 | [`lib/homebrew_tap/`](lib/homebrew_tap) | The Ruby code behind the automation: one class per file, under the `HomebrewTap` module |
 | [`tests/`](tests) | The Minitest suite, one `*_test.rb` per class, and the fixtures in [`tests/support/`](tests/support) |
 | [`Rakefile`](Rakefile) | Every command a person or CI runs |
-| [`.github/workflows/`](.github/workflows) | CI, the formula bump, the cask checks, the aseprite build and the Dependabot merge |
+| [`.github/workflows/`](.github/workflows) | CI, the scheduled upstream audit, the formula bump, the cask checks, the aseprite build and the Dependabot merge |
 
 ## Commands
 
@@ -38,6 +38,7 @@ The tap ships the kodougu tools but is not a member of that family: it also carr
 - Every write path has a test for ten identical calls in parallel and for the same call twice, each leaving exactly one commit.
 - A new formula or cask goes into every README in the same commit. The four READMEs, English, Japanese, Simplified Chinese and Hong Kong Traditional Chinese, keep the same sections in the same order.
 - A formula is rewritten through a temporary file renamed into place, so a reader never sees it half written.
+- `ci.yml` checks only what a commit can break, so its badge reflects the code. The strict online audit, which fails when an upstream download or homepage changes, lives in `upstream.yml` with its own badge.
 - Conventional commits, pushed straight to `main`. Pull requests come only from the cask checks, Dependabot and Renovate; a Dependabot one merges itself once CI passes.
 
 ## Formula bumps

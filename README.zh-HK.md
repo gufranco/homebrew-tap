@@ -7,6 +7,7 @@
 [English](README.md) | [日本語](README.ja.md) | [简体中文](README.zh-Hans.md) | 繁體中文 (香港)
 
 [![ci](https://img.shields.io/github/actions/workflow/status/gufranco/homebrew-tap/ci.yml?branch=main&style=flat-square&label=ci)](https://github.com/gufranco/homebrew-tap/actions/workflows/ci.yml)
+[![upstream](https://img.shields.io/github/actions/workflow/status/gufranco/homebrew-tap/upstream.yml?branch=main&style=flat-square&label=upstream)](https://github.com/gufranco/homebrew-tap/actions/workflows/upstream.yml)
 [![license](https://img.shields.io/github/license/gufranco/homebrew-tap?style=flat-square&label=license)](LICENSE)
 
 <p align="center">
@@ -124,8 +125,8 @@ kakikomi doctor
 ## 如何保持最新
 
 - **我的工具發佈新版本。** 工具的儲存庫附上新標籤傳送 `formula-bump` dispatch。tap 下載該標籤的壓縮檔，確認其中的版本與標籤一致，改寫 formula 的 `url` 和 `sha256`，從原始碼建置並執行測試，之後才提交到 `main`。比 formula 現有標籤更舊的 dispatch 不會改變任何內容。
-- **第三方應用程式。** 每日三次，工作會把每個 cask 和 `aseprite` 與上游比較，有新版本時開啟一個合併請求。修改 `aseprite` formula 的合併請求會從原始碼重新建置。
-- **tap 本身。** CI 在每次推送時及每日三次執行：在 Ubuntu 和 macOS 上執行測試、檢查工作流程，並對每個 formula 和 cask 執行 Homebrew 的 style 檢查及嚴格的線上審核，所以上游網址失效會在數小時內顯示出來。Dependabot 每日三次檢查 GitHub Actions 和 gem，CI 通過後自動合併自己的更新。
+- **第三方應用程式。** 每日三次，工作會把每個 cask、`aseprite`、`maxcso` 及 `torrentzip` 與上游比較，有新版本時開啟一個合併請求。修改 `aseprite` formula 的合併請求會從原始碼重新建置。
+- **tap 本身。** CI 在每次推送時執行：在 Ubuntu 和 macOS 上執行測試、檢查工作流程，並執行 Homebrew 的 style 檢查。另一個 upstream 檢查每日三次、並在每次修改 formula 或 cask 時，對每個 formula 和 cask 執行 Homebrew 的嚴格線上審核，所以下載檔案消失或改變會在數小時內顯示在它自己的徽章上，而不會令 CI 徽章變紅。Dependabot 每日三次檢查 GitHub Actions 和 gem，CI 通過後自動合併自己的更新。
 
 <a id="development"></a>
 

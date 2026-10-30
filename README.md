@@ -7,6 +7,7 @@
 English | [日本語](README.ja.md) | [简体中文](README.zh-Hans.md) | [繁體中文 (香港)](README.zh-HK.md)
 
 [![ci](https://img.shields.io/github/actions/workflow/status/gufranco/homebrew-tap/ci.yml?branch=main&style=flat-square&label=ci)](https://github.com/gufranco/homebrew-tap/actions/workflows/ci.yml)
+[![upstream](https://img.shields.io/github/actions/workflow/status/gufranco/homebrew-tap/upstream.yml?branch=main&style=flat-square&label=upstream)](https://github.com/gufranco/homebrew-tap/actions/workflows/upstream.yml)
 [![license](https://img.shields.io/github/license/gufranco/homebrew-tap?style=flat-square&label=license)](LICENSE)
 
 <p align="center">
@@ -124,8 +125,8 @@ If macOS blocks an app on first launch, remove the quarantine flag with `xattr -
 ## How it stays current
 
 - **A release of one of my tools.** The tool's repository sends a `formula-bump` dispatch with the new tag. The tap downloads that tag's archive, checks that the version inside matches the tag, rewrites the formula's `url` and `sha256`, builds the formula from source, runs its test block, and only then commits to `main`. A dispatch for a tag older than the formula's current one changes nothing.
-- **Third-party apps.** Three times a day, a job compares each cask and `aseprite` with upstream and opens a pull request when a newer version is out. A pull request that changes the `aseprite` formula rebuilds it from source.
-- **The tap itself.** CI runs on every push and three times a day: the tests on Ubuntu and macOS, the workflow lint, and Homebrew's style and strict online audit of every formula and cask, so an upstream URL that stops working shows up within hours. Dependabot checks the GitHub Actions and the gems three times a day and merges its own update once CI passes.
+- **Third-party apps.** Three times a day, a job compares each cask, `aseprite`, `maxcso` and `torrentzip` with upstream and opens a pull request when a newer version is out. A pull request that changes the `aseprite` formula rebuilds it from source.
+- **The tap itself.** CI runs on every push: the tests on Ubuntu and macOS, the workflow lint, and Homebrew's style rules. A separate upstream check runs Homebrew's strict online audit of every formula and cask three times a day and on every change to them, so a download that disappears or changes shows up within hours on its own badge, without turning the CI badge red. Dependabot checks the GitHub Actions and the gems three times a day and merges its own update once CI passes.
 
 <a id="development"></a>
 

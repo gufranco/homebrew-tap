@@ -7,6 +7,7 @@
 [English](README.md) | 日本語 | [简体中文](README.zh-Hans.md) | [繁體中文 (香港)](README.zh-HK.md)
 
 [![ci](https://img.shields.io/github/actions/workflow/status/gufranco/homebrew-tap/ci.yml?branch=main&style=flat-square&label=ci)](https://github.com/gufranco/homebrew-tap/actions/workflows/ci.yml)
+[![upstream](https://img.shields.io/github/actions/workflow/status/gufranco/homebrew-tap/upstream.yml?branch=main&style=flat-square&label=upstream)](https://github.com/gufranco/homebrew-tap/actions/workflows/upstream.yml)
 [![license](https://img.shields.io/github/license/gufranco/homebrew-tap?style=flat-square&label=license)](LICENSE)
 
 <p align="center">
@@ -124,8 +125,8 @@ kakikomi doctor
 ## 最新に保つ仕組み
 
 - **私のツールのリリース。** ツールのリポジトリが新しいタグを付けて `formula-bump` の dispatch を送ります。tap はそのタグのアーカイブをダウンロードし、中のバージョンがタグと一致することを確かめ、formula の `url` と `sha256` を書き換え、ソースからビルドしてテストを実行し、そのあとで初めて `main` にコミットします。現在のタグより古いタグの dispatch では何も変わりません。
-- **サードパーティのアプリ。** 1 日 3 回、各 cask と `aseprite` を上流と比較し、新しいバージョンがあればプルリクエストを開きます。`aseprite` の formula を変更するプルリクエストでは、ソースからビルドし直します。
-- **tap 自体。** CI はプッシュのたびと 1 日 3 回実行されます。Ubuntu と macOS でのテスト、ワークフローの lint、そしてすべての formula と cask に対する Homebrew の style チェックと厳格なオンライン監査です。上流の URL が使えなくなっても数時間以内に分かります。Dependabot は GitHub Actions と gem を 1 日 3 回確認し、CI が通ると自分の更新をマージします。
+- **サードパーティのアプリ。** 1 日 3 回、各 cask、`aseprite`、`maxcso`、`torrentzip` を上流と比較し、新しいバージョンがあればプルリクエストを開きます。`aseprite` の formula を変更するプルリクエストでは、ソースからビルドし直します。
+- **tap 自体。** CI はプッシュのたびに実行されます。Ubuntu と macOS でのテスト、ワークフローの lint、そして Homebrew の style チェックです。これとは別の upstream チェックが、1 日 3 回と formula や cask を変更するたびに、すべての formula と cask に対して Homebrew の厳格なオンライン監査を実行します。ダウンロードが消えたり変わったりしても数時間以内に専用のバッジに表示され、CI のバッジは赤くなりません。Dependabot は GitHub Actions と gem を 1 日 3 回確認し、CI が通ると自分の更新をマージします。
 
 <a id="development"></a>
 
