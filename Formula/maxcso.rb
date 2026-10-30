@@ -10,7 +10,8 @@ class Maxcso < Formula
 
   depends_on "libuv"
   depends_on "lz4"
-  depends_on "zlib"
+
+  uses_from_macos "zlib"
 
   def install
     system "make", "PREFIX=#{prefix}", "install"

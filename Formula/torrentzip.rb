@@ -9,7 +9,8 @@ class Torrentzip < Formula
   head "https://github.com/0-wiz-0/trrntzip.git", branch: "main"
 
   depends_on "cmake" => :build
-  depends_on "zlib"
+
+  uses_from_macos "zlib"
 
   def install
     system "cmake", "-S", ".", "-B", "build", *std_cmake_args
