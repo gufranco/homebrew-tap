@@ -7,7 +7,7 @@ module HomebrewTap
   class PullRequestMerge
     BOTS = ["app/dependabot", "app/gufranco-tap-bot"].freeze
     PASSED = ["SUCCESS", "NEUTRAL", "SKIPPED"].freeze
-    FIELDS = "number,title,author,headRefOid,statusCheckRollup"
+    FIELDS = "number,title,author,headRefOid,statusCheckRollup,isCrossRepository"
     REPO = %r{\A[\w.-]+/[\w.-]+\z}
     SHA = /\A[0-9a-f]{40}\z/
     CONVENTIONAL = /\A[a-z]+(\([^)]+\))?!?: /
@@ -42,7 +42,7 @@ module HomebrewTap
 
     def open_pull(branch)
       listed = @github.run("pr", "list", "--repo", @repo, "--head", branch, "--state", "open", "--json", FIELDS)
-      JSON.parse(listed).first
+      JSON.parse(listed).find { |pull| pull["isCrossRepository"] == false }
     end
 
     def hold_reason(pull, head_sha)

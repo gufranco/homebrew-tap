@@ -109,6 +109,31 @@ class PullRequestMergeTest < Minitest::Test
     assert_equal "pull request 1 moved past #{checked}\n", @out.string
   end
 
+  def test_merges_the_bot_pull_request_when_a_fork_reuses_its_branch_name
+    # Arrange
+    fork = @github.open_pull(checks: [@github.check_run("ci")], author: Faker::Internet.username(separators: ["-"]),
+                             "isCrossRepository" => true)
+    bot = @github.open_pull(checks: [@github.check_run("ci")], "headRefName" => fork["headRefName"])
+
+    # Act
+    merger.merge(branch: bot["headRefName"], head_sha: bot["headRefOid"])
+
+    # Assert
+    assert_equal [bot["number"]], @github.merges.map { |merge| merge["number"] }
+  end
+
+  def test_ignores_a_fork_pull_request_on_a_branch_name_the_bot_uses
+    # Arrange
+    fork = @github.open_pull(checks: [@github.check_run("ci")], "isCrossRepository" => true)
+
+    # Act
+    merger.merge(branch: fork["headRefName"], head_sha: fork["headRefOid"])
+
+    # Assert
+    assert_equal [], @github.merges
+    assert_equal "no open pull request for #{fork["headRefName"]}\n", @out.string
+  end
+
   def test_reports_a_branch_with_no_open_pull_request
     # Arrange
     branch = "bump-#{Faker::Internet.slug(glue: "-")}"

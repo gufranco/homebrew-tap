@@ -27,7 +27,7 @@ class GitHubFixture
     pull = {
       "number" => state["pulls"].size + 1, "title" => title, "author" => { "login" => author },
       "headRefName" => "bump-#{Faker::Internet.slug(glue: "-")}", "headRefOid" => Faker::Crypto.sha1,
-      "state" => "OPEN", "statusCheckRollup" => checks
+      "state" => "OPEN", "statusCheckRollup" => checks, "isCrossRepository" => false
     }.merge(flags)
     state["pulls"] << pull
     File.write(@state, JSON.generate(state))
