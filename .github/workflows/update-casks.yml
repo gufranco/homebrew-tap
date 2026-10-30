@@ -1,13 +1,13 @@
+---
 name: update-casks
 
 on:
   schedule:
-    - cron: "17 6 * * *"
+    - cron: "17 6,14,22 * * *"
   workflow_dispatch:
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read
 
 concurrency:
   group: update-casks
@@ -16,37 +16,25 @@ concurrency:
 jobs:
   bump:
     name: open PRs for outdated casks
-    runs-on: macos-15
+    runs-on: macos-26
+    timeout-minutes: 20
     steps:
       - uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43  # v2.22.3
         with:
           egress-policy: audit
-      - uses: actions/checkout@v7.0.1
-        with:
-          persist-credentials: false
-
       - uses: Homebrew/actions/setup-homebrew@0fdc2c96a16d9f945f7e1577784302fd27a549a9
-
       - uses: actions/create-github-app-token@v3.3.0
         id: app-token
         with:
           client-id: ${{ secrets.TAP_APP_ID }}
           private-key: ${{ secrets.TAP_APP_PRIVATE_KEY }}
-
       - name: Bump each third-party cask when upstream is newer
         env:
           HOMEBREW_GITHUB_API_TOKEN: ${{ steps.app-token.outputs.token }}
-          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
           HOMEBREW_NO_AUTO_UPDATE: "1"
-        run: |
-          set -euo pipefail
-          brew bump --cask --tap gufranco/tap --open-pr --no-fork
-
+        run: brew bump --cask --tap gufranco/tap --open-pr --no-fork
       - name: Bump aseprite when a new release is out
         env:
           HOMEBREW_GITHUB_API_TOKEN: ${{ steps.app-token.outputs.token }}
-          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
           HOMEBREW_NO_AUTO_UPDATE: "1"
-        run: |
-          set -euo pipefail
-          brew bump --formula --open-pr --no-fork gufranco/tap/aseprite
+        run: brew bump --formula --open-pr --no-fork gufranco/tap/aseprite
