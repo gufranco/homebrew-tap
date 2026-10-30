@@ -15,7 +15,6 @@ cask "ldtk" do
   end
 
   depends_on :macos
-  container nested: "LDtk #{version} installer.dmg"
 
   app "LDtk.app"
 end
