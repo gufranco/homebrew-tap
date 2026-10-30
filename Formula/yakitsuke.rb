@@ -14,7 +14,7 @@ class Yakitsuke < Formula
 
   def install
     libexec.install "bin", "lib", "share"
-    bin.write_exec_script libexec/"bin/yakitsuke"
+    (bin/"yakitsuke").write_env_script libexec/"bin/yakitsuke", PATH: "#{formula_opt_bin("ffmpeg-full")}:$PATH"
     man1.install "man/yakitsuke.1"
     bash_completion.install "completions/yakitsuke.bash" => "yakitsuke"
     zsh_completion.install "completions/_yakitsuke"
