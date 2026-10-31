@@ -19,6 +19,7 @@ class Marsdev < Formula
   depends_on "libmpc"
   depends_on "mpfr"
   depends_on "openjdk"
+  depends_on "zstd"
 
   uses_from_macos "zlib"
 

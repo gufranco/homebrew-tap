@@ -38,6 +38,17 @@ class MarsdevTest < Minitest::Test
     assert_equal({}, missing)
   end
 
+  def test_declares_every_library_the_built_toolchain_links
+    # Arrange
+    text = File.read(FORMULA)
+
+    # Act
+    declared = text.scan(/^  depends_on "([^"]+)"$/).flatten
+
+    # Assert
+    assert_equal ["gmp", "isl", "libmpc", "mpfr", "openjdk", "zstd"], declared
+  end
+
   def test_keeps_the_toolchain_off_the_shared_bin_folder
     # Arrange
     text = File.read(FORMULA)
