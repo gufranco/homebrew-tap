@@ -23,6 +23,7 @@ module HomebrewTap
       require_installed_tap
       return if same_directory?
 
+      require_committed_workspace
       tap = Git.new(dir: @tap)
       raise Error, "the tap at #{@tap} has local changes. commit or stash them, then sync again." unless clean?(tap)
 
@@ -38,6 +39,13 @@ module HomebrewTap
       return if File.directory?(@tap)
 
       raise Error, "the tap is not installed at #{@tap}. run 'brew tap gufranco/tap' first."
+    end
+
+    def require_committed_workspace
+      return if clean?(Git.new(dir: @workspace))
+
+      raise Error, "#{@workspace} has uncommitted changes, and brew reads the tap at its last commit. " \
+                   "commit them, then sync again."
     end
 
     def same_directory?

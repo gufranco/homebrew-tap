@@ -108,6 +108,20 @@ class TapCheckoutTest < Minitest::Test
     assert_equal "the tap at #{tap} has local changes. commit or stash them, then sync again.", error.message
   end
 
+  def test_sync_refuses_a_checkout_with_changes_the_tap_would_miss
+    # Arrange
+    tap = @git.clone("tap")
+    File.write(File.join(@workspace, "README.md"), Faker::Lorem.paragraph)
+
+    # Act
+    error = assert_raises(HomebrewTap::Error) { checkout(tap).sync }
+
+    # Assert
+    expected = "#{@workspace} has uncommitted changes, and brew reads the tap at its last commit. " \
+               "commit them, then sync again."
+    assert_equal expected, error.message
+  end
+
   def test_sync_refuses_a_tap_clone_that_has_moved_elsewhere
     # Arrange
     tap = @git.clone("tap")

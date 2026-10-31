@@ -24,7 +24,7 @@ The tap ships the kodougu tools but is not a member of that family: it also carr
 | `bundle exec rake lint` | actionlint and yamllint at zero findings |
 | `bundle exec rake style` | `brew style gufranco/tap`, after `tap:sync` |
 | `bundle exec rake audit` | `brew audit --strict --online --tap gufranco/tap`, skipping the two livecheck version audits, after `tap:sync` |
-| `bundle exec rake tap:sync` | Fast-forwards the brew tap clone to the `HEAD` of this checkout; refuses a clone with local changes or commits of its own |
+| `bundle exec rake tap:sync` | Fast-forwards the brew tap clone to the `HEAD` of this checkout; refuses a checkout with uncommitted changes, which brew would never read, and a clone with local changes or commits of its own |
 | `bundle exec rake check` | lint, test and style |
 | `bundle exec rake hooks` | Installs a pre-commit hook running lint and test |
 | `bundle exec rake formula:bump`, `formula:verify`, `formula:publish` | The three steps of the bump workflow, read from `NAME` and `TAG` |
@@ -36,7 +36,7 @@ The tap ships the kodougu tools but is not a member of that family: it also carr
 
 ### Every change
 
-- Before every push: `rake check` passes locally, then `git fetch`, because the bump bot pushes to `main` at any time. Push once per task and follow CI until it is green with zero warnings.
+- Before every push: commit, then `rake check` passes locally, since `rake style` reads the tap at the last commit, then `git fetch`, because the bump bot pushes to `main` at any time. Push once per task and follow CI until it is green with zero warnings.
 - When a formula or cask changes, also run `rake audit`. The `upstream` workflow's audit is the authority: a local Homebrew or Xcode toolchain can disagree with the runner. On a Mac whose `lipo` exits 1 on a PowerPC slice, PikoPixel's ppc, i386 and x86_64 binary reads as needing no Rosetta, while the runner rightly requires the caveat. Confirm such a finding with `file` and `lipo -archs` before changing anything.
 - A push to `main` is safe at any moment. Never hold a push for a running workflow; when a push would be unsafe, fix the pipeline.
 - Conventional commits, pushed straight to `main`. Pull requests come only from the cask checks, Dependabot and Renovate. A pull request from Dependabot or `gufranco-tap-bot` merges itself through [`bot-merge.yml`](.github/workflows/bot-merge.yml) once every check on its head commit passed; a person's or Renovate's never does.
