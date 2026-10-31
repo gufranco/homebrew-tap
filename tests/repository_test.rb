@@ -12,6 +12,7 @@ class RepositoryTest < Minitest::Test
   FROZEN = "# frozen_string_literal: true\n"
   WORKFLOW_TRIGGERS = true
   FORBIDDEN_CASK_STANZA = /^\s*(?:container nested:|verified:|version :latest|sha256 :no_check)/
+  LIVECHECK_PLAIN_URL = Regexp.new('livecheck do\s+url "http:')
 
   def test_every_formula_and_cask_is_listed_in_every_readme
     # Arrange
@@ -93,6 +94,29 @@ class RepositoryTest < Minitest::Test
     # Assert
     refute_empty files
     assert_equal [], offending.map { |file| File.basename(file) }
+  end
+
+  def test_the_audit_leaves_a_newer_upstream_version_to_the_scheduled_bump
+    # Arrange
+    rakefile = File.read(File.join(ROOT, "Rakefile"))
+
+    # Act
+    skipped = rakefile[/AUDIT_SKIPS = (\[.*?\])/, 1]
+
+    # Assert
+    assert_equal '["livecheck_version", "livecheck_https_availability"]', skipped
+  end
+
+  def test_every_cask_livecheck_reads_an_https_url
+    # Arrange
+    files = Dir[File.join(ROOT, "Casks", "*.rb")]
+
+    # Act
+    plain = files.select { |file| File.read(file).match?(LIVECHECK_PLAIN_URL) }
+
+    # Assert
+    refute_empty files
+    assert_equal [], plain.map { |file| File.basename(file) }
   end
 
   def test_every_formula_and_cask_starts_with_frozen_string_literal

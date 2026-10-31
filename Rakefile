@@ -10,6 +10,7 @@ require_relative "lib/homebrew_tap/tap_checkout"
 
 TAP = "gufranco/tap"
 GITHUB = "https://github.com"
+AUDIT_SKIPS = ["livecheck_version", "livecheck_https_availability"].freeze
 
 def release_from_env
   HomebrewTap::Release.new(name: ENV.fetch("NAME", ""), tag: ENV.fetch("TAG", ""))
@@ -59,7 +60,7 @@ end
 desc "Audit every formula and cask online with the strict rules"
 task audit: "tap:sync" do
   reporting_errors { tap_checkout.verify }
-  sh "brew", "audit", "--strict", "--online", "--tap", TAP
+  sh "brew", "audit", "--strict", "--online", "--except=#{AUDIT_SKIPS.join(",")}", "--tap", TAP
 end
 
 namespace :formula do

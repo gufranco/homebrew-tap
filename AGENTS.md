@@ -23,7 +23,7 @@ The tap ships the kodougu tools but is not a member of that family: it also carr
 | `bundle exec rake test` | Minitest with SimpleCov, 100% line and branch coverage on every file of `lib/` |
 | `bundle exec rake lint` | actionlint and yamllint at zero findings |
 | `bundle exec rake style` | `brew style gufranco/tap`, after `tap:sync` |
-| `bundle exec rake audit` | `brew audit --strict --online --tap gufranco/tap`, after `tap:sync` |
+| `bundle exec rake audit` | `brew audit --strict --online --tap gufranco/tap`, skipping the two livecheck version audits, after `tap:sync` |
 | `bundle exec rake tap:sync` | Fast-forwards the brew tap clone to the `HEAD` of this checkout; refuses a clone with local changes or commits of its own |
 | `bundle exec rake check` | lint, test and style |
 | `bundle exec rake hooks` | Installs a pre-commit hook running lint and test |
@@ -56,6 +56,7 @@ The tap ships the kodougu tools but is not a member of that family: it also carr
 - Every workflow that runs on `pull_request` is listed in the `workflow_run` trigger of `bot-merge.yml` *(tested)*, so the merge reruns when the last check finishes.
 - A pull request that changes a formula builds it from source and runs its test block in [`formula-build.yml`](.github/workflows/formula-build.yml) before it can merge.
 - `ci.yml` checks only what a commit can break, so its badge reflects the code. The strict online audit, which fails when an upstream download or homepage changes, lives in `upstream.yml` with its own badge.
+- The audit skips `livecheck_version` and `livecheck_https_availability`, which also runs the version comparison, so a release upstream publishes before the bump pull request merges never turns `upstream` red; rpcs3 publishes daily. New versions belong to `update-casks.yml`. In exchange, every cask's livecheck reads an https URL or `:url` *(tested)*.
 
 ### Ruby and tooling
 
