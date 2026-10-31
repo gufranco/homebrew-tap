@@ -46,7 +46,7 @@ class MarsdevTest < Minitest::Test
     declared = text.scan(/^  depends_on "([^"]+)"$/).flatten
 
     # Assert
-    assert_equal ["gmp", "isl", "libmpc", "mpfr", "openjdk", "zstd"], declared
+    assert_equal %w[gmp isl libmpc mpfr openjdk zstd], declared
   end
 
   def test_keeps_the_toolchain_off_the_shared_bin_folder
