@@ -12,7 +12,7 @@ class RepositoryTest < Minitest::Test
   FROZEN = "# frozen_string_literal: true\n"
   WORKFLOW_TRIGGERS = true
   FORBIDDEN_CASK_STANZA = /^\s*(?:container nested:|verified:|version :latest|sha256 :no_check)/
-  LIVECHECK_PLAIN_URL = Regexp.new('livecheck do\s+url "http:')
+  LIVECHECK_PLAIN_URL = Regexp.new('livecheck do\s+url "http:').freeze
 
   def test_every_formula_and_cask_is_listed_in_every_readme
     # Arrange
