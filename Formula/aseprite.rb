@@ -6,6 +6,7 @@ class Aseprite < Formula
   url "https://github.com/aseprite/aseprite/releases/download/v1.3.18.6/Aseprite-v1.3.18.6-Source.zip"
   sha256 "fa9dd07a0c2a5ec91a4166333296bbb9e5c237933b59875d0cfee849d2358306"
   license :cannot_represent
+  revision 1
 
   livecheck do
     url "https://github.com/aseprite/aseprite"
@@ -43,8 +44,43 @@ class Aseprite < Formula
            "-DSKIA_LIBRARY=#{buildpath}/skia/out/Release-#{skia_arch}/libskia.a"
     system "ninja", "-C", "build", "aseprite"
 
+    install_icons(buildpath/"build/bin/Aseprite.app/Contents/Resources")
     prefix.install "build/bin/Aseprite.app"
     bin.write_exec_script prefix/"Aseprite.app/Contents/MacOS/aseprite"
+  end
+
+  def icon_sets
+    {
+      "Aseprite" => {
+        "icon_16x16.png"      => "ase16.png",
+        "icon_16x16@2x.png"   => "ase32.png",
+        "icon_32x32.png"      => "ase32.png",
+        "icon_32x32@2x.png"   => "ase64.png",
+        "icon_128x128.png"    => "ase128.png",
+        "icon_128x128@2x.png" => "ase256.png",
+        "icon_256x256.png"    => "ase256.png",
+        "icon_256x256@2x.png" => "hd/asehd.png",
+        "icon_512x512.png"    => "hd/asehd.png",
+      },
+      "Document" => {
+        "icon_16x16.png"      => "doc16.png",
+        "icon_16x16@2x.png"   => "doc32.png",
+        "icon_32x32.png"      => "doc32.png",
+        "icon_32x32@2x.png"   => "doc64.png",
+        "icon_128x128.png"    => "doc128.png",
+        "icon_128x128@2x.png" => "doc256.png",
+        "icon_256x256.png"    => "doc256.png",
+      },
+    }
+  end
+
+  def install_icons(resources)
+    icon_sets.each do |name, images|
+      iconset = buildpath/"icons/#{name}.iconset"
+      iconset.mkpath
+      images.each { |target, source| cp buildpath/"data/icons"/source, iconset/target }
+      system "iconutil", "-c", "icns", iconset, "-o", resources/"#{name}.icns"
+    end
   end
 
   def caveats
@@ -60,5 +96,7 @@ class Aseprite < Formula
   test do
     assert_match version.to_s, (prefix/"Aseprite.app/Contents/Info.plist").read
     assert_predicate prefix/"Aseprite.app/Contents/MacOS/aseprite", :executable?
+    assert_path_exists prefix/"Aseprite.app/Contents/Resources/Aseprite.icns"
+    assert_path_exists prefix/"Aseprite.app/Contents/Resources/Document.icns"
   end
 end
