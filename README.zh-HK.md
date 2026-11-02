@@ -30,6 +30,7 @@ gufranco/tap/fdstoolkit
 gufranco/tap/fusho
 gufranco/tap/jimaku
 gufranco/tap/kakikomi
+gufranco/tap/kiban
 gufranco/tap/kiyome
 gufranco/tap/maeyomi
 gufranco/tap/marsdev
@@ -91,6 +92,7 @@ kakikomi doctor
 | [fusho](https://github.com/gufranco/fusho) | 使用收件人公開的 SSH 密鑰，經任何聊天工具傳送加密訊息 |
 | [jimaku](https://github.com/gufranco/jimaku) | 下載影片字幕並儲存為 UTF-8 |
 | [kakikomi](https://github.com/gufranco/kakikomi) | 將磁碟映像寫入可移除媒體，逐塊校驗，絕不掛載 |
+| [kiban](https://github.com/gufranco/kiban) | 運行 Docker 及項目所需的本機數據庫：在 Mac 上用原生虛擬機，在 Linux 上不用虛擬機 |
 | [kiyome](https://github.com/gufranco/kiyome) | 以五種經校驗的圖案覆寫磁碟，並指出有故障的位元線 |
 | [shiwake](https://github.com/gufranco/shiwake) | 按首字母把資料夾內的檔案分到 A 至 Z 的子資料夾 |
 | [yakitsuke](https://github.com/gufranco/yakitsuke) | 把任何影片轉換為附清晰字幕的 Video CD 映像，並分拆到多張光碟 |
