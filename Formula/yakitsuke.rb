@@ -3,8 +3,8 @@
 class Yakitsuke < Formula
   desc "Turn any video into Video CD images with subtitles that stay readable"
   homepage "https://github.com/gufranco/yakitsuke"
-  url "https://github.com/gufranco/yakitsuke/archive/refs/tags/v1.5.0.tar.gz"
-  sha256 "ff9eec16fb2edd145f82951aca31c51be972fef2ae1f39c6295cff1d39d71dc6"
+  url "https://github.com/gufranco/yakitsuke/archive/refs/tags/v1.6.0.tar.gz"
+  sha256 "fb6ac2333e849ac7eedd3197bbc28b66a6991252f9434577917c8183e2915ae3"
   license "MIT"
   head "https://github.com/gufranco/yakitsuke.git", branch: "main"
 
