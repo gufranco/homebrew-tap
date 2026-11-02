@@ -30,6 +30,7 @@ gufranco/tap/fdstoolkit
 gufranco/tap/fusho
 gufranco/tap/jimaku
 gufranco/tap/kakikomi
+gufranco/tap/katazuke
 gufranco/tap/kiban
 gufranco/tap/kiyome
 gufranco/tap/maeyomi
@@ -92,6 +93,7 @@ kakikomi doctor
 | [fusho](https://github.com/gufranco/fusho) | 受信者が公開している SSH 鍵を使い、任意のチャットで暗号化したメッセージを送ります |
 | [jimaku](https://github.com/gufranco/jimaku) | 動画の字幕をダウンロードし、UTF-8 で保存します |
 | [kakikomi](https://github.com/gufranco/kakikomi) | ディスクイメージをリムーバブルメディアに書き込み、チャンクごとに検証し、マウントさせません |
+| [katazuke](https://github.com/gufranco/katazuke) | ほかのシステムが FAT や exFAT のディスクに残すゴミを片付け、フォルダを並べ替えます |
 | [kiban](https://github.com/gufranco/kiban) | Docker とプロジェクトに必要なローカルデータベースを、Mac ではネイティブな VM で、Linux では VM なしで動かします |
 | [kiyome](https://github.com/gufranco/kiyome) | 5 つの検証済みパターンでディスクを上書きし、故障したビット線を特定します |
 | [shiwake](https://github.com/gufranco/shiwake) | フォルダ内のファイルを先頭の文字で A から Z のサブフォルダに振り分けます |

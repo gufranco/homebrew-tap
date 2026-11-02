@@ -30,6 +30,7 @@ gufranco/tap/fdstoolkit
 gufranco/tap/fusho
 gufranco/tap/jimaku
 gufranco/tap/kakikomi
+gufranco/tap/katazuke
 gufranco/tap/kiban
 gufranco/tap/kiyome
 gufranco/tap/maeyomi
@@ -92,6 +93,7 @@ The command-line tools that share one interface, described in each tool's `FAMIL
 | [fusho](https://github.com/gufranco/fusho) | Sends an encrypted message through any chat, using the recipient's published SSH keys |
 | [jimaku](https://github.com/gufranco/jimaku) | Downloads subtitles for videos and saves them as UTF-8 |
 | [kakikomi](https://github.com/gufranco/kakikomi) | Writes a disk image to removable media, verified chunk by chunk, never mounted |
+| [katazuke](https://github.com/gufranco/katazuke) | Clears the junk other systems leave on a FAT or exFAT disk, then sorts its folders |
 | [kiban](https://github.com/gufranco/kiban) | Runs Docker and the local databases a project needs, in a native VM on a Mac and with no VM on Linux |
 | [kiyome](https://github.com/gufranco/kiyome) | Overwrites a disk with five verified patterns and names any failing bit line |
 | [shiwake](https://github.com/gufranco/shiwake) | Sorts the files of a folder into A to Z subfolders by their first letter |
