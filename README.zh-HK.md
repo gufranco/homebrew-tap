@@ -54,6 +54,7 @@ gufranco/tap/pikopixel
 gufranco/tap/pixelorama
 gufranco/tap/rpcs3
 gufranco/tap/shadps4
+gufranco/tap/socalabs-sn76489
 gufranco/tap/sunvox
 gufranco/tap/vita3k
 ```
@@ -155,6 +156,14 @@ homebrew-cask 只提供這些應用程式的穩定版。每個 cask 安裝上游
 | Cask | 簡介 |
 |:-----|:-----|
 | [opencore-patcher@beta](https://dortania.github.io/OpenCore-Legacy-Patcher/) | OpenCore Legacy Patcher，讓不受支援的 Mac 執行較新的 macOS；上游警告其候選版可能導致系統當機及資料遺失 |
+
+### 音訊插件
+
+homebrew-cask 沒有這些插件的 cask。每個 cask 安裝開發者簽署並經過公證的安裝套件，把所有插件格式放到 `/Library/Audio/Plug-Ins`。
+
+| Cask | 簡介 |
+|:-----|:-----|
+| [socalabs-sn76489](https://socalabs.com/synths/sn76489/) | 模擬 Sega Master System 音源晶片 SN76489 的合成器，提供 AU、VST、VST3 及 CLAP 格式 |
 
 <a id="how-it-stays-current"></a>
 

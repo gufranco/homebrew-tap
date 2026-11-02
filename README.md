@@ -54,6 +54,7 @@ gufranco/tap/pikopixel
 gufranco/tap/pixelorama
 gufranco/tap/rpcs3
 gufranco/tap/shadps4
+gufranco/tap/socalabs-sn76489
 gufranco/tap/sunvox
 gufranco/tap/vita3k
 ```
@@ -155,6 +156,14 @@ homebrew-cask ships these apps only as stable releases. Each cask installs the n
 | Cask | What it is |
 |:-----|:-----------|
 | [opencore-patcher@beta](https://dortania.github.io/OpenCore-Legacy-Patcher/) | OpenCore Legacy Patcher, which runs newer macOS on unsupported Macs; upstream warns that its release candidates can crash the system and lose data |
+
+### Audio plugins
+
+homebrew-cask has no cask for these plugins. Each cask installs the developer's signed and notarized package, which puts every plugin format under `/Library/Audio/Plug-Ins`.
+
+| Cask | What it is |
+|:-----|:-----------|
+| [socalabs-sn76489](https://socalabs.com/synths/sn76489/) | Synthesizer emulating the SN76489, the sound chip of the Sega Master System, as AU, VST, VST3 and CLAP |
 
 <a id="how-it-stays-current"></a>
 

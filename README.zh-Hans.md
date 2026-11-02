@@ -54,6 +54,7 @@ gufranco/tap/pikopixel
 gufranco/tap/pixelorama
 gufranco/tap/rpcs3
 gufranco/tap/shadps4
+gufranco/tap/socalabs-sn76489
 gufranco/tap/sunvox
 gufranco/tap/vita3k
 ```
@@ -155,6 +156,14 @@ homebrew-cask 只提供这些应用的稳定版。每个 cask 安装上游最新
 | Cask | 简介 |
 |:-----|:-----|
 | [opencore-patcher@beta](https://dortania.github.io/OpenCore-Legacy-Patcher/) | OpenCore Legacy Patcher，让不受支持的 Mac 运行较新的 macOS；上游警告其候选版可能导致系统崩溃和数据丢失 |
+
+### 音频插件
+
+homebrew-cask 没有这些插件的 cask。每个 cask 安装开发者签名并经过公证的安装包，把所有插件格式放到 `/Library/Audio/Plug-Ins`。
+
+| Cask | 简介 |
+|:-----|:-----|
+| [socalabs-sn76489](https://socalabs.com/synths/sn76489/) | 模拟世嘉 Master System 音源芯片 SN76489 的合成器，提供 AU、VST、VST3 和 CLAP 格式 |
 
 <a id="how-it-stays-current"></a>
 
