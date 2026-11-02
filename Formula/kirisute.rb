@@ -1,12 +1,14 @@
 # frozen_string_literal: true
 
 class Kirisute < Formula
-  desc "Cut Nintendo DS and DSi ROM files down to their real size"
+  desc "Cut GBA, DS, DSi and 3DS ROMs and PSP ISOs down to their real size"
   homepage "https://github.com/gufranco/kirisute"
   url "https://github.com/gufranco/kirisute/archive/refs/tags/v1.0.0.tar.gz"
   sha256 "f9890b974327381c55a2b315ffc39b93cd2a6d49f0bb30a7d878ae0ec99e4e83"
   license "MIT"
   head "https://github.com/gufranco/kirisute.git", branch: "main"
+
+  depends_on "gufranco/tap/maxcso"
 
   def install
     libexec.install "bin", "lib"

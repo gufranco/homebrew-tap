@@ -96,7 +96,7 @@ kakikomi doctor
 | [kakikomi](https://github.com/gufranco/kakikomi) | 將磁碟映像寫入可移除媒體，逐塊校驗，絕不掛載 |
 | [katazuke](https://github.com/gufranco/katazuke) | 清除其他系統在 FAT 或 exFAT 磁碟上留下的垃圾檔案，然後為資料夾排序 |
 | [kiban](https://github.com/gufranco/kiban) | 運行 Docker 及項目所需的本機數據庫：在 Mac 上用原生虛擬機，在 Linux 上不用虛擬機 |
-| [kirisute](https://github.com/gufranco/kirisute) | 把任天堂 DS 和 DSi 的 ROM 檔案剪裁至標頭所聲明的大小 |
+| [kirisute](https://github.com/gufranco/kirisute) | 把 Game Boy Advance、DS、DSi 和 3DS 的 ROM 以及 PSP 的 ISO 剪裁至實際大小，按標頭資料重新命名，並為 ARK 壓縮 PSP 的 ISO |
 | [kiyome](https://github.com/gufranco/kiyome) | 以五種經校驗的圖案覆寫磁碟，並指出有故障的位元線 |
 | [shiwake](https://github.com/gufranco/shiwake) | 按首字母把資料夾內的檔案分到 A 至 Z 的子資料夾 |
 | [yakitsuke](https://github.com/gufranco/yakitsuke) | 把任何影片轉換為附清晰字幕的 Video CD 映像，並分拆到多張光碟 |

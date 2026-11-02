@@ -6,7 +6,7 @@ class KirisuteTest < Minitest::Test
   FORMULA = File.expand_path("../../Formula/kirisute.rb", __dir__).freeze
   DEPENDENCY = Regexp.new('^ {2,4}depends_on "([^"]+)"$').freeze
 
-  def test_needs_nothing_beyond_the_tools_every_system_ships
+  def test_brings_maxcso_from_the_tap_and_nothing_else
     # Arrange
     text = File.read(FORMULA)
 
@@ -14,6 +14,6 @@ class KirisuteTest < Minitest::Test
     dependencies = text.scan(DEPENDENCY).flatten
 
     # Assert
-    assert_equal [], dependencies
+    assert_equal %w[gufranco/tap/maxcso], dependencies
   end
 end

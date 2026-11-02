@@ -96,7 +96,7 @@ kakikomi doctor
 | [kakikomi](https://github.com/gufranco/kakikomi) | 将磁盘镜像写入可移动介质，逐块校验，绝不挂载 |
 | [katazuke](https://github.com/gufranco/katazuke) | 清除其他系统在 FAT 或 exFAT 磁盘上留下的垃圾文件，然后为文件夹排序 |
 | [kiban](https://github.com/gufranco/kiban) | 运行 Docker 和项目所需的本地数据库：在 Mac 上用原生虚拟机，在 Linux 上不用虚拟机 |
-| [kirisute](https://github.com/gufranco/kirisute) | 把任天堂 DS 和 DSi 的 ROM 文件裁到头部声明的大小 |
+| [kirisute](https://github.com/gufranco/kirisute) | 把 Game Boy Advance、DS、DSi 和 3DS 的 ROM 以及 PSP 的 ISO 裁到实际大小，按头部信息重命名，并为 ARK 压缩 PSP 的 ISO |
 | [kiyome](https://github.com/gufranco/kiyome) | 用五种经过校验的图案覆盖磁盘，并指出有故障的位线 |
 | [shiwake](https://github.com/gufranco/shiwake) | 按首字母把文件夹中的文件分到 A 到 Z 的子文件夹 |
 | [yakitsuke](https://github.com/gufranco/yakitsuke) | 把任意视频转换为带清晰字幕的 Video CD 镜像，并分到多张光盘 |
