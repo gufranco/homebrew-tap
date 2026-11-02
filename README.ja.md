@@ -32,6 +32,7 @@ gufranco/tap/jimaku
 gufranco/tap/kakikomi
 gufranco/tap/katazuke
 gufranco/tap/kiban
+gufranco/tap/kirisute
 gufranco/tap/kiyome
 gufranco/tap/maeyomi
 gufranco/tap/marsdev
@@ -95,6 +96,7 @@ kakikomi doctor
 | [kakikomi](https://github.com/gufranco/kakikomi) | ディスクイメージをリムーバブルメディアに書き込み、チャンクごとに検証し、マウントさせません |
 | [katazuke](https://github.com/gufranco/katazuke) | ほかのシステムが FAT や exFAT のディスクに残すゴミを片付け、フォルダを並べ替えます |
 | [kiban](https://github.com/gufranco/kiban) | Docker とプロジェクトに必要なローカルデータベースを、Mac ではネイティブな VM で、Linux では VM なしで動かします |
+| [kirisute](https://github.com/gufranco/kirisute) | ニンテンドー DS と DSi の ROM ファイルを、ヘッダーが宣言するサイズまで切り詰めます |
 | [kiyome](https://github.com/gufranco/kiyome) | 5 つの検証済みパターンでディスクを上書きし、故障したビット線を特定します |
 | [shiwake](https://github.com/gufranco/shiwake) | フォルダ内のファイルを先頭の文字で A から Z のサブフォルダに振り分けます |
 | [yakitsuke](https://github.com/gufranco/yakitsuke) | あらゆる動画を、読みやすい字幕付きの Video CD イメージに変換し、複数のディスクに分割します |
