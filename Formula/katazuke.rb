@@ -9,6 +9,7 @@ class Katazuke < Formula
   head "https://github.com/gufranco/katazuke.git", branch: "main"
 
   depends_on "fatsort"
+  depends_on "gum"
 
   def install
     libexec.install "bin", "lib"

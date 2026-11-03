@@ -8,6 +8,8 @@ class Kiyome < Formula
   license "MIT"
   head "https://github.com/gufranco/kiyome.git", branch: "main"
 
+  depends_on "gum"
+
   def install
     libexec.install "bin", "lib"
     bin.write_exec_script libexec/"bin/kiyome"

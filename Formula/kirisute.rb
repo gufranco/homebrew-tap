@@ -9,6 +9,7 @@ class Kirisute < Formula
   head "https://github.com/gufranco/kirisute.git", branch: "main"
 
   depends_on "gufranco/tap/maxcso"
+  depends_on "gum"
 
   def install
     libexec.install "bin", "lib"

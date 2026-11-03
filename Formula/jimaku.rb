@@ -8,6 +8,7 @@ class Jimaku < Formula
   license "MIT"
   head "https://github.com/gufranco/jimaku.git", branch: "main"
 
+  depends_on "gum"
   depends_on "subliminal"
 
   def install

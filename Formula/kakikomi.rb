@@ -8,6 +8,7 @@ class Kakikomi < Formula
   license "MIT"
   head "https://github.com/gufranco/kakikomi.git", branch: "main"
 
+  depends_on "gum"
   depends_on "mtools"
   depends_on "wimlib"
 

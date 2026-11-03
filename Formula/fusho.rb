@@ -9,6 +9,7 @@ class Fusho < Formula
   head "https://github.com/gufranco/fusho.git", branch: "main"
 
   depends_on "age"
+  depends_on "gum"
 
   def install
     libexec.install "bin", "lib"

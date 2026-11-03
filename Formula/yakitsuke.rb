@@ -9,6 +9,7 @@ class Yakitsuke < Formula
   head "https://github.com/gufranco/yakitsuke.git", branch: "main"
 
   depends_on "ffmpeg-full"
+  depends_on "gum"
   depends_on "mjpegtools"
   depends_on "vcdimager"
 

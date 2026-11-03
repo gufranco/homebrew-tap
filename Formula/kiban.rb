@@ -9,6 +9,7 @@ class Kiban < Formula
   head "https://github.com/gufranco/kiban.git", branch: "main"
 
   depends_on "docker"
+  depends_on "gum"
 
   on_macos do
     depends_on "colima"

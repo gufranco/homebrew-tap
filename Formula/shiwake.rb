@@ -8,6 +8,8 @@ class Shiwake < Formula
   license "MIT"
   head "https://github.com/gufranco/shiwake.git", branch: "main"
 
+  depends_on "gum"
+
   def install
     libexec.install "bin", "lib"
     bin.write_exec_script libexec/"bin/shiwake"
