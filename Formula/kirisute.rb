@@ -3,8 +3,8 @@
 class Kirisute < Formula
   desc "Cut GBA, DS, DSi and 3DS ROMs and PSP ISOs down to their real size"
   homepage "https://github.com/gufranco/kirisute"
-  url "https://github.com/gufranco/kirisute/archive/refs/tags/v1.2.0.tar.gz"
-  sha256 "7915da38a36cafac6a5f55515c18fdd9bb64a4c1d0688c45163f48814dcfe29f"
+  url "https://github.com/gufranco/kirisute/archive/refs/tags/v1.2.1.tar.gz"
+  sha256 "5da47d92ce3330fe07f0aae4c2df319de8afb098a52a52179069b7525f6e50ed"
   license "MIT"
   head "https://github.com/gufranco/kirisute.git", branch: "main"
 
