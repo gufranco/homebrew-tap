@@ -4,7 +4,7 @@ class Jimaku < Formula
   desc "Download subtitles for videos and save them as UTF-8"
   homepage "https://github.com/gufranco/jimaku"
   url "https://github.com/gufranco/jimaku/archive/refs/tags/v1.3.0.tar.gz"
-  sha256 "4c928c0a126e3cd8c83cfd2fea82b09447e80c0a3683c21182ba04c8db3bcf23"
+  sha256 "44c98e41fb6b5af02768d31ef0d3f578d98cffb67c29fb4fb2d6e68a545243e1"
   license "MIT"
   head "https://github.com/gufranco/jimaku.git", branch: "main"
 
