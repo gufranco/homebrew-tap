@@ -18,6 +18,9 @@ jobs:
     name: open PRs for outdated third-party casks and formulae
     runs-on: macos-26
     timeout-minutes: 20
+    env:
+      HOMEBREW_GIT_NAME: gufranco-tap-bot[bot]
+      HOMEBREW_GIT_EMAIL: 346559818+gufranco-tap-bot[bot]@users.noreply.github.com
     steps:
       - uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43  # v2.22.3
         with:
