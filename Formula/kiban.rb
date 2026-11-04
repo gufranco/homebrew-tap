@@ -4,7 +4,7 @@ class Kiban < Formula
   desc "Run Docker and the local databases a project needs at full speed"
   homepage "https://github.com/gufranco/kiban"
   url "https://github.com/gufranco/kiban/archive/refs/tags/v1.1.0.tar.gz"
-  sha256 "261683bcac88eecf6c982ce1300fa6c39c014fe8bf0a6bceb4bca5532755b81f"
+  sha256 "d082cd6f9597719a518492ae0fb6e504f66975bdd112bff7aa2d3322d533e1ef"
   license "MIT"
   head "https://github.com/gufranco/kiban.git", branch: "main"
 
