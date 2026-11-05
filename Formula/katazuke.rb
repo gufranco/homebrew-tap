@@ -3,8 +3,8 @@
 class Katazuke < Formula
   desc "Clear the junk other systems leave on FAT disks and sort their folders"
   homepage "https://github.com/gufranco/katazuke"
-  url "https://github.com/gufranco/katazuke/archive/refs/tags/v1.0.1.tar.gz"
-  sha256 "d202b87d28b298c9683974a7858cba55c48bada3e197da0ea3d7beae06571013"
+  url "https://github.com/gufranco/katazuke/archive/refs/tags/v1.1.0.tar.gz"
+  sha256 "d6c43ff681eb4cb08904353cf6d29d25449f800dc4e1dd50a54ca279c84f7171"
   license "MIT"
   head "https://github.com/gufranco/katazuke.git", branch: "main"
 
