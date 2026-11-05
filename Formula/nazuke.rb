@@ -3,8 +3,8 @@
 class Nazuke < Formula
   desc "Give long file names short, readable, unique 8.3 names"
   homepage "https://github.com/gufranco/nazuke"
-  url "https://github.com/gufranco/nazuke/archive/refs/tags/v1.1.0.tar.gz"
-  sha256 "958ee0954e6759e809c647e973e5eec49d3b130aa746f9cd840259e3717d4ca2"
+  url "https://github.com/gufranco/nazuke/archive/refs/tags/v1.1.1.tar.gz"
+  sha256 "5b810ae845d7f13b1bb53698a6d3a210c6386e9d6878ed4e9810ebc336c3ff66"
   license "MIT"
   head "https://github.com/gufranco/nazuke.git", branch: "main"
 
