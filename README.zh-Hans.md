@@ -37,6 +37,7 @@ gufranco/tap/kiyome
 gufranco/tap/maeyomi
 gufranco/tap/marsdev
 gufranco/tap/maxcso
+gufranco/tap/nazuke
 gufranco/tap/shiwake
 gufranco/tap/torrentzip
 gufranco/tap/yakitsuke
@@ -99,6 +100,7 @@ kakikomi doctor
 | [kiban](https://github.com/gufranco/kiban) | 运行 Docker 和项目所需的本地数据库：在 Mac 上用原生虚拟机，在 Linux 上不用虚拟机 |
 | [kirisute](https://github.com/gufranco/kirisute) | 把 Game Boy Advance、DS、DSi 和 3DS 的 ROM 以及 PSP 的 ISO 裁到实际大小，按头部信息重命名，并为 ARK 压缩 PSP 的 ISO |
 | [kiyome](https://github.com/gufranco/kiyome) | 用五种经过校验的图案覆盖磁盘，并指出有故障的位线 |
+| [nazuke](https://github.com/gufranco/nazuke) | 把冗长的文件名改为简短、易读且不重复的 8.3 名称，让 FAT12 和 FAT16 设备也能读取 |
 | [shiwake](https://github.com/gufranco/shiwake) | 按首字母把文件夹中的文件分到 A 到 Z 的子文件夹 |
 | [yakitsuke](https://github.com/gufranco/yakitsuke) | 把任意视频转换为带清晰字幕的 Video CD 镜像，并分到多张光盘 |
 

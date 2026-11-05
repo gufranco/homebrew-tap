@@ -37,6 +37,7 @@ gufranco/tap/kiyome
 gufranco/tap/maeyomi
 gufranco/tap/marsdev
 gufranco/tap/maxcso
+gufranco/tap/nazuke
 gufranco/tap/shiwake
 gufranco/tap/torrentzip
 gufranco/tap/yakitsuke
@@ -99,6 +100,7 @@ The command-line tools that share one interface, described in each tool's `FAMIL
 | [kiban](https://github.com/gufranco/kiban) | Runs Docker and the local databases a project needs, in a native VM on a Mac and with no VM on Linux |
 | [kirisute](https://github.com/gufranco/kirisute) | Cuts Game Boy Advance, DS, DSi and 3DS ROMs and PSP ISOs down to their real size, renames them after their headers, and compresses PSP ISOs for ARK |
 | [kiyome](https://github.com/gufranco/kiyome) | Overwrites a disk with five verified patterns and names any failing bit line |
+| [nazuke](https://github.com/gufranco/nazuke) | Gives long file names short, readable and unique 8.3 names, so FAT12 and FAT16 devices read them |
 | [shiwake](https://github.com/gufranco/shiwake) | Sorts the files of a folder into A to Z subfolders by their first letter |
 | [yakitsuke](https://github.com/gufranco/yakitsuke) | Turns any video into Video CD images, split across discs, with readable subtitles |
 

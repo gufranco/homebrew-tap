@@ -3,7 +3,7 @@
 require "test_helper"
 
 class KodouguTest < Minitest::Test
-  MEMBERS = %w[fusho jimaku kakikomi katazuke kiban kirisute kiyome shiwake yakitsuke].freeze
+  MEMBERS = %w[fusho jimaku kakikomi katazuke kiban kirisute kiyome nazuke shiwake yakitsuke].freeze
   DEPENDENCY = Regexp.new('^ {2,4}depends_on "([^"]+)"$').freeze
 
   def test_every_kodougu_formula_brings_gum_for_its_terminal_interface

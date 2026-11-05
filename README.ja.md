@@ -37,6 +37,7 @@ gufranco/tap/kiyome
 gufranco/tap/maeyomi
 gufranco/tap/marsdev
 gufranco/tap/maxcso
+gufranco/tap/nazuke
 gufranco/tap/shiwake
 gufranco/tap/torrentzip
 gufranco/tap/yakitsuke
@@ -99,6 +100,7 @@ kakikomi doctor
 | [kiban](https://github.com/gufranco/kiban) | Docker とプロジェクトに必要なローカルデータベースを、Mac ではネイティブな VM で、Linux では VM なしで動かします |
 | [kirisute](https://github.com/gufranco/kirisute) | ゲームボーイアドバンス、DS、DSi、3DS の ROM と PSP の ISO を実際のサイズまで切り詰め、ヘッダーに従って名前を付け、PSP の ISO を ARK 向けに圧縮します |
 | [kiyome](https://github.com/gufranco/kiyome) | 5 つの検証済みパターンでディスクを上書きし、故障したビット線を特定します |
+| [nazuke](https://github.com/gufranco/nazuke) | 長いファイル名を、短く読みやすい一意の 8.3 形式の名前に変え、FAT12 や FAT16 の機器でも読めるようにします |
 | [shiwake](https://github.com/gufranco/shiwake) | フォルダ内のファイルを先頭の文字で A から Z のサブフォルダに振り分けます |
 | [yakitsuke](https://github.com/gufranco/yakitsuke) | あらゆる動画を、読みやすい字幕付きの Video CD イメージに変換し、複数のディスクに分割します |
 
