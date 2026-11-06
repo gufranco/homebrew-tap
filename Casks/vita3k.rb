@@ -3,9 +3,9 @@
 cask "vita3k" do
   arch arm: "arm64", intel: "intel"
 
-  version "4272,359a0e3a"
-  sha256 arm:   "394c7468e5b4a1e641438683ca985b32d36efa049ef6255039951c0c7ee1b064",
-         intel: "526850585b73715bd6c096230c48090c0ef0b0b64206d6fdea172a3a71e5f0c7"
+  version "4277,2f68c1bf"
+  sha256 arm:   "f6b52a1659520143499de211773c87a68b26dc2945cdf6f1781e046bfc2661aa",
+         intel: "39be4d22c49a5ad0ab24d6dd31afe0dfbf85d9c031ba1ffdf8e95b5590b0d2a5"
 
   url "https://github.com/Vita3K/Vita3K-builds/releases/download/#{version.csv.first}/vita3k-#{version.csv.first}-#{version.csv.second}-macos-#{arch}.dmg"
   name "Vita3K"
