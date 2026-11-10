@@ -11,6 +11,8 @@ class RepositoryTest < Minitest::Test
   HARDEN_RUNNER = "step-security/harden-runner@"
   FROZEN = "# frozen_string_literal: true\n"
   WORKFLOW_TRIGGERS = true
+  CORE_REMOTE = "https://github.com/Homebrew/homebrew-core"
+  CORE_TAP_PATH = "/opt/homebrew/Library/Taps/homebrew/homebrew-core"
   FORBIDDEN_CASK_STANZA = /^\s*(?:container nested:|verified:|version :latest|sha256 :no_check)/
   LIVECHECK_PLAIN_URL = Regexp.new('livecheck do\s+url "http:').freeze
 
@@ -107,17 +109,19 @@ class RepositoryTest < Minitest::Test
     assert_equal '["livecheck_version", "livecheck_https_availability"]', skipped
   end
 
-  def test_the_cask_bump_leaves_its_audit_to_the_pull_request
+  def test_homebrew_core_is_cloned_shallow_before_the_cask_bump
     # Arrange
     commands = run_commands("update-casks.yml")
 
     # Act
-    cask_bumps = commands.select { |run| run.include?("brew bump --cask") }
+    clones = commands.each_index.select { |index| commands[index].include?(CORE_REMOTE) }
+    bumps = commands.each_index.select { |index| commands[index].include?("brew bump --cask") }
 
     # Assert
-    assert_equal 1, cask_bumps.size
-    assert_includes cask_bumps.first.split, "--no-audit"
-    assert_includes workflow("upstream.yml")[WORKFLOW_TRIGGERS]["pull_request"]["paths"], "Casks/**"
+    assert_equal 1, clones.size
+    assert_equal 1, bumps.size
+    assert_operator clones.first, :<, bumps.first
+    assert_equal ["git", "clone", "--depth=1", CORE_REMOTE, CORE_TAP_PATH], commands[clones.first].split
   end
 
   def test_every_cask_livecheck_reads_an_https_url

@@ -31,11 +31,15 @@ jobs:
         with:
           client-id: ${{ secrets.TAP_APP_ID }}
           private-key: ${{ secrets.TAP_APP_PRIVATE_KEY }}
+      - name: Clone homebrew-core, which the cask audit inside brew bump reads with the API off
+        run: >-
+          git clone --depth=1 https://github.com/Homebrew/homebrew-core
+          /opt/homebrew/Library/Taps/homebrew/homebrew-core
       - name: Bump each third-party cask when upstream is newer
         env:
           HOMEBREW_GITHUB_API_TOKEN: ${{ steps.app-token.outputs.token }}
           HOMEBREW_NO_AUTO_UPDATE: "1"
-        run: brew bump --cask --tap gufranco/tap --open-pr --no-fork --no-audit
+        run: brew bump --cask --tap gufranco/tap --open-pr --no-fork
       - name: Bump each third-party formula when upstream is newer
         env:
           HOMEBREW_GITHUB_API_TOKEN: ${{ steps.app-token.outputs.token }}
