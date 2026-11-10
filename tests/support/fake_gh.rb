@@ -28,6 +28,8 @@ class FakeGh
     in ["pr", "list"] then list(state, flags(args.drop(2)))
     in ["pr", "view"] then view(state, args[2])
     in ["pr", "merge"] then merge(state, args[2], flags(args.drop(3)))
+    in ["run", "view"] then view_run(state, args[2])
+    in ["run", "rerun"] then rerun(state, args[2])
     else
       warn("unknown command: #{args.join(" ")}")
       2
@@ -40,8 +42,9 @@ class FakeGh
 
   def list(state, options)
     fields = options["--json"].split(",")
+    head = options["--head"]
     pulls = state["pulls"].select do |pull|
-      pull["headRefName"] == options["--head"] && pull["state"] == options["--state"].upcase
+      (head.nil? || pull["headRefName"] == head) && pull["state"] == options["--state"].upcase
     end
     puts(JSON.generate(pulls.map { |pull| pull.slice(*fields) }))
     0
@@ -64,6 +67,25 @@ class FakeGh
     found["state"] = "MERGED"
     state["merges"] << { "number" => found["number"], "subject" => options["--subject"],
                          "body" => options["--body"], "squash" => options["--squash"] }
+    0
+  end
+
+  def view_run(state, id)
+    puts(JSON.generate(state["runs"].fetch(id).slice("attempt", "status")))
+    0
+  end
+
+  def rerun(state, id)
+    run = state["runs"].fetch(id)
+    if run["status"] != "completed" || run["rerunRefused"]
+      run["status"] = "queued" if run["startedElsewhere"]
+      warn("run #{id} cannot be rerun")
+      return 1
+    end
+
+    run["status"] = "queued"
+    run["attempt"] += 1
+    state["reruns"] << id
     0
   end
 

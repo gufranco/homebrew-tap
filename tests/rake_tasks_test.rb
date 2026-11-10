@@ -90,6 +90,52 @@ class RakeTasksTest < Minitest::Test
     assert_equal "homebrew-tap: head commit required\n", err
   end
 
+  def test_pr_merge_all_squash_merges_every_green_bot_pull_request
+    # Arrange
+    github = GitHubFixture.new
+    pull = github.open_pull(checks: [github.check_run("ci")])
+    env = { "PATH" => "#{github.bin_dir}:#{ENV.fetch("PATH")}", "REPO" => github.repo }
+
+    # Act
+    out, err, status = rake("pr:merge-all", env:, dir: Dir.pwd)
+
+    # Assert
+    assert_equal ["", 0], [err, status.exitstatus]
+    assert_equal "merged pull request 1 at #{pull["headRefOid"]}\n", out
+  ensure
+    github.remove
+  end
+
+  def test_pr_retry_reruns_the_cancelled_checks_of_a_bot_pull_request
+    # Arrange
+    github = GitHubFixture.new
+    run = github.workflow_run
+    github.open_pull(checks: [github.check_run("test", conclusion: "CANCELLED", run:)])
+    env = { "PATH" => "#{github.bin_dir}:#{ENV.fetch("PATH")}", "REPO" => github.repo }
+
+    # Act
+    out, err, status = rake("pr:retry", env:, dir: Dir.pwd)
+
+    # Assert
+    assert_equal ["", 0], [err, status.exitstatus]
+    assert_equal "reran the cancelled jobs of run #{run} for pull request 1\n", out
+    assert_equal [run], github.reruns
+  ensure
+    github.remove
+  end
+
+  def test_pr_retry_stops_with_the_reason_when_the_repository_is_malformed
+    # Arrange
+    env = { "REPO" => Faker::Internet.slug(glue: "-") }
+
+    # Act
+    _out, err, status = rake("pr:retry", env:, dir: Dir.pwd)
+
+    # Assert
+    assert_equal 1, status.exitstatus
+    assert_equal "homebrew-tap: repository #{env["REPO"]} is not owner/name\n", err
+  end
+
   def test_hooks_installs_a_pre_commit_hook_that_runs_lint_and_tests
     # Arrange
     dir = Dir.mktmpdir("homebrew-tap-hooks")

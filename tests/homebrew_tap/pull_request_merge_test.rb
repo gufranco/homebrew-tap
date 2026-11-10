@@ -202,6 +202,35 @@ class PullRequestMergeTest < Minitest::Test
     assert_equal "no open pull request for #{pull["headRefName"]}\n", @out.string
   end
 
+  def test_merge_all_merges_every_green_bot_pull_request_and_reports_the_rest
+    # Arrange
+    green = @github.open_pull(checks: [@github.check_run("ci")])
+    @github.open_pull(checks: [@github.check_run("ci", conclusion: "", status: "IN_PROGRESS")])
+    author = Faker::Internet.username(separators: ["-"])
+    @github.open_pull(checks: [@github.check_run("ci")], author:)
+
+    # Act
+    merger.merge_all
+
+    # Assert
+    assert_equal [1], @github.merges.map { |merge| merge["number"] }
+    assert_equal "merged pull request 1 at #{green["headRefOid"]}\n" \
+                 "pull request 2 has checks not passed yet: ci\n" \
+                 "pull request 3 is by #{author}, not a bot this tap merges\n", @out.string
+  end
+
+  def test_merge_all_ignores_fork_pull_requests
+    # Arrange
+    @github.open_pull(checks: [@github.check_run("ci")], "isCrossRepository" => true)
+
+    # Act
+    merger.merge_all
+
+    # Assert
+    assert_equal [], @github.merges
+    assert_equal "no open pull requests\n", @out.string
+  end
+
   def test_rejects_a_repository_that_is_not_owner_and_name
     # Arrange
     repo = Faker::Internet.slug(glue: "-")

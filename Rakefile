@@ -5,6 +5,7 @@ require_relative "lib/homebrew_tap/formula_bump"
 require_relative "lib/homebrew_tap/formula_publisher"
 require_relative "lib/homebrew_tap/github_cli"
 require_relative "lib/homebrew_tap/pull_request_merge"
+require_relative "lib/homebrew_tap/pull_request_retry"
 require_relative "lib/homebrew_tap/release"
 require_relative "lib/homebrew_tap/tap_checkout"
 
@@ -99,6 +100,22 @@ namespace :pr do
       github = HomebrewTap::GitHubCli.new
       merge = HomebrewTap::PullRequestMerge.new(repo: ENV.fetch("REPO", ""), github:, out: $stdout)
       merge.merge(branch: ENV.fetch("BRANCH", ""), head_sha: ENV.fetch("HEAD_SHA", ""))
+    end
+  end
+
+  desc "Squash-merge every open bot pull request in REPO whose checks all passed"
+  task :"merge-all" do
+    reporting_errors do
+      github = HomebrewTap::GitHubCli.new
+      HomebrewTap::PullRequestMerge.new(repo: ENV.fetch("REPO", ""), github:, out: $stdout).merge_all
+    end
+  end
+
+  desc "Rerun the cancelled checks of every open bot pull request in REPO, up to three attempts"
+  task :retry do
+    reporting_errors do
+      github = HomebrewTap::GitHubCli.new
+      HomebrewTap::PullRequestRetry.new(repo: ENV.fetch("REPO", ""), github:, out: $stdout).retry_cancelled
     end
   end
 end

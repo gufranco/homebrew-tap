@@ -15,7 +15,7 @@ class GitHubFixture
     @root = Dir.mktmpdir("homebrew-tap-github")
     @state = File.join(root, "state.json")
     @repo = "gufranco/#{Faker::Internet.slug(glue: "-")}"
-    File.write(@state, JSON.generate("pulls" => [], "merges" => []))
+    File.write(@state, JSON.generate("pulls" => [], "merges" => [], "runs" => {}, "reruns" => []))
   end
 
   def command
@@ -34,8 +34,29 @@ class GitHubFixture
     pull
   end
 
-  def check_run(name, conclusion: "SUCCESS", status: "COMPLETED")
-    { "__typename" => "CheckRun", "name" => name, "status" => status, "conclusion" => conclusion }
+  def check_run(name, conclusion: "SUCCESS", status: "COMPLETED", run: nil)
+    { "__typename" => "CheckRun", "name" => name, "status" => status, "conclusion" => conclusion,
+      "detailsUrl" => run ? job_url(run) : "" }
+  end
+
+  def job_url(run)
+    "https://github.com/#{repo}/actions/runs/#{run}/job/#{Faker::Number.number(digits: 12)}"
+  end
+
+  def workflow_run(attempt: 1, status: "completed", **flags)
+    state = read
+    id = Faker::Number.number(digits: 11).to_s
+    state["runs"][id] = { "attempt" => attempt, "status" => status }.merge(flags)
+    File.write(@state, JSON.generate(state))
+    id
+  end
+
+  def reruns
+    read["reruns"]
+  end
+
+  def run_state(id)
+    read["runs"].fetch(id)
   end
 
   def status_context(context, state: "SUCCESS")

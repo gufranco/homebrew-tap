@@ -8,6 +8,7 @@ module HomebrewTap
     BOTS = ["app/dependabot", "app/gufranco-tap-bot"].freeze
     PASSED = ["SUCCESS", "NEUTRAL", "SKIPPED"].freeze
     FIELDS = "number,title,author,headRefOid,statusCheckRollup,isCrossRepository"
+    OPEN_PULLS_LIMIT = "100"
     REPO = %r{\A[\w.-]+/[\w.-]+\z}
     SHA = /\A[0-9a-f]{40}\z/
     CONVENTIONAL = /\A[a-z]+(\([^)]+\))?!?: /
@@ -24,15 +25,31 @@ module HomebrewTap
     def merge(branch:, head_sha:)
       require_target(branch, head_sha)
       pull = open_pull(branch)
-      hold = pull ? hold_reason(pull, head_sha) : "no open pull request for #{branch}"
-      if hold
-        @out.puts(hold)
-      else
-        squash(pull["number"].to_s, pull["title"], head_sha)
-      end
+      return @out.puts("no open pull request for #{branch}") unless pull
+
+      settle(pull, head_sha)
+    end
+
+    def merge_all
+      pulls = open_pulls
+      @out.puts("no open pull requests") if pulls.empty?
+      pulls.each { |pull| settle(pull, pull["headRefOid"]) }
     end
 
     private
+
+    def settle(pull, head_sha)
+      hold = hold_reason(pull, head_sha)
+      return @out.puts(hold) if hold
+
+      squash(pull["number"].to_s, pull["title"], head_sha)
+    end
+
+    def open_pulls
+      listed = @github.run("pr", "list", "--repo", @repo, "--state", "open", "--limit", OPEN_PULLS_LIMIT,
+                           "--json", FIELDS)
+      JSON.parse(listed).select { |pull| pull["isCrossRepository"] == false }
+    end
 
     def require_target(branch, head_sha)
       raise Error, "branch required" if branch.empty?
