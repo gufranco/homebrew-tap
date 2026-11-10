@@ -55,6 +55,7 @@ The tap ships the kodougu tools but is not a member of that family: it also carr
 - Every job has a `timeout-minutes` and starts with `step-security/harden-runner` *(tested)*. `actions/*` are pinned by version tag, every other action by full commit SHA with the version in a trailing comment.
 - Every workflow that runs on `pull_request` is listed in the `workflow_run` trigger of `bot-merge.yml` *(tested)*, so the merge reruns when the last check finishes.
 - A pull request that changes a formula builds it from source and runs its test block in [`formula-build.yml`](.github/workflows/formula-build.yml) before it can merge.
+- The scheduled cask bump runs with `--no-audit`, and the pull request it opens is audited by `upstream.yml` *(tested)*. `brew bump` disables the Homebrew API for its whole run, so its own cask audit cannot load the `p7zip` formula that unpacks a `.7z` download such as rpcs3's, and fails on the runner, which has no homebrew-core clone.
 - `ci.yml` checks only what a commit can break, so its badge reflects the code. The strict online audit, which fails when an upstream download or homepage changes, lives in `upstream.yml` with its own badge.
 - The audit skips `livecheck_version` and `livecheck_https_availability`, which also runs the version comparison, so a release upstream publishes before the bump pull request merges never turns `upstream` red; rpcs3 publishes daily. New versions belong to `update-casks.yml`. In exchange, every cask's livecheck reads an https URL or `:url` *(tested)*.
 

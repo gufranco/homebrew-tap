@@ -35,7 +35,7 @@ jobs:
         env:
           HOMEBREW_GITHUB_API_TOKEN: ${{ steps.app-token.outputs.token }}
           HOMEBREW_NO_AUTO_UPDATE: "1"
-        run: brew bump --cask --tap gufranco/tap --open-pr --no-fork
+        run: brew bump --cask --tap gufranco/tap --open-pr --no-fork --no-audit
       - name: Bump each third-party formula when upstream is newer
         env:
           HOMEBREW_GITHUB_API_TOKEN: ${{ steps.app-token.outputs.token }}

@@ -107,6 +107,19 @@ class RepositoryTest < Minitest::Test
     assert_equal '["livecheck_version", "livecheck_https_availability"]', skipped
   end
 
+  def test_the_cask_bump_leaves_its_audit_to_the_pull_request
+    # Arrange
+    commands = run_commands("update-casks.yml")
+
+    # Act
+    cask_bumps = commands.select { |run| run.include?("brew bump --cask") }
+
+    # Assert
+    assert_equal 1, cask_bumps.size
+    assert_includes cask_bumps.first.split, "--no-audit"
+    assert_includes workflow("upstream.yml")[WORKFLOW_TRIGGERS]["pull_request"]["paths"], "Casks/**"
+  end
+
   def test_every_cask_livecheck_reads_an_https_url
     # Arrange
     files = Dir[File.join(ROOT, "Casks", "*.rb")]
