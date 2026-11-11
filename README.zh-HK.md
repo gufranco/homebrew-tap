@@ -38,6 +38,7 @@ gufranco/tap/maeyomi
 gufranco/tap/marsdev
 gufranco/tap/maxcso
 gufranco/tap/nazuke
+gufranco/tap/nisemono
 gufranco/tap/shiwake
 gufranco/tap/torrentzip
 gufranco/tap/yakitsuke
@@ -101,6 +102,7 @@ kakikomi doctor
 | [kirisute](https://github.com/gufranco/kirisute) | 把 Game Boy Advance、DS、DSi 和 3DS 的 ROM 以及 PSP 的 ISO 剪裁至實際大小，按標頭資料重新命名，並為 ARK 壓縮 PSP 的 ISO |
 | [kiyome](https://github.com/gufranco/kiyome) | 以五種經校驗的圖案覆寫磁碟，並指出有故障的位元線 |
 | [nazuke](https://github.com/gufranco/nazuke) | 把冗長的檔案名稱改為簡短、易讀且不重複的 8.3 名稱，讓 FAT12 和 FAT16 裝置也能讀取 |
+| [nisemono](https://github.com/gufranco/nisemono) | 在 SD 卡或 USB 手指上寫入帶標記的資料區塊並讀回，找出翻新擴容卡的真實容量 |
 | [shiwake](https://github.com/gufranco/shiwake) | 按首字母把資料夾內的檔案分到 A 至 Z 的子資料夾 |
 | [yakitsuke](https://github.com/gufranco/yakitsuke) | 把任何影片轉換為附清晰字幕的 Video CD 映像，並分拆到多張光碟 |
 
