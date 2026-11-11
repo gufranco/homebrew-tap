@@ -26,6 +26,7 @@ English | [日本語](README.ja.md) | [简体中文](README.zh-Hans.md) | [繁�
 $ brew search gufranco/tap/
 gufranco/tap/anypatch
 gufranco/tap/aseprite
+gufranco/tap/enban
 gufranco/tap/fdstoolkit
 gufranco/tap/fusho
 gufranco/tap/jimaku
@@ -94,6 +95,7 @@ The command-line tools that share one interface, described in each tool's `FAMIL
 
 | Formula | What it does |
 |:--------|:-------------|
+| [enban](https://github.com/gufranco/enban) | Full-screen terminal app for writing, reading, building and verifying CD, DVD and Blu-ray discs, its jobs arriving one release at a time |
 | [fusho](https://github.com/gufranco/fusho) | Sends an encrypted message through any chat, using the recipient's published SSH keys |
 | [jimaku](https://github.com/gufranco/jimaku) | Downloads subtitles for videos and saves them as UTF-8 |
 | [kakikomi](https://github.com/gufranco/kakikomi) | Writes a disk image to removable media, verified chunk by chunk, never mounted |

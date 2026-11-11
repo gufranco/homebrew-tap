@@ -26,6 +26,7 @@
 $ brew search gufranco/tap/
 gufranco/tap/anypatch
 gufranco/tap/aseprite
+gufranco/tap/enban
 gufranco/tap/fdstoolkit
 gufranco/tap/fusho
 gufranco/tap/jimaku
@@ -94,6 +95,7 @@ kakikomi doctor
 
 | Formula | 用途 |
 |:--------|:-----|
+| [enban](https://github.com/gufranco/enban) | 用于刻录、读取、制作和校验 CD、DVD 与蓝光光盘的全屏终端应用，各项功能随版本逐步加入 |
 | [fusho](https://github.com/gufranco/fusho) | 使用收件人公开的 SSH 密钥，通过任意聊天工具发送加密消息 |
 | [jimaku](https://github.com/gufranco/jimaku) | 下载视频字幕并保存为 UTF-8 |
 | [kakikomi](https://github.com/gufranco/kakikomi) | 将磁盘镜像写入可移动介质，逐块校验，绝不挂载 |

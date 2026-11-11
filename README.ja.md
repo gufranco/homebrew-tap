@@ -26,6 +26,7 @@
 $ brew search gufranco/tap/
 gufranco/tap/anypatch
 gufranco/tap/aseprite
+gufranco/tap/enban
 gufranco/tap/fdstoolkit
 gufranco/tap/fusho
 gufranco/tap/jimaku
@@ -94,6 +95,7 @@ kakikomi doctor
 
 | Formula | 内容 |
 |:--------|:-----|
+| [enban](https://github.com/gufranco/enban) | CD、DVD、Blu-ray ディスクの書き込み、読み取り、イメージ作成、検証を行うフルスクリーンのターミナルアプリで、各機能はリリースごとに追加されます |
 | [fusho](https://github.com/gufranco/fusho) | 受信者が公開している SSH 鍵を使い、任意のチャットで暗号化したメッセージを送ります |
 | [jimaku](https://github.com/gufranco/jimaku) | 動画の字幕をダウンロードし、UTF-8 で保存します |
 | [kakikomi](https://github.com/gufranco/kakikomi) | ディスクイメージをリムーバブルメディアに書き込み、チャンクごとに検証し、マウントさせません |
