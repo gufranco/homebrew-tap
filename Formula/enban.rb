@@ -3,8 +3,8 @@
 class Enban < Formula
   desc "Write, read, build and verify CD, DVD and Blu-ray discs in a terminal app"
   homepage "https://github.com/gufranco/enban"
-  url "https://github.com/gufranco/enban/archive/refs/tags/v1.5.0.tar.gz"
-  sha256 "f656bc24c1654c89bbbe9cabaa97f10fb0227f0c8dddcdb231a2b7bfa366dfc8"
+  url "https://github.com/gufranco/enban/archive/refs/tags/v1.6.0.tar.gz"
+  sha256 "6297d84d8bb3385e4fbbf95c081d7640d729192840dc042154920d04ade2a4f0"
   license "MIT"
   head "https://github.com/gufranco/enban.git", branch: "main"
 
