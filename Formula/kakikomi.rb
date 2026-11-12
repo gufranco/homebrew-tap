@@ -3,8 +3,8 @@
 class Kakikomi < Formula
   desc "Write disk images to removable media, verified chunk by chunk, never mounted"
   homepage "https://github.com/gufranco/kakikomi"
-  url "https://github.com/gufranco/kakikomi/archive/refs/tags/v4.1.0.tar.gz"
-  sha256 "b7a6087ea402404197a178fe09ea1859b857475e1b447f7f58b9554ce4bfe27a"
+  url "https://github.com/gufranco/kakikomi/archive/refs/tags/v4.1.1.tar.gz"
+  sha256 "094fa29a2b32edddf931f7eaf3b4ace29101dad986369c2833ce9185368b0818"
   license "MIT"
   head "https://github.com/gufranco/kakikomi.git", branch: "main"
 
