@@ -3,8 +3,8 @@
 class Kiyome < Formula
   desc "Wipe removable media and verify every chunk, catching bad bit lines"
   homepage "https://github.com/gufranco/kiyome"
-  url "https://github.com/gufranco/kiyome/archive/refs/tags/v2.2.0.tar.gz"
-  sha256 "d38d98c81be4d520f264a0e105cd81d94eaeffef2eef461d9e7e0ebcb47c795f"
+  url "https://github.com/gufranco/kiyome/archive/refs/tags/v2.2.1.tar.gz"
+  sha256 "de3ac672572fffaeb6db17081933419437beb6523f3817caf00fc31c6814b61c"
   license "MIT"
   head "https://github.com/gufranco/kiyome.git", branch: "main"
 
