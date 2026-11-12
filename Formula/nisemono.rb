@@ -9,6 +9,7 @@ class Nisemono < Formula
   head "https://github.com/gufranco/nisemono.git", branch: "main"
 
   depends_on "gum"
+  depends_on "mtools"
 
   def install
     libexec.install "bin", "lib"

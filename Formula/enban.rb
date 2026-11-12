@@ -9,6 +9,7 @@ class Enban < Formula
   head "https://github.com/gufranco/enban.git", branch: "main"
 
   depends_on "gum"
+  depends_on "xorriso"
 
   def install
     libexec.install "bin", "lib"
