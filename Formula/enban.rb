@@ -11,6 +11,10 @@ class Enban < Formula
   depends_on "gum"
   depends_on "xorriso"
 
+  on_macos do
+    depends_on "cdrtools"
+  end
+
   def install
     libexec.install "bin", "lib"
     bin.write_exec_script libexec/"bin/enban"
