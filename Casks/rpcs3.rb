@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
 cask "rpcs3" do
-  version "0.0.43-20582,a90588e7ee8dc10aeaaa9441df674edd48d0d271"
+  version "0.0.43-20583,9b8974d32e73c897a5fcd6bdf69413ca7e436b01"
 
   on_arm do
-    sha256 "7cb16269cf0e6917e3fafe6a3cce19ac37f4c73853470d0e8edd321c4ff795a1"
+    sha256 "30f9bfbac535f76def6ca94986063522f750f842255b5b8970457252c6f0ded6"
 
     url "https://github.com/RPCS3/rpcs3-binaries-mac-arm64/releases/download/build-#{version.csv.second}/rpcs3-v#{version.csv.first}-#{version.csv.second[0, 8]}_macos_aarch64.7z"
   end
   on_intel do
-    sha256 "0051ceb5bf49f31cb4dbba7333aa6355fc503de92495cb080b5ca8a7a8081efa"
+    sha256 "e3475181303391ac96f1fe41f20cac27b0d56974e31e6c6b2e080efbf078beac"
 
     url "https://github.com/RPCS3/rpcs3-binaries-mac/releases/download/build-#{version.csv.second}/rpcs3-v#{version.csv.first}-#{version.csv.second[0, 8]}_macos.7z"
   end
