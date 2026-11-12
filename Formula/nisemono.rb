@@ -3,8 +3,8 @@
 class Nisemono < Formula
   desc "Check whether an SD card or USB drive holds what it claims"
   homepage "https://github.com/gufranco/nisemono"
-  url "https://github.com/gufranco/nisemono/archive/refs/tags/v1.0.0.tar.gz"
-  sha256 "6a995625f8c5ae0ea31d476b39957fdc3558a93c20aa9254911c94854c6ba6d3"
+  url "https://github.com/gufranco/nisemono/archive/refs/tags/v1.1.0.tar.gz"
+  sha256 "c3aeb15a5d200d0ccd413f7b91aaaf4990e9a9b63613e5102a957616e6d9e72e"
   license "MIT"
   head "https://github.com/gufranco/nisemono.git", branch: "main"
 
