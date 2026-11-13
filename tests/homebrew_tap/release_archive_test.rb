@@ -93,6 +93,68 @@ class ReleaseArchiveTest < Minitest::Test
     assert_equal "", version
   end
 
+  def test_reads_a_dynamic_version_from_the_file_and_pattern_hatch_names
+    # Arrange
+    pyproject = <<~'TOML'
+      [project]
+      dynamic = ["version"]
+
+      [tool.hatch.version]
+      path = "src/sample/version.py"
+      pattern = "^VERSION = \"(?P<version>[^\"]+)\"$"
+
+      [tool.ruff]
+      line-length = 100
+    TOML
+    files = { "pyproject.toml" => pyproject, "src/sample/version.py" => "VERSION = \"3.0.0\"\n" }
+    @tap.publish_release(tag: "v3.0.0", files:)
+
+    # Act
+    version = download("v3.0.0").packaged_version
+
+    # Assert
+    assert_equal "3.0.0", version
+  end
+
+  def test_reads_a_dynamic_version_with_the_default_hatch_pattern
+    # Arrange
+    pyproject = "[project]\ndynamic = [\"version\"]\n\n[tool.hatch.version]\npath = 'src/sample/__init__.py'\n"
+    files = { "pyproject.toml" => pyproject, "src/sample/__init__.py" => "__version__ = 'v1.4.2'\n" }
+    @tap.publish_release(tag: "v1.4.2", files:)
+
+    # Act
+    version = download("v1.4.2").packaged_version
+
+    # Assert
+    assert_equal "1.4.2", version
+  end
+
+  def test_reports_an_empty_version_when_hatch_names_no_file
+    # Arrange
+    pyproject = "[project]\ndynamic = [\"version\"]\n\n[tool.hatch.version]\nsource = \"vcs\"\n"
+    @tap.publish_release(tag: "v1.0.0", files: { "pyproject.toml" => pyproject })
+
+    # Act
+    version = download("v1.0.0").packaged_version
+
+    # Assert
+    assert_equal "", version
+  end
+
+  def test_fails_when_the_file_hatch_names_is_not_in_the_archive
+    # Arrange
+    pyproject = "[project]\ndynamic = [\"version\"]\n\n[tool.hatch.version]\npath = \"src/sample/version.py\"\n"
+    @tap.publish_release(tag: "v1.0.0", files: { "pyproject.toml" => pyproject })
+    archive = download("v1.0.0")
+
+    # Act
+    error = assert_raises(HomebrewTap::Error) { archive.packaged_version }
+
+    # Assert
+    expected = "pyproject.toml reads its version from src/sample/version.py, which the release archive does not have"
+    assert_equal expected, error.message
+  end
+
   def test_fails_when_the_archive_has_no_manifest
     # Arrange
     @tap.publish_release(tag: "v2.1.0", files: { "README.md" => Faker::Lorem.paragraph })
