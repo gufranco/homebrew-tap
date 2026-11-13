@@ -82,6 +82,21 @@ class FormulaBumpTest < Minitest::Test
     assert_includes @tap.formula_text, @tap.tagged_url("v1.0.0")
   end
 
+  def test_bumps_a_python_project_whose_version_hatch_reads_from_another_file
+    # Arrange
+    @tap.write_formula(tag: "v2.0.0")
+    pyproject = "[project]\ndynamic = [\"version\"]\n\n[tool.hatch.version]\npath = \"src/sample/version.py\"\n" \
+                "pattern = \"^VERSION = \\\"(?P<version>[^\\\"]+)\\\"$\"\n"
+    files = { "pyproject.toml" => pyproject, "src/sample/version.py" => "VERSION = \"3.0.0\"\n" }
+    @tap.publish_release(tag: "v3.0.0", files:)
+
+    # Act
+    @bump.bump(release("v3.0.0"))
+
+    # Assert
+    assert_includes @out.string, "formula #{@tap.name} now points at v3.0.0"
+  end
+
   def test_leaves_the_formula_on_a_newer_tag_when_asked_for_an_older_one
     # Arrange
     @tap.write_formula(tag: "v2.1.0")
