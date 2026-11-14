@@ -49,7 +49,7 @@ class FormulaBumpTest < Minitest::Test
     error = assert_raises(HomebrewTap::Error) { @bump.bump(release("v9.9.9")) }
 
     # Assert
-    assert_equal "could not download #{@tap.archive_base}/gufranco/#{@tap.name}/archive/refs/tags/v9.9.9.tar.gz",
+    assert_equal "could not download #{@tap.archive_base}/#{HomebrewTap::Release::OWNER}/#{@tap.name}/archive/refs/tags/v9.9.9.tar.gz",
                  error.message
   end
 
@@ -57,7 +57,7 @@ class FormulaBumpTest < Minitest::Test
     # Arrange
     @tap.write_formula(tag: "v1.0.0")
     path = @tap.publish_release(tag: "v2.1.0", files: { "lib/core.sh" => 'SAMPLE_VERSION="2.1.0"' })
-    url = "#{@tap.archive_base}/gufranco/#{@tap.name}/archive/refs/tags/v2.1.0.tar.gz"
+    url = "#{@tap.archive_base}/#{HomebrewTap::Release::OWNER}/#{@tap.name}/archive/refs/tags/v2.1.0.tar.gz"
 
     # Act
     @bump.bump(release("v2.1.0"))
@@ -148,7 +148,7 @@ class FormulaBumpTest < Minitest::Test
     bumps.map { |bump| Thread.new { bump.bump(release("v1.1.0")) } }.each(&:join)
 
     # Assert
-    url = "#{@tap.archive_base}/gufranco/#{@tap.name}/archive/refs/tags/v1.1.0.tar.gz"
+    url = "#{@tap.archive_base}/#{HomebrewTap::Release::OWNER}/#{@tap.name}/archive/refs/tags/v1.1.0.tar.gz"
     assert_equal @tap.formula_source(url:, sha256: Digest::SHA256.file(path).hexdigest), @tap.formula_text
     assert_equal ["#{@tap.name}.rb"], Dir.children(@tap.formula_dir)
   end

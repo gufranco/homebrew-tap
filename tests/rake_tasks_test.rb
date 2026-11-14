@@ -25,7 +25,7 @@ class RakeTasksTest < Minitest::Test
     # Assert
     assert_equal ["", 0], [err, status.exitstatus]
     assert_includes out, "formula #{tap.name} now points at v1.1.0\n"
-    assert_includes tap.formula_text, "#{tap.archive_base}/gufranco/#{tap.name}/archive/refs/tags/v1.1.0.tar.gz"
+    assert_includes tap.formula_text, "#{tap.archive_base}/#{HomebrewTap::Release::OWNER}/#{tap.name}/archive/refs/tags/v1.1.0.tar.gz"
   ensure
     tap.remove
   end

@@ -65,7 +65,7 @@ class TapFixture
   end
 
   def archive_path(tag)
-    File.join(archives_dir, "gufranco", name, "archive", "refs", "tags", "#{tag}.tar.gz")
+    File.join(archives_dir, HomebrewTap::Release::OWNER, name, "archive", "refs", "tags", "#{tag}.tar.gz")
   end
 
   def remove
