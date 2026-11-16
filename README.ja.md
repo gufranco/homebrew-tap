@@ -18,7 +18,7 @@
 
 </div>
 
-14 個の formula、14 個の cask、そしてそれらを最新に保つ Ruby のコードです。tap は小さな clone で、formula と cask の定義だけを持ち、プロジェクトのソースは含みません。
+21 個の formula、15 個の cask、そしてそれらを最新に保つ Ruby のコードです。tap は小さな clone で、formula と cask の定義だけを持ち、プロジェクトのソースは含みません。
 
 ---
 
@@ -29,6 +29,7 @@ gufranco/tap/aseprite
 gufranco/tap/enban
 gufranco/tap/fdstoolkit
 gufranco/tap/fusho
+gufranco/tap/henkan
 gufranco/tap/jimaku
 gufranco/tap/kakikomi
 gufranco/tap/katazuke
@@ -114,6 +115,7 @@ kakikomi doctor
 |:--------|:-----|
 | [anypatch](https://github.com/gufranco/anypatch) | 文書化されたあらゆる形式のバイナリパッチを読み書き、統合、変換します |
 | [fdstoolkit](https://github.com/gufranco/fdstoolkit) | ファミリーコンピュータ ディスクシステムのメディアを読み取り、評価、再構築、書き込みします |
+| [henkan](https://github.com/gufranco/henkan) | ゲームのディスクイメージとゲームパッケージを変換、検証、保管します |
 | [maeyomi](https://github.com/gufranco/maeyomi) | バーコードバトラーやバーコードゲーム用の遊べるカードを印刷します |
 
 ### サードパーティのツール

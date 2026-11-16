@@ -18,7 +18,7 @@ English | [日本語](README.ja.md) | [简体中文](README.zh-Hans.md) | [繁�
 
 </div>
 
-14 formulae, 14 casks, and the Ruby code that keeps them current. Tapping it is a small clone: it holds formula and cask definitions, never project source.
+21 formulae, 15 casks, and the Ruby code that keeps them current. Tapping it is a small clone: it holds formula and cask definitions, never project source.
 
 ---
 
@@ -29,6 +29,7 @@ gufranco/tap/aseprite
 gufranco/tap/enban
 gufranco/tap/fdstoolkit
 gufranco/tap/fusho
+gufranco/tap/henkan
 gufranco/tap/jimaku
 gufranco/tap/kakikomi
 gufranco/tap/katazuke
@@ -114,6 +115,7 @@ The command-line tools that share one interface, described in each tool's `FAMIL
 |:--------|:-------------|
 | [anypatch](https://github.com/gufranco/anypatch) | Reads, writes, merges and converts binary patches in every documented format |
 | [fdstoolkit](https://github.com/gufranco/fdstoolkit) | Reads, judges, reconstructs and writes Famicom Disk System media |
+| [henkan](https://github.com/gufranco/henkan) | Converts, verifies and stores game disc images and game packages |
 | [maeyomi](https://github.com/gufranco/maeyomi) | Prints playable cards for Barcode Battler machines and barcode games |
 
 ### Third-party tools

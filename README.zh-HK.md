@@ -18,7 +18,7 @@
 
 </div>
 
-14 個 formula、14 個 cask，以及令它們保持最新的 Ruby 程式碼。tap 是一個很小的 clone：只包含 formula 和 cask 的定義，從不包含項目原始碼。
+21 個 formula、15 個 cask，以及令它們保持最新的 Ruby 程式碼。tap 是一個很小的 clone：只包含 formula 和 cask 的定義，從不包含項目原始碼。
 
 ---
 
@@ -29,6 +29,7 @@ gufranco/tap/aseprite
 gufranco/tap/enban
 gufranco/tap/fdstoolkit
 gufranco/tap/fusho
+gufranco/tap/henkan
 gufranco/tap/jimaku
 gufranco/tap/kakikomi
 gufranco/tap/katazuke
@@ -114,6 +115,7 @@ kakikomi doctor
 |:--------|:-----|
 | [anypatch](https://github.com/gufranco/anypatch) | 讀取、寫入、合併及轉換所有已公開格式的二進制修補檔 |
 | [fdstoolkit](https://github.com/gufranco/fdstoolkit) | 讀取、評估、重建及寫入 Famicom 磁碟機媒體 |
+| [henkan](https://github.com/gufranco/henkan) | 轉換、校驗及保存遊戲光碟映像檔和遊戲套件 |
 | [maeyomi](https://github.com/gufranco/maeyomi) | 為 Barcode Battler 及條碼遊戲列印可用的卡片 |
 
 ### 第三方工具
