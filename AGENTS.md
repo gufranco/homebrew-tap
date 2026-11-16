@@ -77,6 +77,7 @@ The tap ships the kodougu tools but is not a member of that family: it also carr
 ## Formula bumps
 
 - A kodougu release runs its own `formula.yml`, which sends a `formula-bump` dispatch with `name` and `tag` through the `gufranco-tap-bot` GitHub App; the tap's [`formula-bump.yml`](.github/workflows/formula-bump.yml) receives it.
+- A release whose source needs a build step that is never committed, such as fdstoolkit's web page, attaches a source archive and adds its file name to the dispatch as `asset`. The bump then points the formula at `releases/download/<tag>/<asset>` instead of GitHub's tag archive, and checks its version the same way. An asset name is a plain `.tar.gz` file name, never a path.
 - The bump accepts only a lowercase name whose formula's `homepage` is `https://github.com/gufranco/<name>` and a numeric tag such as `v1.2.3`, with or without the `v`. It reads the version from the archive's `pyproject.toml` or `lib/core.sh`, and stops when that version differs from the tag. A `pyproject.toml` with a dynamic version is followed to the file its `[tool.hatch.version]` table names, read with that table's `pattern` or Hatch's default one.
 - A tag older than the formula's current one leaves the formula alone, so a late dispatch never moves a formula back.
 - The formula is built from source and its test block runs on macOS before the commit reaches `main`. The push retries three times, rebasing each time it loses a race.

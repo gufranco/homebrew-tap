@@ -96,4 +96,26 @@ class ReleaseTest < Minitest::Test
     # Assert
     assert_operator newer, :>, HomebrewTap::Release.version_of(older)
   end
+
+  def test_builds_the_release_asset_url_when_the_release_attaches_one
+    # Arrange
+    release = HomebrewTap::Release.new(name: @name, tag: "v2.1.0", asset: "#{@name}-2.1.0.tar.gz")
+
+    # Act
+    url = release.archive_url("https://github.com")
+
+    # Assert
+    assert_equal "https://github.com/gufranco/#{@name}/releases/download/v2.1.0/#{@name}-2.1.0.tar.gz", url
+  end
+
+  def test_rejects_an_asset_that_is_not_a_plain_archive_name
+    # Arrange
+    asset = "../#{@name}.tar.gz"
+
+    # Act
+    error = assert_raises(HomebrewTap::Error) { HomebrewTap::Release.new(name: @name, tag: "v1.0.0", asset:) }
+
+    # Assert
+    assert_equal "asset ../#{@name}.tar.gz is not a plain archive name", error.message
+  end
 end

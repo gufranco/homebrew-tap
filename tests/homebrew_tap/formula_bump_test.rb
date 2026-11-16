@@ -158,4 +158,21 @@ class FormulaBumpTest < Minitest::Test
   def release(tag)
     HomebrewTap::Release.new(name: @tap.name, tag:)
   end
+
+  def test_points_the_formula_at_the_release_asset_when_there_is_one
+    # Arrange
+    @tap.write_formula(tag: "v1.0.0")
+    asset = "#{@tap.name}-2.1.0.tar.gz"
+    path = @tap.publish_asset(tag: "v2.1.0", asset:, files: { "lib/core.sh" => 'SAMPLE_VERSION="2.1.0"' })
+    owner = HomebrewTap::Release::OWNER
+    url = "#{@tap.archive_base}/#{owner}/#{@tap.name}/releases/download/v2.1.0/#{asset}"
+
+    # Act
+    @bump.bump(HomebrewTap::Release.new(name: @tap.name, tag: "v2.1.0", asset:))
+
+    # Assert
+    checksum = Digest::SHA256.file(path).hexdigest
+    assert_includes @tap.formula_text, %Q(url "#{url}")
+    assert_includes @tap.formula_text, %Q(sha256 "#{checksum}")
+  end
 end

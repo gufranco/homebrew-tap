@@ -14,7 +14,7 @@ GITHUB = "https://github.com"
 AUDIT_SKIPS = ["livecheck_version", "livecheck_https_availability"].freeze
 
 def release_from_env
-  HomebrewTap::Release.new(name: ENV.fetch("NAME", ""), tag: ENV.fetch("TAG", ""))
+  HomebrewTap::Release.new(name: ENV.fetch("NAME", ""), tag: ENV.fetch("TAG", ""), asset: ENV.fetch("ASSET", ""))
 end
 
 def reporting_errors

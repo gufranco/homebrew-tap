@@ -14,6 +14,11 @@ on:
         description: The release tag to point it at
         required: true
         type: string
+      asset:
+        description: The source archive attached to the release, when the release attaches one
+        required: false
+        type: string
+        default: ""
 
 permissions:
   contents: read
@@ -30,6 +35,7 @@ jobs:
     env:
       NAME: ${{ github.event.client_payload.name || inputs.name }}
       TAG: ${{ github.event.client_payload.tag || inputs.tag }}
+      ASSET: ${{ github.event.client_payload.asset || inputs.asset }}
     steps:
       - uses: step-security/harden-runner@46b06cea07f9e64621fdf066ba77ac6915163d43  # v2.22.3
         with:

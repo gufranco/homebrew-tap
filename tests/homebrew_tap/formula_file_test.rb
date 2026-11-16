@@ -117,4 +117,17 @@ class FormulaFileTest < Minitest::Test
   def release(tag)
     HomebrewTap::Release.new(name: @tap.name, tag:)
   end
+
+  def test_reads_the_current_tag_from_a_release_asset_url
+    # Arrange
+    url = "https://github.com/gufranco/#{@tap.name}/releases/download/v2.1.0/#{@tap.name}-2.1.0.tar.gz"
+    @tap.write_formula(tag: "v2.1.0", url:)
+    formula = HomebrewTap::FormulaFile.read(@tap.formula_path)
+
+    # Act
+    newer = formula.tag_newer_than(release("v2.0.0"))
+
+    # Assert
+    assert_equal "v2.1.0", newer
+  end
 end

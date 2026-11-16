@@ -57,6 +57,13 @@ class TapFixture
     publish_bytes(tag:, bytes: Zlib.gzip(tarball("#{name}-#{tag.delete_prefix("v")}", files)))
   end
 
+  def publish_asset(tag:, asset:, files:)
+    path = File.join(archives_dir, HomebrewTap::Release::OWNER, name, "releases", "download", tag, asset)
+    FileUtils.mkdir_p(File.dirname(path))
+    File.binwrite(path, Zlib.gzip(tarball("#{name}-#{tag.delete_prefix("v")}", files)))
+    path
+  end
+
   def publish_bytes(tag:, bytes:)
     path = archive_path(tag)
     FileUtils.mkdir_p(File.dirname(path))

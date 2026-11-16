@@ -5,7 +5,9 @@ require_relative "release"
 
 module HomebrewTap
   class FormulaFile
-    TAGGED_URL = Regexp.new('^ *url ".*/archive/refs/tags/(v?\d+(?:\.\d+)*)\.tar\.gz"$').freeze
+    TAGGED_URL = Regexp.new(
+      '^ *url ".*/(?:archive/refs/tags/(v?\d+(?:\.\d+)*)|releases/download/(v?\d+(?:\.\d+)*)/[^"/]+)\.tar\.gz"$',
+    ).freeze
     URL = Regexp.new('url "[^"]+"').freeze
     CHECKSUM = Regexp.new('sha256 "[0-9a-f]{64}"').freeze
 
@@ -28,7 +30,8 @@ module HomebrewTap
     end
 
     def tag_newer_than(release)
-      current = text[TAGGED_URL, 1]
+      found = text.match(TAGGED_URL)
+      current = found && (found[1] || found[2])
       return if current.nil? || current == release.tag
 
       current if Release.version_of(current) >= Release.version_of(release.tag)
