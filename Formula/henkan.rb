@@ -3,8 +3,8 @@
 class Henkan < Formula
   desc "Convert, verify and store game disc images and game packages"
   homepage "https://github.com/gufranco/henkan"
-  url "https://github.com/gufranco/henkan/archive/refs/tags/v0.0.0.tar.gz"
-  sha256 "d2b2053e78b3f76706079a8a808355e9917c58bcfd653802cdff8941a1a6c8fa"
+  url "https://github.com/gufranco/henkan/archive/refs/tags/v0.1.0.tar.gz"
+  sha256 "8cf8d8a40cdf26fed9de8fb9ee0e85899fb5fde45633f36bfaccbc5e92bcf512"
   license "MIT"
   head "https://github.com/gufranco/henkan.git", branch: "main"
 
