@@ -23,7 +23,10 @@ module HomebrewTap
     end
 
     def merge(branch:, head_sha:)
-      require_target(branch, head_sha)
+      raise Error, "branch required" if branch.empty?
+      raise Error, "head commit required" if head_sha.empty?
+      raise Error, "head commit #{head_sha} is not a full commit SHA" unless SHA.match?(head_sha)
+
       pull = open_pull(branch)
       return @out.puts("no open pull request for #{branch}") unless pull
 
@@ -31,7 +34,9 @@ module HomebrewTap
     end
 
     def merge_all
-      pulls = open_pulls
+      listed = @github.run("pr", "list", "--repo", @repo, "--state", "open", "--limit", OPEN_PULLS_LIMIT,
+                           "--json", FIELDS)
+      pulls = JSON.parse(listed).select { |pull| pull["isCrossRepository"] == false }
       @out.puts("no open pull requests") if pulls.empty?
       pulls.each { |pull| settle(pull, pull["headRefOid"]) }
     end
@@ -43,18 +48,6 @@ module HomebrewTap
       return @out.puts(hold) if hold
 
       squash(pull["number"].to_s, pull["title"], head_sha)
-    end
-
-    def open_pulls
-      listed = @github.run("pr", "list", "--repo", @repo, "--state", "open", "--limit", OPEN_PULLS_LIMIT,
-                           "--json", FIELDS)
-      JSON.parse(listed).select { |pull| pull["isCrossRepository"] == false }
-    end
-
-    def require_target(branch, head_sha)
-      raise Error, "branch required" if branch.empty?
-      raise Error, "head commit required" if head_sha.empty?
-      raise Error, "head commit #{head_sha} is not a full commit SHA" unless SHA.match?(head_sha)
     end
 
     def open_pull(branch)
@@ -71,11 +64,8 @@ module HomebrewTap
       return "pull request #{number} moved past #{head_sha}" if pull["headRefOid"] != head_sha
       return "pull request #{number} has no checks yet" if checks.empty?
 
-      "pull request #{number} has checks not passed yet: #{names(unpassed)}" unless unpassed.empty?
-    end
-
-    def names(checks)
-      checks.map { |check| check["name"] || check["context"] }.join(", ")
+      waiting = unpassed.map { |check| check["name"] || check["context"] }.join(", ")
+      "pull request #{number} has checks not passed yet: #{waiting}" unless unpassed.empty?
     end
 
     def squash(number, title, head_sha)
@@ -84,17 +74,14 @@ module HomebrewTap
                   "--body", "Merged after every check passed on #{head_sha}.")
       @out.puts("merged pull request #{number} at #{head_sha}")
     rescue Error
-      raise unless merged?(number)
+      state = JSON.parse(@github.run("pr", "view", number, "--repo", @repo, "--json", "state"))["state"]
+      raise if state != "MERGED"
 
       @out.puts("pull request #{number} was already merged")
     end
 
     def subject(title)
       CONVENTIONAL.match?(title) ? title : "chore: bump #{title}"
-    end
-
-    def merged?(number)
-      JSON.parse(@github.run("pr", "view", number, "--repo", @repo, "--json", "state"))["state"] == "MERGED"
     end
   end
 end

@@ -21,40 +21,30 @@ module HomebrewTap
     end
 
     def retry_cancelled
-      pulls = bot_pulls
+      listed = @github.run("pr", "list", "--repo", @repo, "--state", "open",
+                           "--limit", PullRequestMerge::OPEN_PULLS_LIMIT, "--json", FIELDS)
+      pulls = JSON.parse(listed).select do |pull|
+        pull["isCrossRepository"] == false && PullRequestMerge::BOTS.include?(pull["author"]["login"])
+      end
       @out.puts("no open bot pull requests") if pulls.empty?
-      pulls.each { |pull| retry_pull(pull) }
+      pulls.each do |pull|
+        number = pull["number"]
+        runs = pull["statusCheckRollup"].select { |check| check["conclusion"] == CANCELLED }
+                                        .filter_map { |check| check["detailsUrl"].to_s[RUN_ID, 1] }
+                                        .uniq
+        @out.puts("pull request #{number} has no cancelled checks") if runs.empty?
+        runs.each { |run| rerun(number, run) }
+      end
     end
 
     private
 
-    def bot_pulls
-      listed = @github.run("pr", "list", "--repo", @repo, "--state", "open",
-                           "--limit", PullRequestMerge::OPEN_PULLS_LIMIT, "--json", FIELDS)
-      JSON.parse(listed).select do |pull|
-        pull["isCrossRepository"] == false && PullRequestMerge::BOTS.include?(pull["author"]["login"])
-      end
-    end
-
-    def retry_pull(pull)
-      number = pull["number"]
-      runs = cancelled_runs(pull["statusCheckRollup"])
-      @out.puts("pull request #{number} has no cancelled checks") if runs.empty?
-      runs.each { |run| rerun(number, run) }
-    end
-
-    def cancelled_runs(checks)
-      checks.select { |check| check["conclusion"] == CANCELLED }
-            .filter_map { |check| check["detailsUrl"].to_s[RUN_ID, 1] }
-            .uniq
-    end
-
     def rerun(number, run)
       found = view(run)
       return already_running(number, run) if running?(found)
-      return exhausted(number, run) if found["attempt"] >= MAX_ATTEMPTS
+      return start(number, run) if found["attempt"] < MAX_ATTEMPTS
 
-      start(number, run)
+      @out.puts("::warning::run #{run} of pull request #{number} was cancelled on all #{MAX_ATTEMPTS} attempts")
     end
 
     def start(number, run)
@@ -68,10 +58,6 @@ module HomebrewTap
 
     def already_running(number, run)
       @out.puts("run #{run} of pull request #{number} is already running again")
-    end
-
-    def exhausted(number, run)
-      @out.puts("::warning::run #{run} of pull request #{number} was cancelled on all #{MAX_ATTEMPTS} attempts")
     end
 
     def view(run)

@@ -13,7 +13,18 @@ class FakeGh
     File.open(@state_path, File::RDWR) do |file|
       file.flock(File::LOCK_EX)
       state = JSON.parse(file.read)
-      code = dispatch(state, args)
+      code = case args.first(2)
+      in ["pr", "list"] then list(state, flags(args.drop(2)))
+      in ["pr", "view"] then view(state, args[2])
+      in ["pr", "merge"] then merge(state, args[2], flags(args.drop(3)))
+      in ["run", "view"]
+        puts(JSON.generate(state["runs"].fetch(args[2]).slice("attempt", "status")))
+        0
+      in ["run", "rerun"] then rerun(state, args[2])
+      else
+        warn("unknown command: #{args.join(" ")}")
+        2
+      end
       file.rewind
       file.truncate(0)
       file.write(JSON.generate(state))
@@ -22,19 +33,6 @@ class FakeGh
   end
 
   private
-
-  def dispatch(state, args)
-    case args.first(2)
-    in ["pr", "list"] then list(state, flags(args.drop(2)))
-    in ["pr", "view"] then view(state, args[2])
-    in ["pr", "merge"] then merge(state, args[2], flags(args.drop(3)))
-    in ["run", "view"] then view_run(state, args[2])
-    in ["run", "rerun"] then rerun(state, args[2])
-    else
-      warn("unknown command: #{args.join(" ")}")
-      2
-    end
-  end
 
   def flags(args)
     args.slice_before { |arg| arg.start_with?("--") }.to_h { |name, value = true| [name, value] }
@@ -67,11 +65,6 @@ class FakeGh
     found["state"] = "MERGED"
     state["merges"] << { "number" => found["number"], "subject" => options["--subject"],
                          "body" => options["--body"], "squash" => options["--squash"] }
-    0
-  end
-
-  def view_run(state, id)
-    puts(JSON.generate(state["runs"].fetch(id).slice("attempt", "status")))
     0
   end
 

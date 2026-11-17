@@ -13,7 +13,11 @@ module HomebrewTap
 
     def verify
       require_installed_tap
-      return if same_directory? || same_clean_commit?
+      return if same_directory?
+
+      workspace = Git.new(dir: @workspace)
+      tap = Git.new(dir: @tap)
+      return if head(workspace) == head(tap) && clean?(workspace) && clean?(tap)
 
       raise Error, "brew audits the tap at #{@tap}, which is not this checkout at the same clean commit. " \
                    "bring both to one commit with no local changes, then audit again."
@@ -50,12 +54,6 @@ module HomebrewTap
 
     def same_directory?
       File.realpath(@workspace) == File.realpath(@tap)
-    end
-
-    def same_clean_commit?
-      workspace = Git.new(dir: @workspace)
-      tap = Git.new(dir: @tap)
-      head(workspace) == head(tap) && clean?(workspace) && clean?(tap)
     end
 
     def head(git)

@@ -46,11 +46,60 @@ class Marsdev < Formula
   end
 
   def install
-    build_binutils
-    build_gcc
-    install_sgdk
-    build_libmd
-    write_environment
+    resource("binutils").stage do
+      mkdir "build" do
+        system "../configure", *toolchain_args, "--enable-install-libbfd", "--enable-shared=no"
+        system "make"
+        system "make", "install-strip"
+      end
+    end
+
+    resource("gcc").stage do
+      mkdir "build" do
+        system "../configure", *toolchain_args,
+               "--enable-languages=c", "--without-headers", "--disable-libssp", "--disable-threads",
+               "--disable-tls", "--disable-multilib", "--enable-shared=no",
+               "--with-gmp=#{formula_opt_prefix("gmp")}", "--with-mpfr=#{formula_opt_prefix("mpfr")}",
+               "--with-mpc=#{formula_opt_prefix("libmpc")}", "--with-isl=#{formula_opt_prefix("isl")}"
+        system "make"
+        system "make", "install-strip"
+      end
+    end
+
+    sgdk = buildpath/"sgdk-source"
+    resource("sgdk").stage(sgdk)
+    cp buildpath/"sgdk/common.mk", sgdk/"common.mk"
+    inreplace [sgdk/"inc/snd/pcm/snd_pcm.h", sgdk/"inc/snd/pcm/snd_pcm4.h"], "const bool loop", "const u8 loop"
+    (sgdk/"makelib.gen").append_lines \
+      "$(addprefix $(OUT_DIR)/, $(SRC_LIB_C:.c=.o)): | $(addprefix $(OUT_DIR)/, $(RES_LIB_RES:.res=.o))"
+    cp_r [sgdk/"inc", sgdk/"res", sgdk/"src"], gdk
+    cp [sgdk/"common.mk", sgdk/"makelib.gen", sgdk/"makefile.gen", sgdk/"md.ld"], gdk
+    inreplace gdk/"common.mk", "JAVA := java", "JAVA := #{formula_opt_bin("openjdk")}/java"
+
+    tools = gdk/"bin"
+    system ENV.cc, sgdk/"tools/bintos/src/bintos.c", "-o", tools/"bintos"
+    cd sgdk/"tools/xgmtool/src" do
+      system ENV.cc, *Dir["*.c"], "-I../inc", "-lm", "-o", tools/"xgmtool"
+    end
+    %w[rescomp xgmRomBuilder sizebnd lz4w apj xgm2tool].each { |jar| cp sgdk/"bin/#{jar}.jar", tools }
+    resource("sjasm").stage do
+      cd "Sjasm" do
+        system "make"
+        cp "sjasm", tools
+      end
+    end
+
+    cd gdk do
+      system "make", "-f", "makelib.gen", "release"
+      system "make", "-f", "makelib.gen", "debug"
+      system "make", "-f", "makelib.gen", "clean-task"
+    end
+
+    (libexec/"mars/mars.sh").write <<~SH
+      export MARSDEV="#{opt_libexec}/mars"
+      export GDK="#{opt_libexec}/mars/m68k-elf"
+      export PATH="$PATH:#{opt_libexec}/mars/m68k-elf/bin"
+    SH
   end
 
   def caveats
@@ -95,73 +144,5 @@ class Marsdev < Formula
       "--disable-werror",
       "--with-system-zlib",
     ]
-  end
-
-  def build_binutils
-    resource("binutils").stage do
-      mkdir "build" do
-        system "../configure", *toolchain_args, "--enable-install-libbfd", "--enable-shared=no"
-        system "make"
-        system "make", "install-strip"
-      end
-    end
-  end
-
-  def build_gcc
-    resource("gcc").stage do
-      mkdir "build" do
-        system "../configure", *toolchain_args,
-               "--enable-languages=c", "--without-headers", "--disable-libssp", "--disable-threads",
-               "--disable-tls", "--disable-multilib", "--enable-shared=no",
-               "--with-gmp=#{formula_opt_prefix("gmp")}", "--with-mpfr=#{formula_opt_prefix("mpfr")}",
-               "--with-mpc=#{formula_opt_prefix("libmpc")}", "--with-isl=#{formula_opt_prefix("isl")}"
-        system "make"
-        system "make", "install-strip"
-      end
-    end
-  end
-
-  def install_sgdk
-    sgdk = buildpath/"sgdk-source"
-    resource("sgdk").stage(sgdk)
-    cp buildpath/"sgdk/common.mk", sgdk/"common.mk"
-    inreplace [sgdk/"inc/snd/pcm/snd_pcm.h", sgdk/"inc/snd/pcm/snd_pcm4.h"], "const bool loop", "const u8 loop"
-    (sgdk/"makelib.gen").append_lines \
-      "$(addprefix $(OUT_DIR)/, $(SRC_LIB_C:.c=.o)): | $(addprefix $(OUT_DIR)/, $(RES_LIB_RES:.res=.o))"
-    cp_r [sgdk/"inc", sgdk/"res", sgdk/"src"], gdk
-    cp [sgdk/"common.mk", sgdk/"makelib.gen", sgdk/"makefile.gen", sgdk/"md.ld"], gdk
-    inreplace gdk/"common.mk", "JAVA := java", "JAVA := #{formula_opt_bin("openjdk")}/java"
-    install_sgdk_tools(sgdk)
-  end
-
-  def install_sgdk_tools(sgdk)
-    tools = gdk/"bin"
-    system ENV.cc, sgdk/"tools/bintos/src/bintos.c", "-o", tools/"bintos"
-    cd sgdk/"tools/xgmtool/src" do
-      system ENV.cc, *Dir["*.c"], "-I../inc", "-lm", "-o", tools/"xgmtool"
-    end
-    %w[rescomp xgmRomBuilder sizebnd lz4w apj xgm2tool].each { |jar| cp sgdk/"bin/#{jar}.jar", tools }
-    resource("sjasm").stage do
-      cd "Sjasm" do
-        system "make"
-        cp "sjasm", tools
-      end
-    end
-  end
-
-  def build_libmd
-    cd gdk do
-      system "make", "-f", "makelib.gen", "release"
-      system "make", "-f", "makelib.gen", "debug"
-      system "make", "-f", "makelib.gen", "clean-task"
-    end
-  end
-
-  def write_environment
-    (libexec/"mars/mars.sh").write <<~SH
-      export MARSDEV="#{opt_libexec}/mars"
-      export GDK="#{opt_libexec}/mars/m68k-elf"
-      export PATH="$PATH:#{opt_libexec}/mars/m68k-elf/bin"
-    SH
   end
 end

@@ -18,10 +18,8 @@ class Maeyomi < Formula
     system "uv", "sync", "--frozen", "--no-dev", "--no-editable", "--extra", "ui",
            "--python", python
     bin.install_symlink libexec/"bin/maeyomi"
-    sign_native_libraries if OS.mac?
-  end
+    return unless OS.mac?
 
-  def sign_native_libraries
     Dir[libexec/"lib/**/*.{so,dylib}"].each do |path|
       library = Pathname(path)
       if library.dylib?
