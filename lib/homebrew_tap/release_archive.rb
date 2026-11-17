@@ -67,8 +67,9 @@ module HomebrewTap
       end
 
       python = toml_string(table, "pattern")
-      pattern = python ? Regexp.new(python.gsub("(?P<", "(?<").gsub(/\(\?P=(\w+)\)/, '\k<\1>')) : HATCH_DEFAULT_PATTERN
-      source[pattern, "version"].to_s
+      return source[HATCH_DEFAULT_PATTERN, "version"].to_s unless python
+
+      source[Regexp.new(python.gsub("(?P<", "(?<").gsub(/\(\?P=(\w+)\)/, '\k<\1>')), "version"].to_s
     end
 
     def toml_string(table, key)
