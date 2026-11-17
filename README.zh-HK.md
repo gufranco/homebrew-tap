@@ -18,7 +18,7 @@
 
 </div>
 
-21 個 formula、15 個 cask，以及令它們保持最新的 Ruby 程式碼。tap 是一個很小的 clone：只包含 formula 和 cask 的定義，從不包含項目原始碼。
+21 個 formula、18 個 cask，以及令它們保持最新的 Ruby 程式碼。tap 是一個很小的 clone：只包含 formula 和 cask 的定義，從不包含項目原始碼。
 
 ---
 
@@ -52,6 +52,9 @@ gufranco/tap/lazpaint
 gufranco/tap/ldtk
 gufranco/tap/libresprite
 gufranco/tap/lmms
+gufranco/tap/m-vave-cubesuite
+gufranco/tap/m-vave-m-upgrade
+gufranco/tap/m-vave-midi-suite
 gufranco/tap/mesen
 gufranco/tap/opencore-patcher@beta
 gufranco/tap/pikopixel
@@ -172,6 +175,16 @@ homebrew-cask 沒有這些插件的 cask。每個 cask 安裝開發者簽署並�
 | Cask | 簡介 |
 |:-----|:-----|
 | [socalabs-sn76489](https://socalabs.com/synths/sn76489/) | 模擬 Sega Master System 音源晶片 SN76489 的合成器，提供 AU、VST、VST3 及 CLAP 格式 |
+
+### 裝置軟件
+
+homebrew-cask 沒有這些應用程式的 cask，它們用於設定及更新 M-VAVE 的樂器和效果器。每個 cask 安裝廠商簽署並經過公證的建置。
+
+| Cask | 簡介 |
+|:-----|:-----|
+| [m-vave-cubesuite](https://www.m-vave.com/download.html) | M-VAVE 循環器、Cube Baby 音箱、H8、Chocolate、Cube Sugar 及 IR Box 的編輯器；經 Rosetta 2 執行 |
+| [m-vave-m-upgrade](https://www.m-vave.com/download.html) | M-VAVE 效果器及 SMK-37 鍵盤的韌體更新工具；需要 macOS 12 |
+| [m-vave-midi-suite](https://www.m-vave.com/download.html) | M-VAVE SMK 鍵盤以及 SMC-PAD、SMC-Mixer 控制器的編輯器 |
 
 <a id="how-it-stays-current"></a>
 
