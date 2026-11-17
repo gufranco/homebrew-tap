@@ -44,12 +44,7 @@ class Aseprite < Formula
            "-DSKIA_LIBRARY=#{buildpath}/skia/out/Release-#{skia_arch}/libskia.a"
     system "ninja", "-C", "build", "aseprite"
 
-    install_icons(buildpath/"build/bin/Aseprite.app/Contents/Resources")
-    prefix.install "build/bin/Aseprite.app"
-    bin.write_exec_script prefix/"Aseprite.app/Contents/MacOS/aseprite"
-  end
-
-  def icon_sets
+    resources = buildpath/"build/bin/Aseprite.app/Contents/Resources"
     {
       "Aseprite" => {
         "icon_16x16.png"      => "ase16.png",
@@ -71,16 +66,14 @@ class Aseprite < Formula
         "icon_128x128@2x.png" => "doc256.png",
         "icon_256x256.png"    => "doc256.png",
       },
-    }
-  end
-
-  def install_icons(resources)
-    icon_sets.each do |name, images|
+    }.each do |name, images|
       iconset = buildpath/"icons/#{name}.iconset"
       iconset.mkpath
       images.each { |target, source| cp buildpath/"data/icons"/source, iconset/target }
       system "iconutil", "-c", "icns", iconset, "-o", resources/"#{name}.icns"
     end
+    prefix.install "build/bin/Aseprite.app"
+    bin.write_exec_script prefix/"Aseprite.app/Contents/MacOS/aseprite"
   end
 
   def caveats

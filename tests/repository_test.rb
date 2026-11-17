@@ -21,7 +21,10 @@ class RepositoryTest < Minitest::Test
     names = definitions("Formula") + definitions("Casks")
 
     # Act
-    missing = READMES.flat_map { |readme| unlisted(readme, names) }
+    missing = READMES.flat_map do |readme|
+      text = File.read(File.join(ROOT, readme))
+      names.reject { |name| text.include?("[#{name}](") }.map { |name| "#{readme}: #{name}" }
+    end
 
     # Assert
     assert_equal [], missing
@@ -30,9 +33,13 @@ class RepositoryTest < Minitest::Test
   def test_every_third_party_formula_has_a_scheduled_version_check
     # Arrange
     commands = run_commands("update-casks.yml")
+    third_party = definitions("Formula").reject do |name|
+      source = File.read(File.join(ROOT, "Formula", "#{name}.rb"))
+      source.include?(%Q(  homepage "https://github.com/gufranco/#{name}"\n))
+    end
 
     # Act
-    unchecked = third_party_formulae.reject { |name| commands.any? { |run| run.include?("gufranco/tap/#{name}") } }
+    unchecked = third_party.reject { |name| commands.any? { |run| run.include?("gufranco/tap/#{name}") } }
 
     # Assert
     assert_equal [], unchecked
@@ -40,7 +47,14 @@ class RepositoryTest < Minitest::Test
 
   def test_every_schedule_runs_three_times_a_day
     # Arrange
-    crons = scheduled_crons + dependabot_crons + renovate["schedule"]
+    scheduled = workflow_files.flat_map do |file|
+      triggers = workflow(file)[WORKFLOW_TRIGGERS]
+      triggers.is_a?(Hash) ? Array(triggers["schedule"]) : []
+    end
+    dependabot = YAML.load_file(File.join(ROOT, ".github", "dependabot.yml"))["updates"]
+    crons = scheduled.map { |entry| entry["cron"] } +
+            dependabot.map { |update| update["schedule"]["cronjob"] } +
+            renovate["schedule"]
 
     # Act
     off_schedule = crons.reject { |cron| cron.split[1].split(",").size == RUNS_A_DAY }
@@ -68,7 +82,9 @@ class RepositoryTest < Minitest::Test
     jobs = workflow_files.flat_map { |file| workflow(file)["jobs"].map { |name, job| ["#{file}:#{name}", job] } }
 
     # Act
-    unbounded = jobs.reject { |_label, job| bounded_and_hardened?(job) }
+    unbounded = jobs.reject do |_label, job|
+      job["timeout-minutes"] && job["steps"].first["uses"].to_s.start_with?(HARDEN_RUNNER)
+    end
 
     # Assert
     assert_equal [], unbounded.map(&:first)
@@ -77,9 +93,12 @@ class RepositoryTest < Minitest::Test
   def test_the_bot_merge_waits_for_every_pull_request_workflow
     # Arrange
     watched = workflow("bot-merge.yml")[WORKFLOW_TRIGGERS]["workflow_run"]["workflows"]
+    on_pull_request = workflow_files.map { |file| workflow(file) }
+                                    .select { |spec| spec[WORKFLOW_TRIGGERS].key?("pull_request") }
+                                    .map { |spec| spec["name"] }
 
     # Act
-    unwatched = pull_request_workflows - watched
+    unwatched = on_pull_request - watched
 
     # Assert
     refute_empty watched
@@ -154,17 +173,6 @@ class RepositoryTest < Minitest::Test
     Dir[File.join(ROOT, folder, "*.rb")].map { |file| File.basename(file, ".rb") }
   end
 
-  def unlisted(readme, names)
-    text = File.read(File.join(ROOT, readme))
-    names.reject { |name| text.include?("[#{name}](") }.map { |name| "#{readme}: #{name}" }
-  end
-
-  def third_party_formulae
-    definitions("Formula").reject do |name|
-      File.read(File.join(ROOT, "Formula", "#{name}.rb")).include?(%Q(  homepage "https://github.com/gufranco/#{name}"\n))
-    end
-  end
-
   def workflow_files
     Dir[File.join(ROOT, ".github", "workflows", "*.yml")].map { |file| File.basename(file) }
   end
@@ -173,34 +181,11 @@ class RepositoryTest < Minitest::Test
     YAML.load_file(File.join(ROOT, ".github", "workflows", file))
   end
 
-  def scheduled_crons
-    workflow_files.flat_map { |file| schedule_of(workflow(file)[WORKFLOW_TRIGGERS]) }.map { |entry| entry["cron"] }
-  end
-
-  def pull_request_workflows
-    workflow_files.map { |file| workflow(file) }
-                  .select { |spec| spec[WORKFLOW_TRIGGERS].key?("pull_request") }
-                  .map { |spec| spec["name"] }
-  end
-
-  def schedule_of(triggers)
-    triggers.is_a?(Hash) ? Array(triggers["schedule"]) : []
-  end
-
-  def dependabot_crons
-    updates = YAML.load_file(File.join(ROOT, ".github", "dependabot.yml"))["updates"]
-    updates.map { |update| update["schedule"]["cronjob"] }
-  end
-
   def renovate
     JSON.parse(File.read(File.join(ROOT, "renovate.json")))
   end
 
   def run_commands(file)
     workflow(file)["jobs"].values.flat_map { |job| job["steps"] }.filter_map { |step| step["run"] }
-  end
-
-  def bounded_and_hardened?(job)
-    job["timeout-minutes"] && job["steps"].first["uses"].to_s.start_with?(HARDEN_RUNNER)
   end
 end

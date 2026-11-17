@@ -89,14 +89,13 @@ class TapFixture
     tar = StringIO.new(String.new(encoding: Encoding::BINARY))
     Gem::Package::TarWriter.new(tar) do |writer|
       writer.mkdir(top, 0755)
-      files.each { |relative, contents| add_file(writer, File.join(top, relative), contents) }
+      files.each do |relative, contents|
+        path = File.join(top, relative)
+        folder = File.dirname(path)
+        writer.mkdir(folder, 0755) if folder.include?("/")
+        writer.add_file_simple(path, 0644, contents.bytesize) { |io| io.write(contents) }
+      end
     end
     tar.string
-  end
-
-  def add_file(writer, path, contents)
-    folder = File.dirname(path)
-    writer.mkdir(folder, 0755) if folder.include?("/")
-    writer.add_file_simple(path, 0644, contents.bytesize) { |io| io.write(contents) }
   end
 end

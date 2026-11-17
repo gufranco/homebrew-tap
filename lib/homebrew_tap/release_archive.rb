@@ -60,20 +60,15 @@ module HomebrewTap
       path = table && toml_string(table, "path")
       return "" unless path
 
-      hatch_version(name.split("/")[0...-1] + path.split("/"), path, toml_string(table, "pattern"))
-    end
-
-    def hatch_version(parts, path, pattern)
+      parts = name.split("/")[0...-1] + path.split("/")
       _name, source = entry { |candidate| candidate == parts }
       unless source
         raise Error, "pyproject.toml reads its version from #{path}, which the release archive does not have"
       end
 
-      source[pattern ? ruby_regexp(pattern) : HATCH_DEFAULT_PATTERN, "version"].to_s
-    end
-
-    def ruby_regexp(python_pattern)
-      Regexp.new(python_pattern.gsub("(?P<", "(?<").gsub(/\(\?P=(\w+)\)/, '\k<\1>'))
+      python = toml_string(table, "pattern")
+      pattern = python ? Regexp.new(python.gsub("(?P<", "(?<").gsub(/\(\?P=(\w+)\)/, '\k<\1>')) : HATCH_DEFAULT_PATTERN
+      source[pattern, "version"].to_s
     end
 
     def toml_string(table, key)
