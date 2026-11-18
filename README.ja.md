@@ -18,7 +18,7 @@
 
 </div>
 
-21 個の formula、15 個の cask、そしてそれらを最新に保つ Ruby のコードです。tap は小さな clone で、formula と cask の定義だけを持ち、プロジェクトのソースは含みません。
+21 個の formula、18 個の cask、そしてそれらを最新に保つ Ruby のコードです。tap は小さな clone で、formula と cask の定義だけを持ち、プロジェクトのソースは含みません。
 
 ---
 
@@ -52,6 +52,9 @@ gufranco/tap/lazpaint
 gufranco/tap/ldtk
 gufranco/tap/libresprite
 gufranco/tap/lmms
+gufranco/tap/m-vave-cubesuite
+gufranco/tap/m-vave-m-upgrade
+gufranco/tap/m-vave-midi-suite
 gufranco/tap/mesen
 gufranco/tap/opencore-patcher@beta
 gufranco/tap/pikopixel
@@ -172,6 +175,16 @@ homebrew-cask にはこれらのプラグインの cask がありません。各
 | Cask | 内容 |
 |:-----|:-----|
 | [socalabs-sn76489](https://socalabs.com/synths/sn76489/) | セガ・マスターシステムの音源チップ SN76489 を再現するシンセサイザー。AU、VST、VST3、CLAP 形式 |
+
+### デバイス用ソフトウェア
+
+homebrew-cask にはこれらのアプリの cask がありません。M-VAVE の楽器やエフェクターの設定と更新に使います。各 cask はメーカーが署名し公証を受けたビルドをインストールします。
+
+| Cask | 内容 |
+|:-----|:-----|
+| [m-vave-cubesuite](https://www.m-vave.com/download.html) | M-VAVE のルーパー、Cube Baby アンプ、H8、Chocolate、Cube Sugar、IR Box 用のエディタ。Rosetta 2 で動作します |
+| [m-vave-m-upgrade](https://www.m-vave.com/download.html) | M-VAVE のエフェクターと SMK-37 キーボード用のファームウェア更新ツール。macOS 12 が必要です |
+| [m-vave-midi-suite](https://www.m-vave.com/download.html) | M-VAVE の SMK キーボードと SMC-PAD、SMC-Mixer コントローラ用のエディタ |
 
 <a id="how-it-stays-current"></a>
 

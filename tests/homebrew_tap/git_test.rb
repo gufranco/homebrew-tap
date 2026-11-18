@@ -63,7 +63,8 @@ class GitTest < Minitest::Test
   def test_runs_with_the_given_environment
     # Arrange
     name = Faker::Name.name
-    git = HomebrewTap::Git.new(dir: @dir, env: { "GIT_AUTHOR_NAME" => name })
+    identity = { "GIT_AUTHOR_NAME" => name, "GIT_AUTHOR_EMAIL" => Faker::Internet.email }
+    git = HomebrewTap::Git.new(dir: @dir, env: identity)
 
     # Act
     ident = git.run("var", "GIT_AUTHOR_IDENT")

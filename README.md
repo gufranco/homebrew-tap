@@ -18,7 +18,7 @@ English | [日本語](README.ja.md) | [简体中文](README.zh-Hans.md) | [繁�
 
 </div>
 
-21 formulae, 15 casks, and the Ruby code that keeps them current. Tapping it is a small clone: it holds formula and cask definitions, never project source.
+21 formulae, 18 casks, and the Ruby code that keeps them current. Tapping it is a small clone: it holds formula and cask definitions, never project source.
 
 ---
 
@@ -52,6 +52,9 @@ gufranco/tap/lazpaint
 gufranco/tap/ldtk
 gufranco/tap/libresprite
 gufranco/tap/lmms
+gufranco/tap/m-vave-cubesuite
+gufranco/tap/m-vave-m-upgrade
+gufranco/tap/m-vave-midi-suite
 gufranco/tap/mesen
 gufranco/tap/opencore-patcher@beta
 gufranco/tap/pikopixel
@@ -172,6 +175,16 @@ homebrew-cask has no cask for these plugins. Each cask installs the developer's 
 | Cask | What it is |
 |:-----|:-----------|
 | [socalabs-sn76489](https://socalabs.com/synths/sn76489/) | Synthesizer emulating the SN76489, the sound chip of the Sega Master System, as AU, VST, VST3 and CLAP |
+
+### Device software
+
+homebrew-cask has no cask for these apps, which set up and update M-VAVE instruments and effects. Each cask installs the vendor's signed and notarized build.
+
+| Cask | What it is |
+|:-----|:-----------|
+| [m-vave-cubesuite](https://www.m-vave.com/download.html) | Editor for the M-VAVE loopers, Cube Baby amplifiers, H8, Chocolate, Cube Sugar and IR Box; runs under Rosetta 2 |
+| [m-vave-m-upgrade](https://www.m-vave.com/download.html) | Firmware updater for the M-VAVE effects pedals and SMK-37 keyboards; needs macOS 12 |
+| [m-vave-midi-suite](https://www.m-vave.com/download.html) | Editor for the M-VAVE SMK keyboards and the SMC-PAD and SMC-Mixer controllers |
 
 <a id="how-it-stays-current"></a>
 

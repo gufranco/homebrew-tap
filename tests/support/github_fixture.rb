@@ -22,7 +22,8 @@ class GitHubFixture
     [RbConfig.ruby, FAKE, @state]
   end
 
-  def open_pull(checks:, author: TAP_BOT, title: bump_title, **flags)
+  def open_pull(checks:, author: TAP_BOT,
+                title: "#{Faker::Internet.slug(glue: "-")} #{Faker::App.semantic_version}", **flags)
     state = read
     pull = {
       "number" => state["pulls"].size + 1, "title" => title, "author" => { "login" => author },
@@ -81,10 +82,6 @@ class GitHubFixture
   end
 
   private
-
-  def bump_title
-    "#{Faker::Internet.slug(glue: "-")} #{Faker::App.semantic_version}"
-  end
 
   def read
     JSON.parse(File.read(@state))
