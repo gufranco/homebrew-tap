@@ -72,7 +72,8 @@ class GitHubFixture
     dir = File.join(root, "bin")
     FileUtils.mkdir_p(dir)
     gh = File.join(dir, "gh")
-    File.write(gh, "#!/bin/sh\nexec #{command.map { |part| "'#{part}'" }.join(" ")} \"$@\"\n")
+    quoted = command.map { |part| "'#{part}'" }.join(" ")
+    File.write(gh, "#!/bin/sh\nexec #{quoted} \"$@\"\n")
     File.chmod(0755, gh)
     dir
   end

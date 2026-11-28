@@ -27,7 +27,7 @@ jobs:
       - uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
-      - uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f  # v1.335.0
+      - uses: ruby/setup-ruby@145243922b4465b78e04dd66294782c7de45901f  # v1.345.0
         with:
           bundler-cache: true
       - uses: actions/setup-go@v7.0.0
@@ -56,7 +56,7 @@ jobs:
       - uses: actions/checkout@v7.0.1
         with:
           persist-credentials: false
-      - uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f  # v1.335.0
+      - uses: ruby/setup-ruby@145243922b4465b78e04dd66294782c7de45901f  # v1.345.0
         with:
           bundler-cache: true
       - name: Minitest with a 100% line and branch coverage gate
@@ -78,7 +78,7 @@ jobs:
       - uses: Homebrew/actions/setup-homebrew@0fdc2c96a16d9f945f7e1577784302fd27a549a9
       - name: Homebrew's own tap checks
         run: brew test-bot --only-tap-syntax --tap=gufranco/tap
-      - uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f  # v1.335.0
+      - uses: ruby/setup-ruby@145243922b4465b78e04dd66294782c7de45901f  # v1.345.0
         with:
           bundler-cache: true
       - name: Homebrew's tap style rules on every formula, cask and Ruby file
