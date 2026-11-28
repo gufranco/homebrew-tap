@@ -38,7 +38,7 @@ jobs:
           HOMEBREW_NO_INSTALL_CLEANUP: "1"
         run: brew uninstall --formula --ignore-dependencies --force azure-cli
       - uses: Homebrew/actions/setup-homebrew@0fdc2c96a16d9f945f7e1577784302fd27a549a9
-      - uses: ruby/setup-ruby@7f797815d8adceb1c412e7abefdd1ab4abc47a5f  # v1.335.0
+      - uses: ruby/setup-ruby@145243922b4465b78e04dd66294782c7de45901f  # v1.345.0
         with:
           bundler-cache: true
       - name: Strict online audit of every download, checksum and homepage
