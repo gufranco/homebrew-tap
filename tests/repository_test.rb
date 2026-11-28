@@ -45,16 +45,25 @@ class RepositoryTest < Minitest::Test
     assert_equal [], unchecked
   end
 
+  def test_dependabot_checks_every_weekday_because_it_ignores_cron_schedules
+    # Arrange
+    updates = YAML.load_file(File.join(ROOT, ".github", "dependabot.yml"))["updates"]
+
+    # Act
+    schedules = updates.map { |update| update["schedule"] }
+
+    # Assert
+    assert_equal 2, schedules.size
+    assert_equal [{ "interval" => "daily", "time" => "05:00" }] * 2, schedules
+  end
+
   def test_every_schedule_runs_three_times_a_day
     # Arrange
     scheduled = workflow_files.flat_map do |file|
       triggers = workflow(file)[WORKFLOW_TRIGGERS]
       triggers.is_a?(Hash) ? Array(triggers["schedule"]) : []
     end
-    dependabot = YAML.load_file(File.join(ROOT, ".github", "dependabot.yml"))["updates"]
-    crons = scheduled.map { |entry| entry["cron"] } +
-            dependabot.map { |update| update["schedule"]["cronjob"] } +
-            renovate["schedule"]
+    crons = scheduled.map { |entry| entry["cron"] } + renovate["schedule"]
 
     # Act
     off_schedule = crons.reject { |cron| cron.split[1].split(",").size == RUNS_A_DAY }
