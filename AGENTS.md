@@ -52,7 +52,7 @@ The tap ships the kodougu tools but is not a member of that family: it also carr
 
 ### Workflows and schedules
 
-- Every scheduled job runs three times a day: the workflows, Dependabot and Renovate alike *(tested)*.
+- Every scheduled job runs three times a day: the workflows and Renovate alike *(tested)*. Dependabot is the exception and checks daily, on weekdays *(tested)*: it ignores an `interval: cron` schedule, and a repository whose configuration only ever had one never runs it at all.
 - Dependabot updates the actions and the gems. [Renovate](renovate.json) updates only what Dependabot cannot see: runner labels, tool versions passed to actions and [`.ruby-version`](.ruby-version). It never touches a formula, whose updates belong to the release dispatch and the scheduled bump, and it opens no dashboard issue *(tested)*.
 - Every job has a `timeout-minutes` and starts with `step-security/harden-runner` *(tested)*. `actions/*` are pinned by version tag, every other action by full commit SHA with the version in a trailing comment.
 - Every workflow that runs on `pull_request` is listed in the `workflow_run` trigger of `bot-merge.yml` *(tested)*, so the merge reruns when the last check finishes.
