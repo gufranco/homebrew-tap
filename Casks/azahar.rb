@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 cask "azahar" do
-  version "2127.0"
-  sha256 "f7fa2fc51201539baeeea2465b9e3fa38cf33a8261bc6bf6da6b0da52086a57c"
+  version "2127.0.1"
+  sha256 "0ac504d8e04ba16b9b4ea9cdc5128f74ca7793f6977dbaf5d7c2a0c3e8cc9c1f"
 
   url "https://github.com/azahar-emu/azahar/releases/download/#{version}/azahar-macos-universal-#{version}.zip"
   name "Azahar"
