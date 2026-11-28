@@ -18,7 +18,7 @@ class Rpcs3Test < Minitest::Test
 
     # Assert
     assert_equal 2, versions.size
-    assert_nil text[Regexp.new('^  version ')]
+    assert_nil text[/^  version /]
     versions.each do |version|
       commit, short = version.match(VERSION)&.captures
       assert_equal commit.to_s[0, 8], short, version
