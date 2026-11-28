@@ -14,7 +14,8 @@ module HomebrewTap
 
     def run(*args)
       output, error, status = Open3.capture3(*@command, *args)
-      raise Error, "gh #{args.first(2).join(" ")} failed: #{error.strip}" unless status.success?
+      subcommand = args.first(2).join(" ")
+      raise Error, "gh #{subcommand} failed: #{error.strip}" unless status.success?
 
       output
     end
