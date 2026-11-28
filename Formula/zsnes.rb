@@ -3,8 +3,8 @@
 class Zsnes < Formula
   desc "Super Nintendo emulator, ported from x86 assembly to C"
   homepage "https://github.com/xyproto/zsnes"
-  url "https://github.com/xyproto/zsnes/archive/refs/tags/v2.3.9.tar.gz"
-  sha256 "4c76459f298c7091e9c1270b18e7fff773ee44f8f4965150ae6436b74764ba55"
+  url "https://github.com/xyproto/zsnes/archive/refs/tags/v2.3.10.tar.gz"
+  sha256 "3469aa09d6f223b3591f6900fd39adddc73a2851e1048ec608e535891bcf396e"
   license "GPL-2.0-only"
   head "https://github.com/xyproto/zsnes.git", branch: "main"
 
